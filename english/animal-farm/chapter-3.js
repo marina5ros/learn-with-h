@@ -48,10 +48,14 @@ let badge=i===7?'<span class="badge">Open Anytime</span>':'<span class="badge '+
 return '<button class="tile" data-action="open" data-activity="'+i+'"><div class="statusline"><strong>'+(i+1)+'. '+escapeHTML(n)+'</strong>'+badge+'</div><p class="muted">'+description+'</p>'+(i<7?'<div style="margin-top:12px">'+bar(i)+'</div>':"")+'</button>'
 }).join("")+'</div></section>'
 }
-function characterCard(c,i,small=false){return '<button class="'+(small?"person":"tile")+'" data-action="character" data-character="'+i+'"><span class="face" aria-hidden="true" style="font-size:3rem">'+c.symbol+'</span><h3>'+escapeHTML(c.name)+'</h3>'+(small?"":'<p>'+escapeHTML(c.description)+'</p>')+'</button>'}
+function characterArt(c,small=false){
+ const file={snowball:"snowball.webp",napoleon:"napoleon.webp",squealer:"squealer.webp",boxer:"boxer.webp",benjamin:"benjamin.webp",jones:"mr_jones.webp"}[c.key];
+ return '<span class="portrait-box '+(small?'portrait-small':'')+'"><img src="./assets/characters/'+file+'" alt="'+escapeHTML(c.name)+' portrait" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="portrait-fallback" style="display:none" aria-hidden="true">'+c.symbol+'</span></span>'
+}
+function characterCard(c,i,small=false){return '<button class="'+(small?"person":"tile")+'" data-action="character" data-character="'+i+'">'+characterArt(c,small)+'<h3>'+escapeHTML(c.name)+'</h3>'+(small?"":'<p>'+escapeHTML(c.description)+'</p>')+'</button>'}
 function characterScreen(){
 if(showGallery){return header()+'<p>Choose any character. You can come back to the one-at-a-time lesson whenever you like.</p><div class="charactergrid">'+DATA.characters.map((c,i)=>characterCard(c,i,true)).join("")+'</div><div class="actions">'+btn("← One at a Time","toggle-gallery")+btn("Go to Reading →","go-reading","primary")+'</div>'}
-let c=DATA.characters[index];return header()+progressHead(6,"Character")+scene(c.symbol,c.name)+'<div style="text-align:center"><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-character")+'</div><div class="row" style="margin-top:18px">'+btn("👥 View All Characters","toggle-gallery")+'</div>'+normalActions(6)
+let c=DATA.characters[index];return header()+progressHead(6,"Character")+'<div class="portrait-feature">'+characterArt(c)+'</div>'+'<div style="text-align:center"><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-character")+'</div><div class="row" style="margin-top:18px">'+btn("👥 View All Characters","toggle-gallery")+'</div>'+normalActions(6)
 }
 function quickCheck(question,options,answer,stored,hintText){return '<div class="softbox creambox"><div class="row spread"><h2>Quick Check</h2>'+btn(showHint?"Hide Hint":"💡 Hint","hint")+'</div>'+(showHint?'<p class="muted">'+escapeHTML(hintText)+'</p>':"")+'<p><strong>'+escapeHTML(question)+'</strong></p><div class="choices">'+options.map((t,i)=>{
 let cls=stored===i?(i===answer?"good":"bad"):"";return '<button class="choice '+cls+'" data-action="answer" data-choice="'+i+'">'+escapeHTML(t)+'</button>'
@@ -89,7 +93,7 @@ return '<div class="eyebrow">Learn with H</div><h1>Parent Mode — Animal Farm</
 }
 function modal(){
 let c=DATA.characters[characterIndex];
-return '<div class="floatmodal" role="dialog" aria-modal="true" aria-label="Character Reference"><div class="modalbody"><div class="row spread"><h2>👥 Character Reference</h2>'+btn("✕ Back to Reading","close-characters")+'</div>'+(characterIndex===null?'<p>Choose a character to see a description.</p><div class="charactergrid">'+DATA.characters.map((c,i)=>characterCard(c,i,true)).join("")+'</div>':'<div style="text-align:center">'+scene(c.symbol,c.name)+'<h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-modal")+' '+btn("← All Characters","all-characters")+'</div>')+'</div></div>'
+return '<div class="floatmodal" role="dialog" aria-modal="true" aria-label="Character Reference"><div class="modalbody"><div class="row spread"><h2>👥 Character Reference</h2>'+btn("✕ Back to Reading","close-characters")+'</div>'+(characterIndex===null?'<p>Choose a character to see a description.</p><div class="charactergrid">'+DATA.characters.map((c,i)=>characterCard(c,i,true)).join("")+'</div>':'<div style="text-align:center">'+'<div class="portrait-feature">'+characterArt(c)+'</div><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-modal")+' '+btn("← All Characters","all-characters")+'</div>')+'</div></div>'
 }
 function render(){
 let content=view==="menu"?menu():view==="review"?reviewScreen():view==="parent"?parentScreen():activity===0?characterScreen():activity===1?readingScreen():activity===2?vocabScreen():activity===3?matchingScreen():activity===4?fillScreen():activity===5?sentencesScreen():comprehensionScreen();
