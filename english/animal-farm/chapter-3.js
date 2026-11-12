@@ -132,7 +132,7 @@ case "listen-draft":speak(get().drafts[index]||"Write your answer first.");break
 case "check-toggle":showCheck=!showCheck;feedback="";showStory=true;render();break;
 case "check-word":feedback=c===0?"That’s right!":"Not quite. Try again!";showCheck=true;showStory=true;render();break;
 case "answer":
-  if(activity===1||activity===6){get().answers[index]=c;if(activity===1&&c===DATA.sections[index].correct)markDone(activity,index)}
+  if(activity===1||activity===6){get().answers[index]=c;if(activity===1&&c===DATA.sections[index].correct)markDone(activity,index);if(activity===6&&c===DATA.comprehension[index].correct)markDone(activity,index)}
   else if(activity===4){let w=DATA.fill[index].options[c];get().answers[index]=w;if(w===DATA.fill[index].answer)markDone(activity,index)}
   persist();render();break;
 case "match-word":
