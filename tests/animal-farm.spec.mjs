@@ -165,7 +165,7 @@ test('matching has three words in first three rounds and one in fourth',async ({
     if(round<3)await page.getByRole('button',{name:/Continue/}).click();
   }
   await page.getByRole('button',{name:/Finish \/ Review/}).click();
-  await page.getByRole('button',{name:/Lesson Menu/}).click();
+  await page.getByRole('button',{name:/Lesson Menu/}).first().click();
   await expect(page.getByRole('button',{name:/4. Vocabulary Matching/})).toContainText('Completed');
 });
 test('all ten reading sections have a quick check and preserve answered location',async ({page})=>{
