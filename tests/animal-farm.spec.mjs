@@ -42,9 +42,9 @@ test('incorrect matching colors both cards, correct match remains green',async (
   const words=page.locator('[data-action="match-word"]');
   const meanings=page.locator('[data-action="match-meaning"]');
   await words.nth(0).click();
-  await meanings.nth(1).click();
+  await meanings.nth(0).click(); // wrong: definition 2, not word 0
   await expect(words.nth(0)).toHaveClass(/bad/);
-  await expect(meanings.nth(1)).toHaveClass(/bad/);
+  await expect(meanings.nth(0)).toHaveClass(/bad/);
   await expect(page.getByText('Not quite. Try again!')).toBeVisible();
   await words.nth(0).click();
   await meanings.nth(1).click(); // note DOM order is shuffled [2,0,1] so this is the correct definition for word 0
