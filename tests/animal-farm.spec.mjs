@@ -90,7 +90,9 @@ test('guided comprehension answer may complete without typed writing',async ({pa
 
 test('World History Start Matching opens its matching activity',async ({page})=>{
   await page.goto('/learn_with_h_v27_4.html');
-  await page.getByRole('button',{name:/1\. The Great Famine/}).click();
+  await page.getByRole('button',{name:/Explore World History/}).click();
+  await page.getByRole('button',{name:/Explore Topic/}).click();
+  await page.getByRole('button',{name:/Start Lesson/}).first().click();
   await page.getByRole('button',{name:/Explore Visual Story/}).click();
   await page.getByRole('button',{name:/Learn Vocabulary/}).click();
   await page.getByRole('button',{name:/Start Matching/}).click();
