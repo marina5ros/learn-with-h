@@ -140,3 +140,45 @@ test('character reference portrait displays and returns to reading position',asy
   await modal.getByRole('button',{name:/Back to Reading/}).click();
   await expect(page.getByText('Reading Section 2 of 10')).toBeVisible();
 });
+
+
+test('vocabulary uses all ten approved words and source-context panels',async ({page})=>{
+  await page.getByRole('button',{name:/3. Learn the Vocabulary/}).click();
+  const expected=['toiled','supervised','superior','obstinate','cryptic','indefatigable','literate','seclusion','resolutions','maxim'];
+  for(let i=0;i<expected.length;i++){
+    await expect(page.getByRole('heading',{name:expected[i],exact:true})).toBeVisible();
+    await page.locator('#story-detail summary').click();
+    await expect(page.getByText('From the teacher’s Chapter 3 vocabulary worksheet')).toBeVisible();
+    if(i<expected.length-1)await page.getByRole('button',{name:/Next/}).click();
+  }
+});
+test('matching has three words in first three rounds and one in fourth',async ({page})=>{
+  await page.getByRole('button',{name:/4. Vocabulary Matching/}).click();
+  for(let round=0;round<4;round++){
+    const count=round===3?1:3;
+    await expect(page.locator('[data-action="match-word"]')).toHaveCount(count);
+    for(let i=0;i<count;i++){
+      await page.locator('[data-action="match-word"]').nth(i).click();
+      const meaningOrder=[[2,0,1],[1,2,0],[2,0,1],[0]][round];
+      await page.locator('[data-action="match-meaning"]').nth(meaningOrder.indexOf(i)).click();
+    }
+    if(round<3)await page.getByRole('button',{name:/Continue/}).click();
+  }
+  await page.getByRole('button',{name:/Finish \/ Review/}).click();
+  await page.getByRole('button',{name:/Lesson Menu/}).click();
+  await expect(page.getByRole('button',{name:/4. Vocabulary Matching/})).toContainText('Completed');
+});
+test('all ten reading sections have a quick check and preserve answered location',async ({page})=>{
+  await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
+  const expected=[
+    'The Animals Work Together','Boxer Works the Hardest','The Pigs Become Leaders',
+    'Snowball Starts Committees','Learning to Read and Write','The Animals Learn a Short Rule',
+    'Snowball and Napoleon Disagree','Napoleon Takes the Puppies','The Missing Milk and Apples',
+    'Squealer Tries to Convince Everyone'
+  ];
+  for(let i=0;i<expected.length;i++){
+    await expect(page.getByRole('heading',{name:new RegExp(expected[i])})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'Quick Check'})).toBeVisible();
+    if(i<expected.length-1)await page.getByRole('button',{name:/Next/}).click();
+  }
+});
