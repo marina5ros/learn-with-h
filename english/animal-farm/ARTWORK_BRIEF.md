@@ -1,0 +1,94 @@
+# Animal Farm — Chapter 3: Illustration Production Brief
+
+**Approved visual direction:** realistic, friendly storybook art with soft cream, blue and green tones, minimal yellow. Use consistent six approved character portraits. Create one image per scene, no caption text baked into artwork; use the HTML lesson headings for accessible text and captions. Original images only.
+
+**Chapter accuracy:** Show only events in the approved ten-part Chapter 3 reading. Do not illustrate the windmill, Snowball's expulsion, guard dogs chasing him, commandments changed later, or Napoleon's later dictatorship. Generated storyboards featuring those events were rejected and are NOT approved assets.
+
+## 1. The Animals Work Together
+
+**Scene:** Successful hay harvest after Jones is gone. Horses pull hay while hens, sheep, cows, and other animals help in their own ways. Pride in shared effort.
+
+**Character / visual guidance:** Boxer chestnut horse with white blaze; green field, red barn, heaps of hay
+
+**Avoid:** No windmill, construction project, or pigs standing like humans.
+
+## 2. Boxer Works the Hardest
+
+**Scene:** Close view of Boxer, a powerful chestnut draft horse with white nose blaze, pulling a full hay wagon at sunrise while other animals help.
+
+**Character / visual guidance:** Boxer same portrait design; hay wagon; warm sunrise
+
+**Avoid:** Do not show a windmill or a later-chapter building project.
+
+## 3. The Pigs Become Leaders
+
+**Scene:** Snowball (light pig) and Napoleon (large dark Berkshire boar) supervise animals bringing hay in. Background barn hints at Sunday meetings.
+
+**Character / visual guidance:** Both pigs match approved portraits. Other animals performing the physical work
+
+**Avoid:** No dogs attacking anyone; no new laws written on a sign.
+
+## 4. Snowball Starts Committees
+
+**Scene:** Snowball eagerly explains plans for animal committees in the barn to hens, sheep and cows gathered in small groups.
+
+**Character / visual guidance:** Snowball matches approved light pig portrait; simple blank diagram props, no legible invented text
+
+**Avoid:** Most committees are unsuccessful; do not portray completed major building projects.
+
+## 5. Learning to Read and Write
+
+**Scene:** Animals practice letters in the barn: Snowball teaches; Boxer concentrates on A–D; Clover and Muriel look at a chalkboard; Benjamin watches thoughtfully.
+
+**Character / visual guidance:** Snowball, Boxer, Benjamin consistent designs; ABCD on board is acceptable
+
+**Avoid:** No claims that all animals read fluently.
+
+## 6. The Animals Learn a Short Rule
+
+**Scene:** Snowball teaches an easy-to-remember maxim to sheep in the farmyard; sheep listen and repeat. Include birds listening nearby.
+
+**Character / visual guidance:** Snowball and birds; welcoming farmyard; if text is present, only Four legs good, two legs bad
+
+**Avoid:** No later amendments to commandments or invented rules.
+
+## 7. Snowball and Napoleon Disagree
+
+**Scene:** Snowball and Napoleon face one another in a barn meeting, contrasting expressions, while sheep, donkey and horse listen.
+
+**Character / visual guidance:** Snowball light pig, Napoleon large dark Berkshire boar; tense but not frightening
+
+**Avoid:** No expulsion, fierce dogs, or conflict beyond disagreement.
+
+## 8. Napoleon Takes the Puppies
+
+**Scene:** Napoleon leads nine little puppies gently up a wooden staircase into a secluded loft; other farm animals in the courtyard, unaware.
+
+**Character / visual guidance:** Napoleon matches approved dark boar; nine puppies; closed wooden loft door
+
+**Avoid:** Puppies must be young; no trained attack dogs and no chase.
+
+## 9. The Missing Milk and Apples
+
+**Scene:** Pigs receive milk in a metal pail and fallen apples near a barn; other animals look puzzled about unequal food sharing.
+
+**Character / visual guidance:** Snowball and/or other pigs; apples; metal milk can; soft natural light
+
+**Avoid:** Do not depict apples or milk being freely shared with all animals.
+
+## 10. Squealer Tries to Convince Everyone
+
+**Scene:** Squealer, a small expressive pink pig, speaks to animals beside apples and milk; listeners look concerned when he raises the possibility of Jones returning.
+
+**Character / visual guidance:** Squealer matches approved portrait; worried sheep and Boxer
+
+**Avoid:** Do not depict Jones actually returning, new commandments, windmill, or later chapters.
+
+## Asset acceptance criteria
+
+- Exactly ten separately usable images; one corresponding to each reading section.
+- Characters visually consistent with approved portraits and art style.
+- No watermarks or third-party images.
+- No caption text embedded within the picture; the website supplies captions and alt text.
+- Optimized web images with descriptive alt text. Test at mobile and desktop widths.
+- Each image manually checked for Chapter 3 accuracy before deployment.
