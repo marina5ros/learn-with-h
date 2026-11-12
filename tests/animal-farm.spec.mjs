@@ -98,3 +98,15 @@ test('World History Start Matching opens its matching activity',async ({page})=>
   await page.getByRole('button',{name:/Start Matching/}).click();
   await expect(page.getByRole('heading',{name:/Match each clue to a word/})).toBeVisible();
 });
+
+
+test('Parent Mode narration speed and voice settings are available',async ({page})=>{
+  await page.getByRole('button',{name:/Parent Mode/}).click();
+  await expect(page.locator('[data-field="voice"]')).toBeVisible();
+  await page.locator('[data-field="rate"]').selectOption('1');
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('lwh:animal-farm:chapter-3:v1')));
+  expect(saved.rate).toBe(1);
+  await page.reload();
+  await page.getByRole('button',{name:/Parent Mode/}).click();
+  await expect(page.locator('[data-field="rate"]')).toHaveValue('1');
+});
