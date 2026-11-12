@@ -110,3 +110,33 @@ test('Parent Mode narration speed and voice settings are available',async ({page
   await page.getByRole('button',{name:/Parent Mode/}).click();
   await expect(page.locator('[data-field="rate"]')).toHaveValue('1');
 });
+
+
+test('all six approved portraits render in View All Characters',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  const first=page.locator('.portrait-feature img');
+  await expect(first).toHaveAttribute('src',/snowball\.webp$/);
+  await expect.poll(()=>first.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+  await page.getByRole('button',{name:/View All Characters/}).click();
+  const portraits=page.locator('.charactergrid .portrait-box img');
+  await expect(portraits).toHaveCount(6);
+  const paths=['snowball.webp','napoleon.webp','squealer.webp','boxer.webp','benjamin.webp','mr_jones.webp'];
+  for(let i=0;i<paths.length;i++){
+    await expect(portraits.nth(i)).toHaveAttribute('src',new RegExp(paths[i].replace('.','\\.')+'$'));
+    await expect.poll(()=>portraits.nth(i).evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+  }
+  await page.getByRole('button',{name:/One at a Time/}).click();
+  await expect(page.locator('.portrait-feature img')).toHaveAttribute('src',/snowball\.webp$/);
+});
+test('character reference portrait displays and returns to reading position',async ({page})=>{
+  await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
+  await page.getByRole('button',{name:/Next/}).click();
+  await page.getByRole('button',{name:/Characters/}).click();
+  const modal=page.getByRole('dialog',{name:'Character Reference'});
+  await modal.getByRole('button',{name:/Snowball/}).click();
+  const portrait=modal.locator('.portrait-feature img');
+  await expect(portrait).toHaveAttribute('src',/snowball\.webp$/);
+  await expect.poll(()=>portrait.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+  await modal.getByRole('button',{name:/Back to Reading/}).click();
+  await expect(page.getByText('Reading Section 2 of 10')).toBeVisible();
+});
