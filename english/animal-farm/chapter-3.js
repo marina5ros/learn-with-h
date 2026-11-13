@@ -140,7 +140,9 @@ case "answer":
   else if(activity===4){let w=DATA.fill[index].options[c];get().answers[index]=w;if(w===DATA.fill[index].answer)markDone(activity,index)}
   persist();render();break;
 case "match-word":
-  if(matched(index)[c])return;selectedWord=c;wrongTarget=null;wrongWord=null;feedback="Now select the matching meaning for “"+DATA.words[index*3+c].word+"”.";speak(DATA.words[index*3+c].word);render();break;
+  if(matched(index)[c])return;
+  if(selectedWord===c){selectedWord=null;wrongTarget=null;wrongWord=null;feedback="Word unselected. Choose a word when you are ready.";render();break;}
+  selectedWord=c;wrongTarget=null;wrongWord=null;feedback="Now select the matching meaning for “"+DATA.words[index*3+c].word+"”.";speak(DATA.words[index*3+c].word);render();break;
 case "match-meaning":
   if(selectedWord===null||matched(index)[c])return;
   if(c===selectedWord){let p=matched(index);p[c]=true;get().words[index]=p;feedback="Great match!";selectedWord=null;wrongTarget=null;wrongWord=null;if(Object.keys(p).length===DATA.words.slice(index*3,index*3+3).length)markDone(activity,index)}
