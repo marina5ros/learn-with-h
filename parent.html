@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learn with H — Parent Mode</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f3f7fc;color:#23334b}*{box-sizing:border-box}
+body{margin:0}header{background:#254d85;color:white;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header strong{font-size:1.35rem}a,button{font:inherit}button{cursor:pointer}.top-link,.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#e9eff8;color:#243d60;text-decoration:none;border:0;border-radius:12px;padding:12px 17px;font-weight:700}
+.top-link:focus-visible,.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:4px solid #f7b84b;outline-offset:3px}
+.btn.primary{background:#245ca5;color:white}
+main{max-width:940px;margin:auto;padding:20px 16px 60px}.card{background:white;border-radius:20px;padding:22px;margin:14px 0;box-shadow:0 3px 14px #1a33501a}.hero{background:#e8f1ff}.tag{font-size:.84rem;font-weight:750;color:#255fa4;text-transform:uppercase;letter-spacing:.06em}h1{font-size:2rem;margin:12px 0}h2{font-size:1.35rem;margin:2px 0 16px}h3{font-size:1.1rem;margin:8px 0}p{line-height:1.6}.muted{color:#53677f}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.stat{background:#edf4ff;border-radius:15px;padding:17px}.number{font-weight:800;font-size:1.7rem;display:block}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.lesson{border:2px solid #dce6f4;border-radius:16px;padding:18px;margin:12px 0}.track{height:11px;background:#e0e8f3;border-radius:11px;overflow:hidden}.track>div{height:100%;background:#4c8e74}.bluebar>div{background:#78a4d4}.orangebar>div{background:#d9a064}.details{border:1px solid #dce6f4;border-radius:12px;padding:13px;margin-top:14px}.details summary{cursor:pointer;font-weight:750}.details[open] summary{margin-bottom:12px}.progressitem{padding:12px 0;border-bottom:1px solid #e4edf7}.progressitem:last-child{border:0}.progressitem p{margin:4px 0 8px;font-size:.9rem}.writing{background:#f3f7fc;padding:12px;border-radius:12px;margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}footer{text-align:center;padding:25px;color:#60718a;font-size:.9rem}.setting{display:block;width:100%;margin:7px 0 15px;border:1px solid #b6ccd6;border-radius:12px;padding:12px;font:inherit;background:#fff}label{font-weight:700}@media(max-width:650px){.stats{grid-template-columns:1fr}.card{padding:16px}main{padding:10px}h1{font-size:1.7rem}}
+</style>
+<script defer src="./lessons.js"></script>
+</head><body>
+<header><strong>🌍 Learn with H</strong><nav><a class="top-link" href="./learn.html">🏠 Subjects</a></nav></header>
+<main><section class="card hero"><div class="tag">Learn with H · All Subjects</div><h1>Parent Mode</h1><p>Review H's learning by subject, book, and lesson. Expand a lesson to see details, saved writing, and previous attempts.</p><p class="muted">Progress is stored on this browser and device only. It does not synchronize across devices. Parent Mode is not password protected.</p></section>
+<section class="card"><h2>Learning Overview</h2><div class="stats" id="summary" aria-live="polite"></div></section>
+<section class="card"><h2>Narration Settings</h2><p class="muted">These settings are shared by new Learning with H lessons that support global narration preferences.</p><label for="global-rate">Narration speed</label><select class="setting" id="global-rate"><option value="0.7">Slower</option><option value="0.85">Comfortable</option><option value="1">Normal</option><option value="1.1">Faster</option></select><label for="global-voice">Narration voice</label><select class="setting" id="global-voice"><option value="">System default voice</option></select><p class="muted">Available voices depend on your device and browser.</p></section><section class="card"><h2>Subjects & Lessons</h2><div id="lessons" aria-live="polite"></div></section>
+</main><footer>Learn one step at a time · No timers · No penalties for trying again</footer>
+<script>
+(function(){
+"use strict";
+const KEY="lwh:animal-farm:chapter-3:v1";const SETTINGS_KEY="lwh:parent:settings:v1";
+const counts=[12,10,10,4,10,2,6];
+const activityNames=["Meet the Characters","Read Chapter 3","Learn the Vocabulary","Vocabulary Matching","Fill in the Blank","Make Your Own Sentence","Reading Comprehension"];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function getSaved(){try{const p=JSON.parse(localStorage.getItem(KEY)||"null");return p&&Array.isArray(p.activities)&&p.activities.length===7?p:null}catch(_){return null}}
+function activityData(p,i){const o=p?.activities?.[i]||{},done=o.done||{},skipped=o.skipped||{};return {done:Object.keys(done).filter(k=>done[k]).length,skipped:Object.keys(skipped).filter(k=>skipped[k]&&!done[k]).length,drafts:o.drafts||{}}}
+function progressHTML(done,total){const pct=Math.min(100,Math.round(done/total*100));return '<div class="track '+(done===total?"":"bluebar")+'" role="progressbar" aria-label="'+pct+' percent complete" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><div style="width:'+pct+'%"></div></div>'}
+function animalFarm(){
+ const p=getSaved(),data=counts.map((n,i)=>activityData(p,i));
+ const done=data.reduce((n,d)=>n+d.done,0),skipped=data.reduce((n,d)=>n+d.skipped,0),total=counts.reduce((a,b)=>a+b,0);
+ const complete=data.filter((d,i)=>d.done>=counts[i]).length;
+ const activities=data.map((d,i)=>'<div class="progressitem"><strong>'+esc(activityNames[i])+'</strong><p class="muted">'+d.done+' of '+counts[i]+' completed · '+d.skipped+' skipped</p>'+progressHTML(d.done,counts[i])+'</div>').join("");
+ const writings=[5,6].flatMap(i=>Object.entries(data[i].drafts).filter(([k,v])=>String(v||"").trim()).map(([k,v])=>'<div class="writing"><strong>'+esc(activityNames[i])+' · Item '+(Number(k)+1)+'</strong><p>'+esc(v)+'</p></div>')).join("");
+ const history=(p?.history||[]).map(h=>'<div class="progressitem"><strong>'+esc(activityNames[h.activity]||"Activity")+'</strong><p class="muted">'+esc(h.at?new Date(h.at).toLocaleString():"Previous attempt")+' · '+Object.keys(h.results?.done||{}).length+' completed items</p></div>').join("");
+ const link='./english/animal-farm/chapter-3.html';
+ const card='<div class="lesson"><div class="row"><div><h3>Animal Farm — Chapter 3</h3><p class="muted">English · Life on the Farm</p></div><a class="btn" href="'+link+'">Open Lesson</a></div><p>'+done+' of '+total+' items completed · '+complete+' of 7 activities complete · '+skipped+' skipped</p>'+progressHTML(done,total)+
+ '<details class="details"><summary>View lesson progress and saved work</summary><h3>Learning Progress</h3>'+activities+'<h3>Saved Writing</h3>'+(writings||'<p class="muted">No saved writing yet.</p>')+'<h3>Previous Attempts</h3>'+(history||'<p class="muted">No earlier attempts yet.</p>')+'<div class="actions"><button class="btn" id="export-animal" type="button">Export Animal Farm Progress</button></div></details></div>';
+ return {card,done,total,skipped,complete,hasData:!!p};
+}
+function download(){
+ const p=getSaved();if(!p)return;
+ const blob=new Blob([JSON.stringify({lesson:"Animal Farm Chapter 3",exportedAt:new Date().toISOString(),progress:p},null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="learn-with-h-animal-farm-ch3-progress.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),300);
+}
+function loadSettings(){
+ let settings={rate:0.85,voiceURI:""};
+ try{settings={...settings,...JSON.parse(localStorage.getItem(SETTINGS_KEY)||"{}")}}catch(_){}
+ return settings;
+}
+function settingsUI(){
+ const settings=loadSettings(),rate=document.getElementById("global-rate"),voice=document.getElementById("global-voice");
+ rate.value=String(settings.rate);
+ const populate=()=>{
+  const voices=window.speechSynthesis?.getVoices?.()||[];
+  voice.innerHTML='<option value="">System default voice</option>'+voices.map(v=>'<option value="'+esc(v.voiceURI)+'">'+esc(v.name+' ('+v.lang+')')+'</option>').join("");
+  voice.value=settings.voiceURI;
+ };
+ populate();
+ window.speechSynthesis?.addEventListener?.("voiceschanged",populate,{once:true});
+ const save=()=>{
+  const next={rate:Number(rate.value),voiceURI:voice.value};
+  localStorage.setItem(SETTINGS_KEY,JSON.stringify(next));
+ };
+ rate.addEventListener("change",save);
+ voice.addEventListener("change",save);
+}
+function render(){
+ const animal=animalFarm(),catalog=window.LWH_CATALOG||[];
+ const summary=document.getElementById("summary");
+ summary.innerHTML='<div class="stat"><span class="number">'+animal.done+' / '+animal.total+'</span><span>Animal Farm items completed</span></div><div class="stat"><span class="number">'+animal.complete+' / 7</span><span>Animal Farm activities complete</span></div><div class="stat"><span class="number">'+animal.skipped+'</span><span>Animal Farm items skipped</span></div>';
+ const root=document.getElementById("lessons");
+ root.innerHTML=catalog.map(subject=>'<section><h3>'+esc(subject.icon)+' '+esc(subject.subject)+'</h3>'+
+ subject.topics.map(topic=>topic.lessons.map(lesson=>subject.subject==="English"&&lesson.url.includes("animal-farm")?animal.card:
+ '<div class="lesson"><div class="row"><div><strong>'+esc(topic.title)+'</strong><p class="muted">'+esc(lesson.title)+'</p></div><a class="btn" href="'+encodeURI(lesson.url)+'">Open Lesson</a></div><p class="muted">This lesson is listed in the global library. Its progress is not yet connected to the dashboard.</p></div>').join("")).join("")+'</section>').join("");
+ document.getElementById("export-animal")?.addEventListener("click",download);
+ settingsUI();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
+window.addEventListener("pageshow",render);
+})();
+</script></body></html>

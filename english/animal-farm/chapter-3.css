@@ -1,0 +1,98 @@
+
+:root{--ink:#263b4b;--muted:#5a6d78;--cream:#fcfaf2;--blue:#eaf4fb;--green:#eaf6ed;--line:#d7e5e7;--accent:#34769c;--success:#59a27a;--warning:#d9a064;--softred:#faecea;--shadow:0 6px 22px #28495b17;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#f4f7f5}
+*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.46}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #2d82ad;outline-offset:3px}
+header{background:#eef7f8;border-bottom:1px solid #cbdfe4;padding:15px max(18px,calc((100vw - 1050px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:1.25rem;color:#234c61;text-decoration:none}.headnav{display:flex;flex-wrap:wrap;gap:8px}
+.shell{max-width:1050px;margin:auto;padding:18px 16px 50px}.panel{background:white;padding:25px;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);margin:16px 0}.hero{background:linear-gradient(130deg,var(--cream),var(--blue));border:1px solid var(--line)}
+.eyebrow{text-transform:uppercase;font-size:.76rem;letter-spacing:.09em;font-weight:750;color:#557084}.muted{color:var(--muted)}h1,h2,h3,p{margin:0 0 12px}h1{font-family:Georgia,serif;font-size:clamp(1.8rem,4vw,2.4rem)}h2{font-size:1.35rem}h3{font-size:1.12rem}p{line-height:1.64}.reading{font-size:1.22rem;line-height:1.85}.btn{border:1px solid #accddd;border-radius:12px;background:white;padding:11px 16px;font-weight:700;color:#234c65;min-height:46px}.btn.primary{background:#317a65;color:white;border-color:#317a65}.btn.ghost{border-color:transparent;background:transparent}.btn.warn{background:#fff8ef}.btn:hover:not(:disabled){filter:brightness(.97)}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.spread{justify-content:space-between}.actions{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}.actions>*{flex:1}.cardgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid #cbdde1;border-radius:15px;padding:18px;background:#fff;text-align:left;min-width:0}.tile:hover{border-color:#6ea2bd}.tile.selected{border:2px solid #4385a4;background:#f0f8fc}.tile h3{margin:0 0 8px}.tile p{margin:0}.badge{border-radius:100px;font-size:.75rem;font-weight:750;padding:5px 10px;background:#ecf0f2;color:#4b6271;white-space:nowrap}.badge.good{background:#dff4e5;color:#236d42}.badge.skip{background:#fff1df;color:#88521b}.badge.live{background:#e4effb;color:#245a83}
+.progress{width:100%;height:11px;background:#e8edf0;overflow:hidden;border-radius:20px}.progress>div{height:100%;border-radius:20px;transition:width .2s}.softbox{padding:17px;border-radius:15px;margin:12px 0}.bluebox{background:var(--blue)}.greenbox{background:var(--green)}.creambox{background:var(--cream)}.feedback{padding:14px 16px;border-radius:12px;margin:12px 0;font-weight:700}.feedback.good{background:#e5f6e9;color:#276947}.feedback.bad{background:var(--softred);color:#873e3a}.feedback.info{background:#e9f3fb;color:#315d7b}
+.scene{min-height:205px;border-radius:16px;background:linear-gradient(#d7ebf6 0%,#e6f4ee 58%,#d1e6bc 58%,#f3edce 100%);position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;overflow:hidden;margin:12px 0}.scene .illustration{font-size:clamp(4rem,13vw,7rem);line-height:1}.scene p{color:#405b62;font-weight:700;text-align:center;margin:0}.scene .scene-note{font-size:.76rem;font-weight:450}.choices{display:grid;gap:10px}.choice{width:100%;border-radius:13px;padding:15px;text-align:left;border:2px solid #d8e2e7;background:#fff;color:#253b4d;font-weight:600;min-height:56px}.choice.selected{background:#e9f3fd;border-color:#5d9ac5}.choice.good{background:#e4f5e9;border-color:#58a474}.choice.bad{background:#faecea;border-color:#c9807d}.choice.matched{background:#e4f5e9;border-color:#58a474}.choice:disabled{opacity:.72}.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.matchgrid .choices{align-content:start}.matchgrid .choice{min-height:105px}.matchgrid .choice strong{display:block}.choice .small{display:block;font-size:.8rem;font-weight:400;margin-top:5px}.sectiontitle{font-size:1.12rem;font-weight:800;margin:20px 0 8px}textarea{width:100%;min-height:145px;padding:15px;border:1px solid #b6ccd6;border-radius:13px;resize:vertical;background:#fff;font-size:1.05rem;line-height:1.55}select{padding:12px;border:1px solid #b6ccd6;border-radius:12px;max-width:100%;width:100%;background:white}details{border:1px solid var(--line);border-radius:13px;padding:15px;margin:12px 0}summary{cursor:pointer;font-weight:750}details[open] summary{margin-bottom:12px}.charactergrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.person{padding:13px;border:1px solid var(--line);border-radius:14px;text-align:center;background:#fff;cursor:pointer}.person .face{font-size:2.9rem;display:block}.statusline{display:flex;justify-content:space-between;gap:10px;align-items:center}.progressitem{border:1px solid var(--line);border-radius:15px;padding:15px;margin:10px 0}.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabbar button.active{background:#e3f2f9;border-color:#70a9c4}.floatmodal{position:fixed;inset:0;background:#152b35a3;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px}.modalbody{width:min(710px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:24px;box-shadow:var(--shadow)}footer{text-align:center;padding:24px;color:#677783;font-size:.88rem}
+@media(max-width:650px){.shell{padding:8px 10px 30px}.panel{padding:16px}.cardgrid{grid-template-columns:1fr}.charactergrid{grid-template-columns:repeat(2,1fr)}.matchgrid{gap:7px}.matchgrid .choice{padding:9px;font-size:.9rem;min-height:115px}.actions{gap:6px}.actions .btn{padding:10px 7px}.scene{min-height:175px}.reading{font-size:1.12rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Approved Animal Farm character portraits. Emoji fallback remains until assets are uploaded. */
+.portrait-feature{max-width:590px;margin:12px auto 20px;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#d8edf4,#f1f5e8);min-height:230px;display:flex;justify-content:center;align-items:center}
+.portrait-box{display:flex;justify-content:center;align-items:center;overflow:hidden;max-width:100%;border-radius:13px}
+.portrait-feature .portrait-box{width:100%;height:310px}
+.portrait-box img{width:100%;height:100%;object-fit:contain;display:block}
+.portrait-small{height:140px;width:100%;margin-bottom:10px;background:#e8f3ee}
+.portrait-fallback{font-size:4.5rem;text-align:center;padding:28px}
+.portrait-small .portrait-fallback{font-size:3rem}
+@media(max-width:650px){.portrait-feature .portrait-box{height:250px}.portrait-small{height:110px}}
+
+/* Each reading section accepts an approved individual illustration. Keep a readable fallback until that image exists. */
+.scene .scene-image{width:100%;height:100%;min-height:205px;max-height:420px;object-fit:contain;background:#e6f2ee;border-radius:16px}
+.scene .scene-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:100%;min-height:205px}
+.scene .scene-placeholder[hidden]{display:none}
+
+
+/* World History visual language — approved Learning with H lesson menu */
+:root{--ink:#23334b;--muted:#53677f;--line:#dce6f4;--blue:#e8f1ff;--accent:#245ca5;--shadow:0 3px 14px #1a33501a;background:#f3f7fc}
+header{background:#254d85;border-bottom:0;color:#fff;padding:16px 22px}
+.brand{color:#fff;font-size:1.35rem}
+.brand:hover{color:#fff}
+.headnav .btn{background:#e9eff8;border:0;color:#243d60;padding:12px 18px;border-radius:12px}
+.headnav .btn:hover{background:#fff}
+.shell{max-width:940px;padding:18px 16px 50px}
+.panel{border:0;border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+.hero{background:#e8f1ff;border:0;border-radius:20px}
+h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.75rem,3.2vw,2.15rem)}
+.eyebrow{color:#255fa4;letter-spacing:.06em;font-size:.85rem}
+.btn{border:0;border-radius:12px;padding:12px 18px;background:#e9eff8;color:#243d60}
+.btn.primary{background:#245ca5;border:0;color:#fff}
+.btn:focus-visible,.tile:focus-visible,.brand:focus-visible{outline:4px solid #f7b84b;outline-offset:3px}
+.cardgrid{gap:14px}
+.lesson-hero .big{font-size:1.4rem;line-height:1.5;margin:12px 0 22px}
+.lesson-hero h1{margin:12px 0;font-size:2rem}
+.lesson-hero .hero-tools{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.lesson-hero .resume-panel{margin-top:18px;border:1px solid #cbdff4;background:#f5f9ff}
+.lesson-select h2{font-size:1.4rem;margin:4px 0 18px}
+.activity-tile{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;border:2px solid #dce6f4;border-radius:16px;padding:20px;min-height:187px;transition:border-color .15s,background .15s}
+.activity-tile:hover{background:#f7fbff;border-color:#245ca5}
+.activity-icon{font-size:2.3rem;line-height:1.2}
+.activity-name{font-size:1.13rem;line-height:1.35;margin-top:3px;color:#15253c}
+.activity-description{font-size:.91rem;color:#53677f;line-height:1.4}
+.activity-status{margin-top:auto;padding-top:7px}
+.activity-progress{width:100%;margin-top:4px}
+.activity-progress .progress{height:8px}
+@media(max-width:650px){header{padding:13px 16px}.shell{padding:10px}.panel{padding:17px}.activity-tile{min-height:162px}.lesson-hero .big{font-size:1.2rem}}
+
+/* Final parent-approved menu refinements: clear chapter heading and compact tiles. */
+.lesson-hero .lesson-subtitle{font-size:1.2rem;font-weight:500;color:#334963;line-height:1.4;margin:0 0 12px}
+.lesson-hero h1{margin:10px 0 5px}
+.lesson-hero .big{margin:8px 0 16px;font-size:1.25rem}
+.activity-tile{min-height:142px;padding:15px 17px;gap:5px}
+.activity-icon{font-size:1.9rem;line-height:1.15}
+.activity-name{font-size:1.08rem;margin-top:1px}
+.activity-description{font-size:.88rem}
+.activity-status{padding-top:3px}
+.activity-progress{margin-top:2px}
+@media(max-width:650px){.activity-tile{min-height:136px;padding:14px}.lesson-hero .big{font-size:1.13rem}}
+
+/* Vocabulary is a word-learning activity, not an illustrated reading scene. */
+.vocab-focus{display:flex;align-items:center;justify-content:center;gap:25px;background:#e8f1ff;border-radius:16px;padding:22px 25px;margin:14px 0 20px;min-height:155px}
+.vocab-icon{font-size:3.8rem;line-height:1.25;text-align:center;min-width:100px}
+.vocab-focus .eyebrow{margin-bottom:5px}
+.vocab-term{font-size:clamp(1.85rem,4vw,2.55rem);margin:0 0 12px;color:#23334b}
+@media(max-width:520px){.vocab-focus{gap:14px;padding:18px;min-height:125px}.vocab-icon{font-size:2.65rem;min-width:68px}}
+
+/* Fill-in-the-blank uses approved chapter scenes as relevant visual cues. */
+.fill-illustration{display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;background:#e7f1f7;margin:12px 0 17px;max-height:350px}
+.fill-illustration img{display:block;width:100%;height:auto;max-height:350px;object-fit:contain}
+@media(max-width:650px){.fill-illustration,.fill-illustration img{max-height:260px}}
+
+/* Vocabulary pictures use our approved chapter artwork rather than emoji symbols. */
+.vocab-art{display:flex;justify-content:center;align-items:center;overflow:hidden;background:#e7f1f7;border-radius:16px;margin:12px 0 16px;max-height:360px}
+.vocab-art img{width:100%;height:auto;max-height:360px;object-fit:contain;display:block}
+.vocab-focus{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;min-height:0;padding:18px 24px;margin:0 0 18px}
+.vocab-term{margin:0 0 8px}
+@media(max-width:650px){.vocab-art,.vocab-art img{max-height:260px}}
+
+/* Vocabulary context reading: comfortably sized paragraph with target-word emphasis and clear answer feedback. */
+.vocab-context{font-size:1.08rem;line-height:1.75;margin:10px 0 12px;max-width:70ch}
+.vocab-context strong{font-weight:800;color:#1c4f88;background:#e9f2ff;border-radius:3px;padding:0 2px}
+.vocab-context-note{font-size:.84rem;line-height:1.5}
+.vocab-check-feedback{font-size:1rem;font-weight:750;margin:12px 0 0}
+.vocab-check-feedback.good{color:#237347}
+.vocab-check-feedback.bad{color:#a43e3b}

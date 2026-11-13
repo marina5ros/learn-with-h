@@ -1,0 +1,33 @@
+name: Animal Farm browser checks
+on:
+  pull_request:
+    paths:
+      - 'english/animal-farm/**'
+      - 'learn.html'
+      - 'lessons.js'
+      - 'tests/animal-farm.spec.mjs'
+      - 'playwright.config.mjs'
+      - '.github/workflows/animal-farm-checks.yml'
+  workflow_dispatch:
+jobs:
+  browser-checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test runner
+        run: |
+          npm install --no-save @playwright/test@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run browser tests
+        run: npx playwright test tests/animal-farm.spec.mjs
+      - name: Upload failure report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: animal-farm-test-results
+          path: test-results/
+          if-no-files-found: ignore
