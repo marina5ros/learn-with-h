@@ -8,14 +8,42 @@ header strong{font-size:1.35rem}a,button{font:inherit}button{cursor:pointer}.top
 .top-link:focus-visible,.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:4px solid #f7b84b;outline-offset:3px}
 .btn.primary{background:#245ca5;color:white}
 main{max-width:940px;margin:auto;padding:20px 16px 60px}.card{background:white;border-radius:20px;padding:22px;margin:14px 0;box-shadow:0 3px 14px #1a33501a}.hero{background:#e8f1ff}.tag{font-size:.84rem;font-weight:750;color:#255fa4;text-transform:uppercase;letter-spacing:.06em}h1{font-size:2rem;margin:12px 0}h2{font-size:1.35rem;margin:2px 0 16px}h3{font-size:1.1rem;margin:8px 0}p{line-height:1.6}.muted{color:#53677f}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.stat{background:#edf4ff;border-radius:15px;padding:17px}.number{font-weight:800;font-size:1.7rem;display:block}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.lesson{border:2px solid #dce6f4;border-radius:16px;padding:18px;margin:12px 0}.track{height:11px;background:#e0e8f3;border-radius:11px;overflow:hidden}.track>div{height:100%;background:#4c8e74}.bluebar>div{background:#78a4d4}.orangebar>div{background:#d9a064}.details{border:1px solid #dce6f4;border-radius:12px;padding:13px;margin-top:14px}.details summary{cursor:pointer;font-weight:750}.details[open] summary{margin-bottom:12px}.progressitem{padding:12px 0;border-bottom:1px solid #e4edf7}.progressitem:last-child{border:0}.progressitem p{margin:4px 0 8px;font-size:.9rem}.writing{background:#f3f7fc;padding:12px;border-radius:12px;margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}footer{text-align:center;padding:25px;color:#60718a;font-size:.9rem}.setting{display:block;width:100%;margin:7px 0 15px;border:1px solid #b6ccd6;border-radius:12px;padding:12px;font:inherit;background:#fff}label{font-weight:700}@media(max-width:650px){.stats{grid-template-columns:1fr}.card{padding:16px}main{padding:10px}h1{font-size:1.7rem}}
+ 
+/* Original World History-inspired parent dashboard */
+header{background:#0c3970;padding:12px 24px}header strong{font-size:1.15rem}
+main{max-width:1240px;display:grid;grid-template-columns:205px minmax(0,1fr);gap:18px;padding:24px 16px 60px}
+.sidebar{align-self:start;border:1px solid #e1eafa;border-radius:22px;padding:12px;background:#f4f7fd;position:sticky;top:15px}
+.sidebar a{display:block;padding:13px;border-radius:12px;text-decoration:none;color:#1d395f;font-weight:700;font-size:.91rem}
+.sidebar a:hover,.sidebar a:focus-visible,.sidebar a:first-child{background:#dce9ff}
+.dashboard{background:white;border-radius:22px;padding:18px;box-shadow:0 5px 22px #19345610}
+.dashboard .card{box-shadow:none;padding:0;margin:0 0 24px}
+.dashboard .hero{background:linear-gradient(110deg,#f0f6ff,#dceeff);border-radius:18px;padding:24px}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.stat:nth-child(1){background:#e8f2ff}.stat:nth-child(2){background:#e5f5ed}.stat:nth-child(3){background:#fff4d8}.stat:nth-child(4){background:#f0e9ff}
+.manage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.manage-grid a{padding:16px;border-radius:16px;text-decoration:none;color:#1d395f;font-weight:700;background:#eef5ff;min-height:110px}
+.manage-grid a:nth-child(2){background:#f2edff}.manage-grid a:nth-child(3){background:#eaf7f0}.manage-grid a:nth-child(4){background:#fff2e5}
+.manage-grid small{display:block;font-weight:400;margin-top:9px;line-height:1.45}
+.subject-group{margin:18px 0}.subject-group>h3{margin-bottom:12px}
+.topic-group{border:1px solid #dce6f4;border-radius:16px;margin:12px 0;padding:12px}
+.topic-group>summary{font-size:1.1rem;font-weight:800;cursor:pointer;padding:8px;color:#18375f}
+.lesson{margin:10px 0;border-width:1px}.lesson h3{margin:0}.lesson p{margin:7px 0 12px}
+.note{font-size:.85rem;color:#526b86}.settings-panel{padding:18px!important;background:#f8fbff;border-radius:16px}
+@media(max-width:850px){main{grid-template-columns:1fr}.sidebar{position:static;display:flex;flex-wrap:wrap}.sidebar a{padding:9px}.stats,.manage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.stats,.manage-grid{grid-template-columns:1fr}.dashboard{padding:12px}}
 </style>
 <script defer src="./lessons.js"></script>
 </head><body>
-<header><strong>🌍 Learn with H</strong><nav><a class="top-link" href="./learn.html">🏠 Subjects</a></nav></header>
-<main><section class="card hero"><div class="tag">Learn with H · All Subjects</div><h1>Parent Mode</h1><p>Review H's learning by subject, book, and lesson. Expand a lesson to see details, saved writing, and previous attempts.</p><p class="muted">Progress is stored on this browser and device only. It does not synchronize across devices. Parent Mode is not password protected.</p></section>
-<section class="card"><h2>Learning Overview</h2><div class="stats" id="summary" aria-live="polite"></div></section>
-<section class="card"><h2>Narration Settings</h2><p class="muted">These settings are shared by new Learning with H lessons that support global narration preferences.</p><label for="global-rate">Narration speed</label><select class="setting" id="global-rate"><option value="0.7">Slower</option><option value="0.85">Comfortable</option><option value="1">Normal</option><option value="1.1">Faster</option></select><label for="global-voice">Narration voice</label><select class="setting" id="global-voice"><option value="">System default voice</option></select><p class="muted">Available voices depend on your device and browser.</p></section><section class="card"><h2>Subjects & Lessons</h2><div id="lessons" aria-live="polite"></div></section>
-</main><footer>Learn one step at a time · No timers · No penalties for trying again</footer>
+<header><strong>📖 Learn with H <small style="font-weight:400;font-size:.72rem"> | Explore · Learn · Grow</small></strong><nav><a class="top-link" href="./learn.html">⌂ Home</a> <a class="top-link" href="./parent.html" aria-current="page">☼ Parent Mode</a></nav></header>
+<main><aside class="sidebar" aria-label="Parent dashboard sections"><a href="#dashboard">⌂ Dashboard</a><a href="#narration">◉ Narration Settings</a><a href="#preferences">☷ Learning Preferences</a><a href="#manage-lessons">▣ Manage Lessons</a><a href="#progress-details">▥ Progress Details</a><a href="#data">↻ Data &amp; Reset</a></aside>
+<div class="dashboard"><section class="card hero" id="dashboard"><div class="tag">Parent Mode</div><h1>Learning Dashboard</h1><p>Track progress, manage lessons, and customize H's learning experience.</p></section>
+<section class="card"><div class="stats" id="summary" aria-live="polite"></div></section>
+<section class="card"><h2>Manage Learning</h2><div class="manage-grid"><a href="#narration">🔊 Narration Settings<small>Choose voices and speaking speed →</small></a><a href="#preferences">☷ Learning Preferences<small>Review available learning supports →</small></a><a href="#manage-lessons">📖 Manage Lessons<small>Browse subjects, books, and chapters →</small></a><a href="#progress-details">📊 Progress Details<small>Review activities and saved work →</small></a></div></section>
+<section class="card" id="manage-lessons"><h2>Subjects &amp; Lessons</h2><p class="muted">Expand a book or unit to view its chapters and lessons.</p><div id="lessons" aria-live="polite"></div></section>
+<section class="card" id="progress-details"><h2>Progress Details</h2><p class="muted">Expand a chapter above to see activity progress, saved writing, and previous attempts.</p></section>
+<section class="card settings-panel" id="narration"><h2>Narration Settings</h2><p class="muted">Shared by lessons that support global narration preferences.</p><label for="global-rate">Narration speed</label><select class="setting" id="global-rate"><option value="0.7">Slower</option><option value="0.85">Comfortable</option><option value="1">Normal</option><option value="1.1">Faster</option></select><label for="global-voice">Narration voice</label><select class="setting" id="global-voice"><option value="">System default voice</option></select><p class="muted">Available voices depend on your device and browser.</p></section>
+<section class="card settings-panel" id="preferences"><h2>Learning Preferences</h2><p class="muted">Lesson-specific learning supports remain available inside each lesson. Global preferences can be added as lessons adopt shared settings.</p></section>
+<section class="card settings-panel" id="data"><h2>Data &amp; Reset</h2><p class="muted">Progress is stored only in this browser on this device. It does not synchronize across devices. Parent Mode is not password protected.</p><p class="note">Use the export option inside Animal Farm Chapter 3 to back up its saved progress. No progress will be cleared from this dashboard.</p></section></div></main>
+<footer>Learn one step at a time · No timers · No penalties for trying again</footer>
 <script>
 (function(){
 "use strict";
@@ -68,11 +96,12 @@ function settingsUI(){
 function render(){
  const animal=animalFarm(),catalog=window.LWH_CATALOG||[];
  const summary=document.getElementById("summary");
- summary.innerHTML='<div class="stat"><span class="number">'+animal.done+' / '+animal.total+'</span><span>Animal Farm items completed</span></div><div class="stat"><span class="number">'+animal.complete+' / 7</span><span>Animal Farm activities complete</span></div><div class="stat"><span class="number">'+animal.skipped+'</span><span>Animal Farm items skipped</span></div>';
+ summary.innerHTML='<div class="stat"><span>📖 Lessons practiced</span><span class="number">'+(animal.hasData?1:0)+' / '+catalog.reduce((n,g)=>n+g.topics.reduce((m,t)=>m+t.lessons.length,0),0)+'</span></div><div class="stat"><span>🧩 Activities completed</span><span class="number">'+animal.complete+' / 7</span></div><div class="stat"><span>✓ Items completed</span><span class="number">'+animal.done+' / '+animal.total+'</span></div><div class="stat"><span>★ Items skipped</span><span class="number">'+animal.skipped+'</span></div>';
  const root=document.getElementById("lessons");
- root.innerHTML=catalog.map(subject=>'<section><h3>'+esc(subject.icon)+' '+esc(subject.subject)+'</h3>'+
- subject.topics.map(topic=>topic.lessons.map(lesson=>subject.subject==="English"&&lesson.url.includes("animal-farm")?animal.card:
- '<div class="lesson"><div class="row"><div><strong>'+esc(topic.title)+'</strong><p class="muted">'+esc(lesson.title)+'</p></div><a class="btn" href="'+encodeURI(lesson.url)+'">Open Lesson</a></div><p class="muted">This lesson is listed in the global library. Its progress is not yet connected to the dashboard.</p></div>').join("")).join("")+'</section>').join("");
+ root.innerHTML=catalog.map(subject=>'<section class="subject-group"><h3>'+esc(subject.icon)+' '+esc(subject.subject)+'</h3>'+
+ subject.topics.map(topic=>'<details class="topic-group" open><summary>'+esc(topic.title)+' <span class="note">· '+topic.lessons.length+' chapter(s)/lesson(s)</span></summary>'+
+ topic.lessons.map(lesson=>subject.subject==="English"&&lesson.url.includes("animal-farm")?animal.card:
+ '<div class="lesson"><div class="row"><div><h3>'+esc(lesson.title)+'</h3><p class="muted">'+esc(lesson.detail||"Not started")+'</p></div><a class="btn" href="'+encodeURI(lesson.url)+'">Open Lesson</a></div><p class="note">Progress is not yet connected for this lesson.</p></div>').join("")+'</details>').join("")+'</section>').join("");
  document.getElementById("export-animal")?.addEventListener("click",download);
  settingsUI();
 }
