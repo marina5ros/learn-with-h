@@ -119,7 +119,10 @@ test('all six approved portraits render in View All Characters',async ({page})=>
   await expect.poll(()=>first.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
   await page.getByRole('button',{name:/View All Characters/}).click();
   const portraits=page.locator('.charactergrid .portrait-box img');
-  await expect(portraits).toHaveCount(6);
+  await expect(portraits).toHaveCount(9);
+  await expect(page.getByRole('heading',{name:'Main Characters'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Supporting Characters'})).toBeVisible();
+  await expect(page.locator('.charactergrid [data-action="character"]')).toHaveCount(12);
   const paths=['snowball.webp','napoleon.webp','squealer.webp','boxer.webp','benjamin.webp','mr_jones.webp'];
   for(let i=0;i<paths.length;i++){
     await expect(portraits.nth(i)).toHaveAttribute('src',new RegExp(paths[i].replace('.','\\.')+'$'));
@@ -224,4 +227,32 @@ test('comprehension feedback colors reflect correctness and writing aids follow 
   await expect(feedback).toHaveClass(/good/);
   await expect(feedback).toHaveCSS('color','rgb(39, 105, 71)');
   await expect(feedback).toHaveText('Correct! You understood the story.');
+});
+
+test('supporting animal references are accessible and gallery progress includes twelve entries',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  await page.getByRole('button',{name:/View All Characters/}).click();
+  const supporting=page.getByRole('heading',{name:'Supporting Characters'});
+  await expect(supporting).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Clover'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Mollie'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Muriel'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Jessie'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Bluebell'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'The Nine Puppies'})).toBeVisible();
+  await page.locator('.charactergrid [data-character="11"]').click();
+  await expect(page.getByRole('heading',{name:'The Nine Puppies'})).toBeVisible();
+  await expect(page.getByText(/loft and keeps them apart/)).toBeVisible();
+  await page.getByRole('button',{name:/Lesson Menu/}).first().click();
+  await page.getByRole('button',{name:/8. Review My Learning/}).click();
+  await expect(page.getByText('0 of 12 completed')).toBeVisible();
+});
+test('Continue Learning goes to a selected next unfinished item',async ({page})=>{
+  await page.getByRole('button',{name:/5. Fill in the Blank/}).click();
+  await page.getByRole('button',{name:/Skip/}).click();
+  await page.getByRole('button',{name:/Lesson Menu/}).first().click();
+  await page.getByRole('button',{name:/8. Review My Learning/}).click();
+  await expect(page.getByRole('button',{name:/Continue Learning/})).toBeVisible();
+  await page.getByRole('button',{name:/Continue Learning/}).click();
+  await expect(page.getByText('Question 2 of 10')).toBeVisible();
 });
