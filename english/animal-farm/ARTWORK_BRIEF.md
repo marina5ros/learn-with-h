@@ -44,6 +44,9 @@
 
 ## 5. Learning to Read and Write
 
+**Review status: APPROVED (Nov 13, 2026).** Approved illustration shows Snowball teaching A–D, Boxer practicing letters on a slate, Muriel reading, Benjamin observing, and Clover nearby. Artistic details include Muriel's glasses. Prepare as `assets/scenes/scene-05.webp` for final upload.
+
+
 **Scene:** Animals practice letters in the barn: Snowball teaches; Boxer concentrates on A–D; Clover and Muriel look at a chalkboard; Benjamin watches thoughtfully.
 
 **Character / visual guidance:** Snowball, Boxer, Benjamin consistent designs; ABCD on board is acceptable
