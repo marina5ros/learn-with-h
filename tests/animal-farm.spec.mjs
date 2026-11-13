@@ -46,8 +46,7 @@ test('incorrect matching colors both cards, correct match remains green',async (
   await expect(words.nth(0)).toHaveClass(/bad/);
   await expect(meanings.nth(0)).toHaveClass(/bad/);
   await expect(page.getByText('Not quite. Try again!')).toBeVisible();
-  await words.nth(0).click();
-  await meanings.nth(1).click(); // note DOM order is shuffled [2,0,1] so this is the correct definition for word 0
+  await meanings.nth(1).click(); // switch directly to the correct meaning; word stays selected
   await expect(words.nth(0)).toHaveClass(/matched/);
 });
 
