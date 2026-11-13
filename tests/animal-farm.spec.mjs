@@ -112,14 +112,14 @@ test('Parent Mode narration speed and voice settings are available',async ({page
 });
 
 
-test('all six approved portraits render in View All Characters',async ({page})=>{
+test('all twelve approved portraits render in View All Characters',async ({page})=>{
   await page.getByRole('button',{name:/1. Meet the Characters/}).click();
   const first=page.locator('.portrait-feature img');
   await expect(first).toHaveAttribute('src',/snowball\.webp$/);
   await expect.poll(()=>first.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
   await page.getByRole('button',{name:/View All Characters/}).click();
   const portraits=page.locator('.charactergrid .portrait-box img');
-  await expect(portraits).toHaveCount(9);
+  await expect(portraits).toHaveCount(12);
   await expect(page.getByRole('heading',{name:'Main Characters'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Supporting Characters'})).toBeVisible();
   await expect(page.locator('.charactergrid [data-action="character"]')).toHaveCount(12);
