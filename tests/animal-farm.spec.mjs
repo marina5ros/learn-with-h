@@ -301,3 +301,20 @@ test('Animal Farm lesson menu follows World History visual layout',async ({page}
   await page.locator('.activity-tile').first().click();
   await expect(page.getByRole('heading',{name:'Snowball'})).toBeVisible();
 });
+
+test('approved illustration never flashes the emoji placeholder while loading',async ({page})=>{
+  await page.route('**/assets/scenes/scene-01.webp',async route=>{
+    await new Promise(resolve=>setTimeout(resolve,700));
+    await route.continue();
+  });
+  await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
+  await expect(page.locator('.scene-placeholder')).toBeHidden();
+  await expect.poll(()=>page.locator('.scene-image').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+  await expect(page.locator('.scene-placeholder')).toBeHidden();
+});
+test('illustration fallback appears only if the image fails',async ({page})=>{
+  await page.route('**/assets/scenes/scene-01.webp',route=>route.abort());
+  await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
+  await expect(page.locator('.scene-placeholder')).toBeVisible();
+  await expect(page.getByText(/Illustration unavailable/)).toBeVisible();
+});
