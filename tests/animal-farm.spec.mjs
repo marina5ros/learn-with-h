@@ -256,3 +256,13 @@ test('Continue Learning goes to a selected next unfinished item',async ({page})=
   await page.getByRole('button',{name:/Continue Learning/}).click();
   await expect(page.getByText('Question 2 of 10')).toBeVisible();
 });
+
+test('each reading section has an individual scene image slot with accessible placeholder',async ({page})=>{
+  await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
+  for(let i=1;i<=10;i++){
+    const image=page.locator('.scene-image');
+    await expect(image).toHaveAttribute('src',new RegExp('scene-'+String(i).padStart(2,'0')+'\\.webp$'));
+    await expect(page.locator('.scene-placeholder')).toBeVisible();
+    if(i<10)await page.getByRole('button',{name:/Next/}).click();
+  }
+});
