@@ -76,7 +76,7 @@ test('writing autosaves through a reload, and Start Again archives earlier answe
   await expect(page.locator('textarea[data-field="draft"]')).toHaveValue('');
   await page.getByRole('link',{name:/Parent Mode/}).click();
   await page.locator('details summary').click();
-  await expect(page.getByText('Previous Attempts')).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Previous Attempts'})).toBeVisible();
 });
 
 test('guided comprehension answer may complete without typed writing',async ({page})=>{
@@ -435,7 +435,7 @@ test('Parent Mode is global across the learning library and shows the Animal Far
   await expect(page.getByRole('heading',{name:'Parent Mode',exact:true})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Subjects & Lessons'})).toBeVisible();
   await expect(page.getByRole('heading',{name:/Animal Farm — Chapter 3/})).toBeVisible();
-  await expect(page.getByText('World History')).toBeVisible();
+  await expect(page.getByRole('heading',{name:/World History/})).toBeVisible();
   await page.locator('details summary').click();
   await expect(page.getByText('Meet the Characters')).toBeVisible();
   await expect(page.getByText('1 of 12 completed')).toBeVisible();
