@@ -370,3 +370,15 @@ test('changing the vocabulary word clears previous starter and saved sentence',a
   await page.getByRole('button',{name:/Sentence Starter/}).click();
   await expect(page.getByText('The teacher supervised...')).toBeVisible();
 });
+
+test('each vocabulary word displays a real approved illustration rather than emoji',async ({page})=>{
+  await page.getByRole('button',{name:/3. Learn the Vocabulary/}).click();
+  const sceneNumbers=[2,3,3,5,5,4,5,8,7,6];
+  for(let i=0;i<10;i++){
+    const picture=page.locator('.vocab-art img');
+    await expect(picture).toHaveAttribute('src',new RegExp('scene-'+String(sceneNumbers[i]).padStart(2,'0')+'\\.webp$'));
+    await expect.poll(()=>picture.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+    await expect(page.locator('.vocab-icon')).toHaveCount(0);
+    if(i<9)await page.getByRole('button',{name:/Next/}).click();
+  }
+});
