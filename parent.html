@@ -73,6 +73,17 @@ function animalFarm(){
  '<details class="details"><summary>View lesson progress and saved work</summary><h3>Learning Progress</h3>'+activities+'<h3>Saved Writing</h3>'+(writings||'<p class="muted">No saved writing yet.</p>')+'<h3>Previous Attempts</h3>'+(history||'<p class="muted">No earlier attempts yet.</p>')+'<div class="actions"><button class="btn" id="export-animal" type="button">Export Animal Farm Progress</button></div></details></div>';
  return {card,done,total,skipped,complete,hasData:!!p};
 }
+const HISTORY_KEY="lwh-progress";
+const HISTORY_NAMES=["The Great Famine","The Black Death","The Hundred Years’ War","Social Unrest"];
+const HISTORY_QUESTIONS=[
+["What is a famine?","Why did some people go hungry?","What might happen after crops are damaged?"],
+["What was the Black Death?","What does spread mean?","What happened to Europe’s population?"],
+["Which kingdoms fought the Hundred Years’ War?","What is territory?","Did the Hundred Years’ War end during the 1300s?"],
+["What is a tax?","Why did some peasants protest?","What does revolt mean?"]];
+const HISTORY_ACTIVITIES=[["vocab","Vocabulary Matching"],["cause","Cause & Effect"],["sequence","Sequencing"]];
+function historySaved(){try{const p=JSON.parse(localStorage.getItem(HISTORY_KEY)||"{}");return p&&typeof p==="object"&&!Array.isArray(p)?p:{}}catch(_){return {}}}
+function historyStats(p,i){const answers=HISTORY_QUESTIONS[i].map((question,j)=>({question,result:p[i+"-"+j]}));const activities=HISTORY_ACTIVITIES.map(([key,label])=>({label,done:!!p[i+"-"+key]?.correct}));const complete=answers.filter(a=>a.result?.correct).length;const activityDone=activities.filter(a=>a.done).length;const practiced=complete>0||activityDone>0||!!p[i]?.done;return {answers,activities,complete,activityDone,practiced}}
+function historyDetails(p,i){const st=historyStats(p,i);return '<p>'+st.complete+' of 3 questions completed · '+st.activityDone+' of 3 activities completed</p>'+progressHTML(st.complete+st.activityDone,6)+'<details class="details"><summary>View lesson progress</summary><h3>Activities</h3>'+st.activities.map(a=>'<div class="progressitem"><strong>'+esc(a.label)+'</strong><p class="muted">'+(a.done?'✓ Completed':'Not completed yet')+'</p></div>').join('')+'<h3>Question Results</h3>'+st.answers.map(a=>'<div class="progressitem"><strong>'+esc(a.question)+'</strong><p class="muted">'+(a.result?.correct?(a.result.independent?'✓ Correct on first try without hints':'✓ Completed with support · '+Number(a.result.attempts||1)+' attempt(s)'):'Not completed yet')+'</p></div>').join('')+'</details>'}
 function download(){
  const p=getSaved();if(!p)return;
  const blob=new Blob([JSON.stringify({lesson:"Animal Farm Chapter 3",exportedAt:new Date().toISOString(),progress:p},null,2)],{type:"application/json"});
@@ -101,9 +112,10 @@ function settingsUI(){
  voice.addEventListener("change",save);
 }
 function render(){
- const animal=animalFarm(),catalog=window.LWH_CATALOG||[];
+ const animal=animalFarm(),catalog=window.LWH_CATALOG||[],history=historySaved();
+ const historyTotals=HISTORY_NAMES.map((_,i)=>historyStats(history,i));const historyPracticed=historyTotals.filter(x=>x.practiced).length;const historyActivities=historyTotals.reduce((n,x)=>n+x.activityDone,0);const historyQuestions=historyTotals.reduce((n,x)=>n+x.complete,0);
  const summary=document.getElementById("summary");
- summary.innerHTML='<div class="stat"><span>📖 Lessons practiced</span><span class="number">'+(animal.hasData?1:0)+' / '+catalog.reduce((n,g)=>n+g.topics.reduce((m,t)=>m+t.lessons.length,0),0)+'</span></div><div class="stat"><span>🧩 Activities completed</span><span class="number">'+animal.complete+' / 7</span></div><div class="stat"><span>✓ Items completed</span><span class="number">'+animal.done+' / '+animal.total+'</span></div><div class="stat"><span>★ Items skipped</span><span class="number">'+animal.skipped+'</span></div>';
+ summary.innerHTML='<div class="stat"><span>📖 Lessons practiced</span><span class="number">'+( (animal.hasData?1:0)+historyPracticed )+' / '+catalog.reduce((n,g)=>n+g.topics.reduce((m,t)=>m+t.lessons.length,0),0)+'</span></div><div class="stat"><span>🧩 Activities completed</span><span class="number">'+(animal.complete+historyActivities)+' / 19</span></div><div class="stat"><span>✓ Items completed</span><span class="number">'+(animal.done+historyQuestions)+' / '+(animal.total+12)+'</span></div><div class="stat"><span>★ Items skipped</span><span class="number">'+animal.skipped+'</span></div>';
  const root=document.getElementById("lessons");
  const artFor=(subject,topic)=>subject==="English"?"🐷":topic.title==="The Troubled 14th Century"?"🏰":"🌍";
  const chapterLabel=(subject,n)=>subject==="English"?n+" "+(n===1?"chapter":"chapters"):n+" "+(n===1?"lesson":"lessons");
