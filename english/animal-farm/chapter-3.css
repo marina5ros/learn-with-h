@@ -57,3 +57,15 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 .activity-progress{width:100%;margin-top:4px}
 .activity-progress .progress{height:8px}
 @media(max-width:650px){header{padding:13px 16px}.shell{padding:10px}.panel{padding:17px}.activity-tile{min-height:162px}.lesson-hero .big{font-size:1.2rem}}
+
+/* Final parent-approved menu refinements: clear chapter heading and compact tiles. */
+.lesson-hero .lesson-subtitle{font-size:1.2rem;font-weight:500;color:#334963;line-height:1.4;margin:0 0 12px}
+.lesson-hero h1{margin:10px 0 5px}
+.lesson-hero .big{margin:8px 0 16px;font-size:1.25rem}
+.activity-tile{min-height:142px;padding:15px 17px;gap:5px}
+.activity-icon{font-size:1.9rem;line-height:1.15}
+.activity-name{font-size:1.08rem;margin-top:1px}
+.activity-description{font-size:.88rem}
+.activity-status{padding-top:3px}
+.activity-progress{margin-top:2px}
+@media(max-width:650px){.activity-tile{min-height:136px;padding:14px}.lesson-hero .big{font-size:1.13rem}}
