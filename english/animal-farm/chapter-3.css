@@ -96,3 +96,13 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 .vocab-check-feedback{font-size:1rem;font-weight:750;margin:12px 0 0}
 .vocab-check-feedback.good{color:#237347}
 .vocab-check-feedback.bad{color:#a43e3b}
+
+/* Approved global navigation */
+.lwh-header{background:#103d75;color:#fff;padding:12px 24px;border-bottom:0}
+.lwh-brand{color:#fff;font-size:1.25rem;display:flex;align-items:center;gap:8px}
+.lwh-brand small{font-size:.67rem;font-weight:400;color:#c4d8f1;margin-left:5px}
+.lwh-nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.lwh-nav .btn{display:inline-flex;align-items:center;gap:7px;min-height:0;padding:10px 14px;border:0;border-radius:11px;background:#e8f0fc;color:#18365c;text-decoration:none;font-size:.9rem;font-weight:750}
+.lwh-nav .btn[aria-current=page]{outline:3px solid #f4b94c;outline-offset:2px}
+.lwh-nav .btn:focus-visible,.lwh-brand:focus-visible{outline:4px solid #f4b94c;outline-offset:2px}
+@media(max-width:600px){.lwh-header{padding:12px}.lwh-brand small{display:none}.lwh-nav .btn{padding:9px;font-size:.8rem}}
