@@ -41,7 +41,8 @@ function openActivity(i,pos=0){activity=i;index=Math.min(Math.max(0,pos),counts[
 function saveLocation(){if(activity<=6){saved.last={activity,index};persist()}}
 function advance(isSkip=false){if(!isSkip&&!canAdvance())return;if(isSkip)markSkipped(activity,index);else if(activity===0||activity===2)markDone(activity,index);else if(activity===1&&get().answers[index]===DATA.sections[index].correct)markDone(activity,index);
 if(index<(counts[activity]-1)){index++;resetExtras();saveLocation();render()}else{justFinished=true;view="review";tab="progress";render()}}
-function restartLesson(){if(!confirm("Restart all of Animal Farm Chapter 3 from the beginning? Your completed attempt will be saved in Previous Attempts, and current lesson progress will start over."))return;
+function restartLesson(){if(!confirm("Restart all of Animal Farm Chapter 3 from the beginning? Your completed attempt will be saved in Previous Attempts, and current lesson progress will start over."))return;restartLessonConfirmed()}
+function restartLessonConfirmed(){
  const archived=JSON.parse(JSON.stringify(saved));const history=Array.isArray(saved.history)?saved.history:[];const next=fresh();next.history=[...history,{type:"lesson",at:new Date().toISOString(),results:archived.activities,chosen:archived.chosen,last:archived.last}];saved=next;persist();openActivity(0,0)}
 function restart(){if(activity>6)return;if(!confirm("Start this activity again? Your earlier results will remain available in Parent Mode."))return;if(!Array.isArray(saved.history))saved.history=[];saved.history.push({activity,at:new Date().toISOString(),results:JSON.parse(JSON.stringify(get()))});saved.activities[activity]={done:{},skipped:{},answers:{},hints:{},attempts:{},drafts:{},words:{}};index=0;resetExtras();saveLocation();render()}
 function back(){if(index>0){index--;resetExtras();saveLocation();render()}else{view="menu";render()}}
@@ -250,6 +251,7 @@ if(e.target.dataset.field==="word"){const next=e.target.value;if(saved.chosen[in
 if(e.target.dataset.field==="rate"){saved.rate=Number(e.target.value);persist()}
 if(e.target.dataset.field==="voice"){saved.voiceURI=e.target.value;persist()}
 });
+if(sessionStorage.getItem("lwh:animal-farm:chapter-3:restart-request")==="yes"){sessionStorage.removeItem("lwh:animal-farm:chapter-3:restart-request");restartLessonConfirmed()}
 window.addEventListener("pagehide",persist);
 window.speechSynthesis?.addEventListener?.("voiceschanged",()=>{if(view==="parent")render()});
 render();
