@@ -276,3 +276,13 @@ test('Clover Mollie and Muriel portraits load as actual images',async ({page})=>
     await expect.poll(()=>portrait.evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
   }
 });
+
+test('supporting portraits are wired to their individual assets with fallback while awaiting upload',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  await page.getByRole('button',{name:/View All Characters/}).click();
+  for(const filename of ['jessie.webp','bluebell.webp','puppies.webp']){
+    const portrait=page.locator('.charactergrid img[src$="'+filename+'"]');
+    await expect(portrait).toHaveCount(1);
+    await expect(portrait).toHaveAttribute('alt',/portrait/);
+  }
+});
