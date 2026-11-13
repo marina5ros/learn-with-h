@@ -266,3 +266,13 @@ test('each reading section has an individual scene image slot with accessible pl
     if(i<10)await page.getByRole('button',{name:/Next/}).click();
   }
 });
+
+test('Clover Mollie and Muriel portraits load as actual images',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  await page.getByRole('button',{name:/View All Characters/}).click();
+  for(const filename of ['clover.webp','mollie.webp','muriel.webp']){
+    const portrait=page.locator('.charactergrid img[src$="'+filename+'"]');
+    await expect(portrait).toHaveCount(1);
+    await expect.poll(()=>portrait.evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+  }
+});
