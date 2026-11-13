@@ -195,3 +195,15 @@ test('clicking the selected word again deselects without losing completed pairs'
   await page.locator('[data-action="match-meaning"]').nth(1).click();
   await expect(word).toHaveClass(/matched/);
 });
+
+test('Use Starter inserts sentence opening without ellipsis and focuses writing',async ({page})=>{
+  await page.getByRole('button',{name:/6. Make Your Own Sentence/}).click();
+  await page.getByRole('button',{name:/Sentence Starter/}).click();
+  await page.getByRole('button',{name:/Use Starter/}).click();
+  const draft=page.locator('textarea[data-field="draft"]');
+  await expect(draft).toHaveValue('The animals toiled when ');
+  await expect(draft).toBeFocused();
+  await draft.press('End');
+  await draft.type('they gathered hay.');
+  await expect(draft).toHaveValue('The animals toiled when they gathered hay.');
+});
