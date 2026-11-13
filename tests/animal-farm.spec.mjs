@@ -257,12 +257,35 @@ test('Continue Learning goes to a selected next unfinished item',async ({page})=
   await expect(page.getByText('Question 2 of 10')).toBeVisible();
 });
 
-test('each reading section has an individual scene image slot with accessible placeholder',async ({page})=>{
+test('all ten approved reading illustrations load and hide placeholder',async ({page})=>{
   await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
   for(let i=1;i<=10;i++){
     const image=page.locator('.scene-image');
-    await expect(image).toHaveAttribute('src',new RegExp('scene-'+String(i).padStart(2,'0')+'\\.webp$'));
-    await expect(page.locator('.scene-placeholder')).toBeVisible();
+    await expect(image).toHaveAttribute('src',new RegExp('scene-'+String(i).padStart(2,'0')+'\\.webp
+
+test('Clover Mollie and Muriel portraits load as actual images',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  await page.getByRole('button',{name:/View All Characters/}).click();
+  for(const filename of ['clover.webp','mollie.webp','muriel.webp']){
+    const portrait=page.locator('.charactergrid img[src$="'+filename+'"]');
+    await expect(portrait).toHaveCount(1);
+    await expect.poll(()=>portrait.evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+  }
+});
+
+test('supporting portraits are wired to their individual assets with fallback while awaiting upload',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  await page.getByRole('button',{name:/View All Characters/}).click();
+  for(const filename of ['jessie.webp','bluebell.webp','puppies.webp']){
+    const portrait=page.locator('.charactergrid img[src$="'+filename+'"]');
+    await expect(portrait).toHaveCount(1);
+    await expect(portrait).toHaveAttribute('alt',/portrait/);
+  }
+});
+));
+    await expect.poll(()=>image.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+    await expect(image).toBeVisible();
+    await expect(page.locator('.scene-placeholder')).toBeHidden();
     if(i<10)await page.getByRole('button',{name:/Next/}).click();
   }
 });
