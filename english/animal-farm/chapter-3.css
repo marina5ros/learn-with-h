@@ -69,3 +69,10 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 .activity-status{padding-top:3px}
 .activity-progress{margin-top:2px}
 @media(max-width:650px){.activity-tile{min-height:136px;padding:14px}.lesson-hero .big{font-size:1.13rem}}
+
+/* Vocabulary is a word-learning activity, not an illustrated reading scene. */
+.vocab-focus{display:flex;align-items:center;justify-content:center;gap:25px;background:#e8f1ff;border-radius:16px;padding:22px 25px;margin:14px 0 20px;min-height:155px}
+.vocab-icon{font-size:3.8rem;line-height:1.25;text-align:center;min-width:100px}
+.vocab-focus .eyebrow{margin-bottom:5px}
+.vocab-term{font-size:clamp(1.85rem,4vw,2.55rem);margin:0 0 12px;color:#23334b}
+@media(max-width:520px){.vocab-focus{gap:14px;padding:18px;min-height:125px}.vocab-icon{font-size:2.65rem;min-width:68px}}
