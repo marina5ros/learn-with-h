@@ -41,6 +41,45 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "name": "Mr. Jones",
       "description": "The former human farmer, who the animals do not want to return.",
       "symbol": "👨‍🌾"
+    },
+    {
+      "key": "clover",
+      "name": "Clover",
+      "description": "A kind, hardworking cart-horse who learns her letters but cannot put them into words.",
+      "symbol": "🐴"
+    },
+    {
+      "key": "mollie",
+      "name": "Mollie",
+      "description": "A white mare who likes pretty ribbons and learns the letters of her own name.",
+      "symbol": "🐎"
+    },
+    {
+      "key": "muriel",
+      "name": "Muriel",
+      "description": "A clever goat who learns to read well and can help other animals understand written words.",
+      "symbol": "🐐"
+    },
+    {
+      "key": "jessie",
+      "name": "Jessie",
+      "description": "One of the two mother dogs whose puppies Napoleon takes away to educate.",
+      "symbol": "🐕",
+      "group": "supporting"
+    },
+    {
+      "key": "bluebell",
+      "name": "Bluebell",
+      "description": "The other mother dog whose puppies are taken to a secluded loft by Napoleon.",
+      "symbol": "🐕",
+      "group": "supporting"
+    },
+    {
+      "key": "puppies",
+      "name": "The Nine Puppies",
+      "description": "Jessie and Bluebell’s nine young puppies. Napoleon takes them away to a loft and keeps them apart from the other animals.",
+      "symbol": "🐶",
+      "group": "supporting"
     }
   ],
   "words": [
