@@ -10,7 +10,7 @@ const fresh=()=>({activities:counts.map(()=>({done:{},skipped:{},answers:{},hint
 let saved;
 try{saved=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){saved=null}
 if(!saved||!Array.isArray(saved.activities)||saved.activities.length!==7)saved=fresh();
-let view="menu",activity=0,index=0,tab="progress",selectedWord=null,feedback="",wrongTarget=null,wrongWord=null,showHint=false,showStarter=false,showPractice=true,showStory=false,showCheck=false,showGallery=false,characterIndex=null,showParent=false,justFinished=false;
+let view="menu",activity=0,index=0,tab="progress",selectedWord=null,selectedMeaning=null,feedback="",wrongTarget=null,wrongWord=null,showHint=false,showStarter=false,showPractice=true,showStory=false,showCheck=false,showGallery=false,characterIndex=null,showParent=false,justFinished=false;
 const get=()=>saved.activities[activity],at=i=>saved.activities[i];
 function persist(){saved.updated=new Date().toISOString();try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){console.warn("Saving progress failed:",e)}}
 function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -35,7 +35,7 @@ function header(){return '<div class="row spread"><div><div class="eyebrow">Engl
 function progressHead(total,label){return '<div class="statusline"><span class="muted">'+escapeHTML(label)+' '+(index+1)+' of '+total+'</span><span class="muted">'+Math.round((index+1)*100/total)+'%</span></div><div class="progress" style="margin:10px 0 20px"><div style="width:'+(index+1)*100/total+'%;background:#77a6c0"></div></div>'}
 function normalActions(total){return '<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===total-1?"Finish / Review →":"Next →","next","primary")+'</div>'}
 function commonFoot(){return '<div class="row spread" style="border-top:1px solid var(--line);margin-top:22px;padding-top:16px">'+btn("☷ Lesson Menu","menu","ghost")+btn("↩ Return to Last Location","resume","ghost",saved.last?"":"disabled")+btn("↺ Start Again","restart","ghost")+'</div>'}
-function resetExtras(){selectedWord=null;feedback="";wrongTarget=null;wrongWord=null;showHint=false;showStarter=false;showStory=false;showCheck=false;showPractice=true;characterIndex=null;showGallery=false}
+function resetExtras(){selectedWord=null;selectedMeaning=null;feedback="";wrongTarget=null;wrongWord=null;showHint=false;showStarter=false;showStory=false;showCheck=false;showPractice=true;characterIndex=null;showGallery=false}
 function openActivity(i,pos=0){activity=i;index=Math.min(Math.max(0,pos),counts[i]||0);view="activity";resetExtras();saveLocation();render()}
 function saveLocation(){if(activity<=6){saved.last={activity,index};persist()}}
 function advance(isSkip=false){if(isSkip)markSkipped(activity,index);else if(activity===0||activity===2)markDone(activity,index);else if(activity===1&&get().answers[index]===DATA.sections[index].correct)markDone(activity,index);
@@ -75,9 +75,35 @@ const orders=[[2,0,1],[1,2,0],[2,0,1],[0]];
 function matched(round){return get().words[round]||{}}
 function matchingScreen(){let r=index,start=r*3,items=DATA.words.slice(start,start+3),matches=matched(r),n=Object.keys(matches).length;
 let words='<div class="choices">'+items.map((w,i)=>'<button class="choice '+(matches[i]?"matched":wrongWord===i?"bad":selectedWord===i?"selected":"")+'" data-action="match-word" data-choice="'+i+'" '+(matches[i]?"disabled":"")+'><strong>'+escapeHTML(w.word)+'</strong><span class="small">'+(matches[i]?"✓ Matched":"🔊 Tap to choose")+'</span></button>').join("")+'</div>';
-let meanings='<div class="choices">'+orders[r].map(i=>'<button class="choice '+(matches[i]?"matched":wrongTarget===i?"bad":"")+'" data-action="match-meaning" data-choice="'+i+'" '+(matches[i]?"disabled":"")+'>'+escapeHTML(items[i].meaning)+(matches[i]?'<span class="small">✓ Matched</span>':"")+'</button>').join("")+'</div>';
-return header()+progressHead(4,"Round")+'<p>Tap a word on the left, then tap its meaning on the right. Correct pairs turn green. You can try as many times as you need.</p><div class="matchgrid"><div><h3>Words</h3>'+words+'</div><div><h3>Meanings</h3>'+meanings+'</div></div><div class="feedback '+(wrongTarget!==null?"bad":n===items.length?"good":"info")+'" role="status">'+escapeHTML(feedback||n+" of "+items.length+" pairs matched")+'</div>'+btn("💡 "+(showHint?"Hide Hint":"Hint"),"hint")+(showHint?'<div class="softbox bluebox">'+(selectedWord===null?"Choose a word first, then remember where it appeared in the story.":"Think about how “"+escapeHTML(items[selectedWord].word)+"” was used in the story.")+'</div>':"")+'<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===3?"Finish / Review →":"Continue →","next","primary",n!==items.length?"disabled":"")+'</div>'}
-function fillScreen(){let f=DATA.fill[index],a=get().answers[index];return header()+progressHead(10,"Question")+scene(["🌾","🐖","📚","🫏","🫏","📋","📖","🐶","🐑","🐑"][index],f.text.replace("____","..."))+'<div class="softbox bluebox"><h2>Choose the missing word</h2><p class="reading">'+escapeHTML(f.text)+'</p><div class="row">'+btn("🔊 Listen","listen-fill")+btn("💡 "+(showHint?"Hide Hint":"Hint"),"hint")+'</div>'+(showHint?'<p class="muted">Think about the story and the meaning of each word. You can revisit the vocabulary activity.</p>':"")+'</div><div class="choices">'+f.options.map((t,i)=>'<button class="choice '+(a===t?(t===f.answer?"good":"bad"):"")+'" data-action="answer" data-choice="'+i+'">'+escapeHTML(t)+'</button>').join("")+'</div>'+(a?'<div class="feedback '+(a===f.answer?"good":"bad")+'" role="status">'+(a===f.answer?"That’s right! Great job!":"Not quite. Try another word!")+'</div>':"")+normalActions(10)}
+let meanings='<div class="choices">'+orders[r].map(i=>'<button class="choice '+(matches[i]?"matched":wrongTarget===i?"bad":selectedMeaning===i?"selected":"")+'" data-action="match-meaning" data-choice="'+i+'" '+(matches[i]?"disabled":"")+'>'+escapeHTML(items[i].meaning)+(matches[i]?'<span class="small">✓ Matched</span>':"")+'</button>').join("")+'</div>';
+return header()+progressHead(4,"Round")+'<p>Choose a word and its meaning in either order. Tap another choice to change your selection. Correct pairs turn green.</p><div class="matchgrid"><div><h3>Words</h3>'+words+'</div><div><h3>Meanings</h3>'+meanings+'</div></div><div class="feedback '+(wrongTarget!==null?"bad":n===items.length?"good":"info")+'" role="status">'+escapeHTML(feedback||n+" of "+items.length+" pairs matched")+'</div>'+btn("💡 "+(showHint?"Hide Hint":"Hint"),"hint")+(showHint?'<div class="softbox bluebox">'+(selectedWord===null?"Choose a word first, then remember where it appeared in the story.":"Think about how “"+escapeHTML(items[selectedWord].word)+"” was used in the story.")+'</div>':"")+'<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===3?"Finish / Review →":"Continue →","next","primary",n!==items.length?"disabled":"")+'</div>'}
+function checkPair(){
+ if(selectedWord===null||selectedMeaning===null)return;
+ if(selectedWord===selectedMeaning){
+   const pairs=matched(index);pairs[selectedWord]=true;get().words[index]=pairs;
+   feedback="Great match!";
+   selectedWord=null;selectedMeaning=null;wrongTarget=null;wrongWord=null;
+   if(Object.keys(pairs).length===DATA.words.slice(index*3,index*3+3).length)markDone(activity,index);
+ } else {
+   wrongWord=selectedWord;wrongTarget=selectedMeaning;
+   feedback="Not quite. Try again! Tap a different word or meaning.";
+   get().attempts[index]=(get().attempts[index]||0)+1;
+ }
+ persist();
+}
+const fillSceneNumbers=[1,3,3,5,5,4,5,8,7,6];
+const fillSceneDescriptions=[
+ "Animals gathering hay", "Pigs supervising the animals",
+ "Pigs directing work", "Benjamin observing a lesson",
+ "Benjamin observing a lesson", "Snowball organizing committees",
+ "Animals learning to read", "Napoleon taking puppies to a loft",
+ "The animals at a Sunday meeting", "Snowball teaching the maxim"
+];
+function fillIllustration(){
+ const number=String(fillSceneNumbers[index]).padStart(2,"0");
+ return '<div class="fill-illustration"><img src="./assets/scenes/scene-'+number+'.webp" alt="'+escapeHTML(fillSceneDescriptions[index])+'" loading="eager" onerror="this.parentElement.hidden=true"></div>';
+}
+function fillScreen(){let f=DATA.fill[index],a=get().answers[index];return header()+progressHead(10,"Question")+fillIllustration()+'<div class="softbox bluebox"><h2>Choose the missing word</h2><p class="reading">'+escapeHTML(f.text)+'</p><div class="row">'+btn("🔊 Listen","listen-fill")+btn("💡 "+(showHint?"Hide Hint":"Hint"),"hint")+'</div>'+(showHint?'<p class="muted">Think about the story and the meaning of each word. You can revisit the vocabulary activity.</p>':"")+'</div><div class="choices">'+f.options.map((t,i)=>'<button class="choice '+(a===t?(t===f.answer?"good":"bad"):"")+'" data-action="answer" data-choice="'+i+'">'+escapeHTML(t)+'</button>').join("")+'</div>'+(a?'<div class="feedback '+(a===f.answer?"good":"bad")+'" role="status">'+(a===f.answer?"That’s right! Great job!":"Not quite. Try another word!")+'</div>':"")+normalActions(10)}
 function sentencesScreen(){
 let chosen=saved.chosen[index]||"",w=DATA.words.find(w=>w.word===chosen)||DATA.words[0],draft=get().drafts[index]||"";
 let options=DATA.words.filter(w=>w.word!==saved.chosen[1-index]).map(w=>'<option value="'+escapeHTML(w.word)+'" '+(chosen===w.word?"selected":"")+'>'+escapeHTML(w.word)+'</option>').join("");
@@ -168,13 +194,25 @@ case "answer":
   persist();render();break;
 case "match-word":
   if(matched(index)[c])return;
-  if(selectedWord===c){selectedWord=null;wrongTarget=null;wrongWord=null;feedback="Word unselected. Choose a word when you are ready.";render();break;}
-  selectedWord=c;wrongTarget=null;wrongWord=null;feedback="Now select the matching meaning for “"+DATA.words[index*3+c].word+"”.";speak(DATA.words[index*3+c].word);render();break;
+  if(selectedWord===c){
+    selectedWord=null;wrongWord=null;wrongTarget=null;
+    feedback="Word unselected. Choose a word or meaning.";render();break;
+  }
+  selectedWord=c;wrongTarget=null;wrongWord=null;
+  speak(DATA.words[index*3+c].word);
+  if(selectedMeaning!==null)checkPair();
+  else feedback="Choose the matching meaning, or tap another word.";
+  render();break;
 case "match-meaning":
-  if(selectedWord===null||matched(index)[c])return;
-  if(c===selectedWord){let p=matched(index);p[c]=true;get().words[index]=p;feedback="Great match!";selectedWord=null;wrongTarget=null;wrongWord=null;if(Object.keys(p).length===DATA.words.slice(index*3,index*3+3).length)markDone(activity,index)}
-  else {wrongTarget=c;wrongWord=selectedWord;selectedWord=null;feedback="Not quite. Try again!";get().attempts[index]=(get().attempts[index]||0)+1}
-  persist();render();break;
+  if(matched(index)[c])return;
+  if(selectedMeaning===c){
+    selectedMeaning=null;wrongTarget=null;wrongWord=null;
+    feedback="Meaning unselected. Choose a word or meaning.";render();break;
+  }
+  selectedMeaning=c;wrongTarget=null;wrongWord=null;
+  if(selectedWord!==null)checkPair();
+  else feedback="Choose the matching word, or tap another meaning.";
+  render();break;
 case "use-starter":{
   let starter=activity===5?starterFor(saved.chosen[index]):DATA.comprehension[index].starter;
   // Ellipsis is guidance in the preview, not part of H’s answer.
@@ -190,7 +228,7 @@ case "export-progress":exportProgress();break;
 });
 document.addEventListener("input",e=>{if(e.target.dataset.field==="draft"){get().drafts[index]=e.target.value;if(e.target.value.trim())markDone(activity,index);else {delete get().done[index];persist()}}});
 document.addEventListener("change",e=>{
-if(e.target.dataset.field==="word"){saved.chosen[index]=e.target.value;persist();render()}
+if(e.target.dataset.field==="word"){const next=e.target.value;if(saved.chosen[index]!==next){saved.chosen[index]=next;get().drafts[index]="";delete get().done[index];showStarter=false;showHint=false;persist()}render()}
 if(e.target.dataset.field==="rate"){saved.rate=Number(e.target.value);persist()}
 if(e.target.dataset.field==="voice"){saved.voiceURI=e.target.value;persist()}
 });
