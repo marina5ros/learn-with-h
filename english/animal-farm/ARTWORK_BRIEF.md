@@ -76,6 +76,8 @@
 
 ## 8. Napoleon Takes the Puppies
 
+**Review status: COMPOSITION APPROVED — COUNT VERIFICATION PENDING (Nov 13, 2026).** The parent approved the overall illustration showing dark Napoleon directing young puppies up a ramp into a secluded loft while Jessie and Bluebell watch. Before final approval, ensure **exactly nine individually distinguishable puppies** appear, and that none are depicted as trained attack dogs. Re-review corrected image; do not upload as `assets/scenes/scene-08.webp` until the count is verified and final approval recorded.
+
 **Scene:** Napoleon leads nine little puppies gently up a wooden staircase into a secluded loft; other farm animals in the courtyard, unaware.
 
 **Character / visual guidance:** Napoleon matches approved dark boar; nine puppies; closed wooden loft door
