@@ -33,13 +33,16 @@ function scene(symbol,description,readingIndex=null){
 }
 function header(){return '<div class="row spread"><div><div class="eyebrow">English / Animal Farm / Chapter 3</div><h1>'+escapeHTML(names[activity])+'</h1></div><span class="badge">Activity '+(activity+1)+' of 8</span></div>'}
 function progressHead(total,label){return '<div class="statusline"><span class="muted">'+escapeHTML(label)+' '+(index+1)+' of '+total+'</span><span class="muted">'+Math.round((index+1)*100/total)+'%</span></div><div class="progress" style="margin:10px 0 20px"><div style="width:'+(index+1)*100/total+'%;background:#77a6c0"></div></div>'}
-function normalActions(total){return '<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===total-1?"Finish / Review →":"Next →","next","primary")+'</div>'}
+function canAdvance(){const a=get().answers[index];if(activity===1)return a===DATA.sections[index].correct;if(activity===4)return a===DATA.fill[index].answer;if(activity===6)return a===DATA.comprehension[index].correct;if(activity===3)return !!get().done[index];return true}
+function normalActions(total){return '<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===total-1?"Finish / Review →":"Next →","next","primary",canAdvance()?"":"disabled aria-disabled=\"true\"")+'</div>'}
 function commonFoot(){return '<div class="row spread" style="border-top:1px solid var(--line);margin-top:22px;padding-top:16px">'+btn("☷ Lesson Menu","menu","ghost")+btn("↩ Return to Last Location","resume","ghost",saved.last?"":"disabled")+btn("↺ Start Again","restart","ghost")+'</div>'}
 function resetExtras(){selectedWord=null;selectedMeaning=null;vocabChoice=null;feedback="";wrongTarget=null;wrongWord=null;showHint=false;showStarter=false;showStory=false;showCheck=false;showPractice=true;characterIndex=null;showGallery=false}
 function openActivity(i,pos=0){activity=i;index=Math.min(Math.max(0,pos),counts[i]||0);view="activity";resetExtras();saveLocation();render()}
 function saveLocation(){if(activity<=6){saved.last={activity,index};persist()}}
-function advance(isSkip=false){if(isSkip)markSkipped(activity,index);else if(activity===0||activity===2)markDone(activity,index);else if(activity===1&&get().answers[index]===DATA.sections[index].correct)markDone(activity,index);
+function advance(isSkip=false){if(!isSkip&&!canAdvance())return;if(isSkip)markSkipped(activity,index);else if(activity===0||activity===2)markDone(activity,index);else if(activity===1&&get().answers[index]===DATA.sections[index].correct)markDone(activity,index);
 if(index<(counts[activity]-1)){index++;resetExtras();saveLocation();render()}else{justFinished=true;view="review";tab="progress";render()}}
+function restartLesson(){if(!confirm("Restart all of Animal Farm Chapter 3 from the beginning? Your completed attempt will be saved in Previous Attempts, and current lesson progress will start over."))return;
+ const archived=JSON.parse(JSON.stringify(saved));const history=Array.isArray(saved.history)?saved.history:[];const next=fresh();next.history=[...history,{type:"lesson",at:new Date().toISOString(),results:archived.activities,chosen:archived.chosen,last:archived.last}];saved=next;persist();openActivity(0,0)}
 function restart(){if(activity>6)return;if(!confirm("Start this activity again? Your earlier results will remain available in Parent Mode."))return;if(!Array.isArray(saved.history))saved.history=[];saved.history.push({activity,at:new Date().toISOString(),results:JSON.parse(JSON.stringify(get()))});saved.activities[activity]={done:{},skipped:{},answers:{},hints:{},attempts:{},drafts:{},words:{}};index=0;resetExtras();saveLocation();render()}
 function back(){if(index>0){index--;resetExtras();saveLocation();render()}else{view="menu";render()}}
 function resume(){if(!saved.last){view="menu";render();return}openActivity(saved.last.activity,saved.last.index)}
@@ -177,6 +180,7 @@ case "goto":openActivity(n,Number(button.dataset.index));break;
 case "resume":resume();break;
 case "continue-learning":{let next=nextUnfinished();if(next)openActivity(next.activity,next.index);break;}
 case "restart":restart();break;
+case "restart-lesson":restartLesson();break;
 case "back":back();break;
 case "skip":advance(true);break;
 case "next":advance(false);break;
