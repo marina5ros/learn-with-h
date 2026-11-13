@@ -25,7 +25,7 @@ function percent(i){return Math.round(100*doneCount(i)/counts[i])}
 function color(i){return status(i)==="complete"?"var(--success)":status(i)==="skipped"?"var(--warning)":"#76a9d5"}
 function bar(i){return '<div class="progress"><div style="width:'+percent(i)+'%;background:'+color(i)+'"></div></div>'}
 function btn(label,action,extra="",attr=""){return '<button class="btn '+extra+'" type="button" data-action="'+action+'" '+attr+'>'+label+"</button>"}
-function speak(s){if(!("speechSynthesis" in window)){alert("Read-aloud is not available in this browser.");return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang="en-US";u.rate=Number(saved.rate)||.85;const voice=(speechSynthesis.getVoices?.()||[]).find(v=>v.voiceURI===saved.voiceURI);if(voice)u.voice=voice; speechSynthesis.speak(u)}
+function speak(s){if(!("speechSynthesis" in window)){alert("Read-aloud is not available in this browser.");return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang="en-US";let settings={};try{settings=JSON.parse(localStorage.getItem("lwh:parent:settings:v1")||"{}")||{}}catch(_){}u.rate=Number(settings.rate??saved.rate)||.85;const voiceURI=settings.voiceURI??saved.voiceURI;const voice=(speechSynthesis.getVoices?.()||[]).find(v=>v.voiceURI===voiceURI);if(voice)u.voice=voice; speechSynthesis.speak(u)}
 function scene(symbol,description,readingIndex=null){
  const hasArt=readingIndex!==null;
  const art=hasArt?'<img class="scene-image" src="./assets/scenes/scene-'+String(readingIndex+1).padStart(2,"0")+'.webp" alt="'+escapeHTML(description)+'" loading="eager" onerror="this.hidden=true;this.nextElementSibling.hidden=false">':"";
