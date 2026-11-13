@@ -88,3 +88,11 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 .vocab-focus{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;min-height:0;padding:18px 24px;margin:0 0 18px}
 .vocab-term{margin:0 0 8px}
 @media(max-width:650px){.vocab-art,.vocab-art img{max-height:260px}}
+
+/* Vocabulary context reading: comfortably sized paragraph with target-word emphasis and clear answer feedback. */
+.vocab-context{font-size:1.08rem;line-height:1.75;margin:10px 0 12px;max-width:70ch}
+.vocab-context strong{font-weight:800;color:#1c4f88;background:#e9f2ff;border-radius:3px;padding:0 2px}
+.vocab-context-note{font-size:.84rem;line-height:1.5}
+.vocab-check-feedback{font-size:1rem;font-weight:750;margin:12px 0 0}
+.vocab-check-feedback.good{color:#237347}
+.vocab-check-feedback.bad{color:#a43e3b}
