@@ -318,3 +318,13 @@ test('illustration fallback appears only if the image fails',async ({page})=>{
   await expect(page.locator('.scene-placeholder')).toBeVisible();
   await expect(page.getByText(/Illustration unavailable/)).toBeVisible();
 });
+
+test('vocabulary focuses on the word without an unavailable illustration message',async ({page})=>{
+  await page.getByRole('button',{name:/3. Learn the Vocabulary/}).click();
+  await expect(page.locator('.vocab-focus .vocab-term')).toHaveText('toiled');
+  await expect(page.getByText('Worked very hard.')).toBeVisible();
+  await expect(page.getByText('Illustration unavailable')).toHaveCount(0);
+  await expect(page.locator('.vocab-focus')).toBeVisible();
+  await page.getByRole('button',{name:/Next/}).click();
+  await expect(page.locator('.vocab-focus .vocab-term')).toHaveText('supervised');
+});
