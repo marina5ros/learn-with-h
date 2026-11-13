@@ -204,7 +204,7 @@ window.LWH_ANIMAL_FARM_CH3 = {
     {
       "id": 3,
       "title": "Snowball Starts Committees",
-      "text": "Snowball wanted to make the farm better by organizing groups called Animal Committees. He suggested different committees for hens, sheep, and other animals. He also tried to teach wild animals about life on the farm. Most of the committees did not work very well. Some animals did not understand the plans, and others did not change their habits. But one of Snowball's projects was a real success: he began teaching the animals to read and write. This gave many animals skills they had never learned before.",
+      "text": "Snowball wanted to make the farm better by organizing groups called Animal Committees. He started the Egg Production Committee for hens, the Clean Tails League for cows, and the Whiter Wool Movement for sheep. He also formed the Wild Comrades’ Re-education Committee to try to tame rats and rabbits. Most of these committees did not work very well. The wild animals, for example, continued behaving much as before. But another project was a real success: Snowball started classes that taught the animals to read and write. Many animals learned skills they had never had before.",
       "question": "Which of Snowball's projects was successful?",
       "options": [
         "Teaching reading and writing.",
