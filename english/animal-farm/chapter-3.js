@@ -4,7 +4,7 @@
 const DATA=window.LWH_ANIMAL_FARM_CH3;
 const KEY="lwh:animal-farm:chapter-3:v1";
 const names=DATA.activityNames;
-const counts=[6,10,10,4,10,2,6];
+const counts=[12,10,10,4,10,2,6];
 const app=document.getElementById("app");
 const fresh=()=>({activities:counts.map(()=>({done:{},skipped:{},answers:{},hints:{},attempts:{},drafts:{},words:{}})),last:null,chosen:["toiled",""],history:[],rate:.85,voiceURI:"",updated:null});
 let saved;
@@ -43,19 +43,20 @@ function menu(){
 let c=counts.reduce((v,n,i)=>v+(doneCount(i)===n?1:0),0);
 let resumeCard=saved.last?'<div class="softbox bluebox"><div class="eyebrow">Continue Learning</div><h2>'+escapeHTML(names[saved.last.activity])+'</h2><p>Return to '+(saved.last.activity===3?"round":"item")+' '+(saved.last.index+1)+' exactly where you stopped.</p>'+btn("Resume Where I Left Off →","resume","primary")+'</div>':"";
 return '<section class="panel hero"><div class="eyebrow">Learn with H · English</div><h1>Animal Farm — Chapter 3</h1><p class="reading">Life on the Farm</p><p>Read the story, learn new words, and practice at your own pace. All activities are unlocked.</p><p class="muted">'+c+' of 7 learning activities fully completed. Review is always available.</p>'+resumeCard+'</section><section class="panel"><h2>Choose an Activity</h2><div class="cardgrid">'+names.map((n,i)=>{
-let s=i===7?"new":status(i);let description=["Six character profiles and a gallery","Ten short illustrated reading sections","Ten words with meanings and story context","Four rounds of word matching","Ten sentences from the teacher's worksheet","Write two original sentences","Six teacher comprehension questions","Progress, skipped items, and saved writing"][i];
+let s=i===7?"new":status(i);let description=["Nine main characters, two mother dogs, and nine puppies","Ten short illustrated reading sections","Ten words with meanings and story context","Four rounds of word matching","Ten sentences from the teacher's worksheet","Write two original sentences","Six teacher comprehension questions","Progress, skipped items, and saved writing"][i];
 let badge=i===7?'<span class="badge">Open Anytime</span>':'<span class="badge '+statClass(s)+'">'+statLabel(s)+'</span>';
 return '<button class="tile" data-action="open" data-activity="'+i+'"><div class="statusline"><strong>'+(i+1)+'. '+escapeHTML(n)+'</strong>'+badge+'</div><p class="muted">'+description+'</p>'+(i<7?'<div style="margin-top:12px">'+bar(i)+'</div>':"")+'</button>'
 }).join("")+'</div></section>'
 }
 function characterArt(c,small=false){
- const file={snowball:"snowball.webp",napoleon:"napoleon.webp",squealer:"squealer.webp",boxer:"boxer.webp",benjamin:"benjamin.webp",jones:"mr_jones.webp"}[c.key];
- return '<span class="portrait-box '+(small?'portrait-small':'')+'"><img src="./assets/characters/'+file+'" alt="'+escapeHTML(c.name)+' portrait" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="portrait-fallback" style="display:none" aria-hidden="true">'+c.symbol+'</span></span>'
+ const file={snowball:"snowball.webp",napoleon:"napoleon.webp",squealer:"squealer.webp",boxer:"boxer.webp",benjamin:"benjamin.webp",jones:"mr_jones.webp",clover:"clover.webp",mollie:"mollie.webp",muriel:"muriel.webp"}[c.key];
+ const media=file?'<img src="./assets/characters/'+file+'" alt="'+escapeHTML(c.name)+' portrait" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="portrait-fallback" style="display:none" aria-hidden="true">'+c.symbol+'</span>':'<span class="portrait-fallback" aria-hidden="true">'+c.symbol+'</span>';
+ return '<span class="portrait-box '+(small?'portrait-small':'')+'">'+media+'</span>'
 }
 function characterCard(c,i,small=false){return '<button class="'+(small?"person":"tile")+'" data-action="character" data-character="'+i+'">'+characterArt(c,small)+'<h3>'+escapeHTML(c.name)+'</h3>'+(small?"":'<p>'+escapeHTML(c.description)+'</p>')+'</button>'}
 function characterScreen(){
-if(showGallery){return header()+'<p>Choose any character. You can come back to the one-at-a-time lesson whenever you like.</p><div class="charactergrid">'+DATA.characters.map((c,i)=>characterCard(c,i,true)).join("")+'</div><div class="actions">'+btn("← One at a Time","toggle-gallery")+btn("Go to Reading →","go-reading","primary")+'</div>'}
-let c=DATA.characters[index];return header()+progressHead(6,"Character")+'<div class="portrait-feature">'+characterArt(c)+'</div>'+'<div style="text-align:center"><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-character")+'</div><div class="row" style="margin-top:18px">'+btn("👥 View All Characters","toggle-gallery")+'</div>'+normalActions(6)
+if(showGallery){return header()+'<p>Choose any character. You can come back to the one-at-a-time lesson whenever you like.</p><h2>Main Characters</h2><div class="charactergrid">'+DATA.characters.map((c,i)=>!c.group?characterCard(c,i,true):"").join("")+'</div><h2>Supporting Characters</h2><p>Jessie and Bluebell are the mother dogs. Their nine puppies are shown together.</p><div class="charactergrid">'+DATA.characters.map((c,i)=>c.group==="supporting"?characterCard(c,i,true):"").join("")+'</div><div class="actions">'+btn("← One at a Time","toggle-gallery")+btn("Go to Reading →","go-reading","primary")+'</div>'}
+let c=DATA.characters[index];return header()+progressHead(DATA.characters.length,"Character")+'<div class="portrait-feature">'+characterArt(c)+'</div>'+'<div style="text-align:center"><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-character")+'</div><div class="row" style="margin-top:18px">'+btn("👥 View All Characters","toggle-gallery")+'</div>'+normalActions(DATA.characters.length)
 }
 function quickCheck(question,options,answer,stored,hintText){return '<div class="softbox creambox"><div class="row spread"><h2>Quick Check</h2>'+btn(showHint?"Hide Hint":"💡 Hint","hint")+'</div>'+(showHint?'<p class="muted">'+escapeHTML(hintText)+'</p>':"")+'<p><strong>'+escapeHTML(question)+'</strong></p><div class="choices">'+options.map((t,i)=>{
 let cls=stored===i?(i===answer?"good":"bad"):"";return '<button class="choice '+cls+'" data-action="answer" data-choice="'+i+'">'+escapeHTML(t)+'</button>'
@@ -101,7 +102,7 @@ return '<div class="eyebrow">Learn with H</div><h1>Parent Mode — Animal Farm</
 }
 function modal(){
 let c=DATA.characters[characterIndex];
-return '<div class="floatmodal" role="dialog" aria-modal="true" aria-label="Character Reference"><div class="modalbody"><div class="row spread"><h2>👥 Character Reference</h2>'+btn("✕ Back to Reading","close-characters")+'</div>'+(characterIndex===null?'<p>Choose a character to see a description.</p><div class="charactergrid">'+DATA.characters.map((c,i)=>characterCard(c,i,true)).join("")+'</div>':'<div style="text-align:center">'+'<div class="portrait-feature">'+characterArt(c)+'</div><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-modal")+' '+btn("← All Characters","all-characters")+'</div>')+'</div></div>'
+return '<div class="floatmodal" role="dialog" aria-modal="true" aria-label="Character Reference"><div class="modalbody"><div class="row spread"><h2>👥 Character Reference</h2>'+btn("✕ Back to Reading","close-characters")+'</div>'+(characterIndex===null?'<p>Choose a character to see a description.</p><h3>Main Characters</h3><div class="charactergrid">'+DATA.characters.map((c,i)=>!c.group?characterCard(c,i,true):"").join("")+'</div><h3>Supporting Characters</h3><div class="charactergrid">'+DATA.characters.map((c,i)=>c.group==="supporting"?characterCard(c,i,true):"").join("")+'</div>':'<div style="text-align:center">'+'<div class="portrait-feature">'+characterArt(c)+'</div><h2>'+escapeHTML(c.name)+'</h2><p class="reading">'+escapeHTML(c.description)+'</p>'+btn("🔊 Listen","listen-modal")+' '+btn("← All Characters","all-characters")+'</div>')+'</div></div>'
 }
 function render(){
 let content=view==="menu"?menu():view==="review"?reviewScreen():view==="parent"?parentScreen():activity===0?characterScreen():activity===1?readingScreen():activity===2?vocabScreen():activity===3?matchingScreen():activity===4?fillScreen():activity===5?sentencesScreen():comprehensionScreen();
