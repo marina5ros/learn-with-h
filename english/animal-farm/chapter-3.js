@@ -52,7 +52,7 @@ return '<button class="tile" data-action="open" data-activity="'+i+'"><div class
 }).join("")+'</div></section>'
 }
 function characterArt(c,small=false){
- const file={snowball:"snowball.webp",napoleon:"napoleon.webp",squealer:"squealer.webp",boxer:"boxer.webp",benjamin:"benjamin.webp",jones:"mr_jones.webp",clover:"clover.webp",mollie:"mollie.webp",muriel:"muriel.webp"}[c.key];
+ const file={snowball:"snowball.webp",napoleon:"napoleon.webp",squealer:"squealer.webp",boxer:"boxer.webp",benjamin:"benjamin.webp",jones:"mr_jones.webp",clover:"clover.webp",mollie:"mollie.webp",muriel:"muriel.webp",jessie:"jessie.webp",bluebell:"bluebell.webp",puppies:"puppies.webp"}[c.key];
  const media=file?'<img src="./assets/characters/'+file+'" alt="'+escapeHTML(c.name)+' portrait" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="portrait-fallback" style="display:none" aria-hidden="true">'+c.symbol+'</span>':'<span class="portrait-fallback" aria-hidden="true">'+c.symbol+'</span>';
  return '<span class="portrait-box '+(small?'portrait-small':'')+'">'+media+'</span>'
 }
