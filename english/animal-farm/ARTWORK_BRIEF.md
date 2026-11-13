@@ -66,6 +66,8 @@
 
 ## 7. Snowball and Napoleon Disagree
 
+**Review status: CORRECTION REQUIRED — NOT APPROVED (Nov 13, 2026).** The draft depicts Snowball and Napoleon disagreeing at a Sunday meeting, but the chalkboard says **“Build a Windmill”** and shows a windmill diagram. This is a Chapter 5 event, not Chapter 3. **Required correction:** remove the windmill text and diagram entirely, or replace them with a neutral, accurate Sunday meeting backdrop (no invented specific agenda). Keep Snowball as a light-colored pig, Napoleon as a large dark pig, and the other animals listening. Do not use or upload the current draft as `scene-07.webp`. **Re-review corrected illustration before approval.**
+
 **Scene:** Snowball and Napoleon face one another in a barn meeting, contrasting expressions, while sheep, donkey and horse listen.
 
 **Character / visual guidance:** Snowball light pig, Napoleon large dark Berkshire boar; tense but not frightening
