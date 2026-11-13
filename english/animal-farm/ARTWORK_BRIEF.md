@@ -30,6 +30,9 @@
 
 ## 4. Snowball Starts Committees
 
+**Review status: APPROVED (Nov 13, 2026).** Approved illustration depicts Snowball pointing at a chalkboard listing the four named committees, with reading and writing classes separated. Optimized asset prepared as `scene-04.webp`; it must be uploaded to `assets/scenes/scene-04.webp` before the website can display it. Do not use this image for Scene 2.
+
+
 **Scene:** Snowball eagerly explains plans for animal committees in the barn to hens, sheep and cows gathered in small groups.
 
 **Character / visual guidance:** Snowball matches approved light pig portrait. Hens, cows, sheep, rats, and rabbits can appear in the scene. Prefer no writing on the board. If committee labels appear, use only actual Chapter 3 names: Egg Production Committee, Clean Tails League, Wild Comrades’ Re-education Committee, and Whiter Wool Movement. Reading and writing classes were a separate, successful activity, not another named committee.
