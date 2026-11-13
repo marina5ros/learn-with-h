@@ -89,7 +89,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Worked very hard.",
       "example": "The animals toiled in the fields to gather hay.",
       "quote": "How they toiled and sweated to get the hay in!",
-      "context": "The animals were gathering the hay after the rebellion."
+      "context": "The animals were gathering the hay after the rebellion.",
+      "storyContext": "After the rebellion, the animals needed to gather all the hay by themselves. They toiled in the fields, working hard to bring in the harvest. Even the smaller animals helped in whatever ways they could. The work was difficult, but they were proud to be working for their own farm."
     },
     {
       "id": 1,
@@ -97,7 +98,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Watched and guided people doing a job.",
       "example": "The pigs supervised the other animals as they worked.",
       "quote": "The pigs did not actually work, but directed and supervised the others.",
-      "context": "The pigs gave directions while the other animals did the physical labor."
+      "context": "The pigs gave directions while the other animals did the physical labor.",
+      "storyContext": "During the harvest, the pigs directed and supervised the other animals. The pigs told the workers what needed to be done, but they did not do most of the heavy physical work themselves. Boxer and the others followed their directions to finish the hay harvest. The pigs said their knowledge helped them organize the farm."
     },
     {
       "id": 2,
@@ -105,7 +107,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Better or greater than something else.",
       "example": "The pigs believed they had superior knowledge.",
       "quote": "With their superior knowledge it was natural that they should assume the leadership.",
-      "context": "The pigs claimed their knowledge made them suitable leaders."
+      "context": "The pigs claimed their knowledge made them suitable leaders.",
+      "storyContext": "The pigs believed they had superior knowledge about running the farm. They used this belief to explain why they should direct the other animals' work. At the Sunday meetings, the pigs often proposed plans for everyone to discuss. The other animals could vote, but the pigs were taking on more leadership."
     },
     {
       "id": 3,
@@ -113,7 +116,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Stubborn; not willing to change.",
       "example": "Benjamin was obstinate and kept his old habits.",
       "quote": "He did his work in the same slow obstinate way as he had done it in Jones’s time.",
-      "context": "Benjamin did not change his usual way of working."
+      "context": "Benjamin did not change his usual way of working.",
+      "storyContext": "Benjamin the donkey was quiet and rarely showed excitement about the changes on the farm. He continued doing his work in his usual slow, obstinate way. Even after Mr. Jones was gone, Benjamin did not want to change his habits. He often kept his opinions to himself."
     },
     {
       "id": 4,
@@ -121,7 +125,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Hard to understand; mysterious.",
       "example": "Benjamin gave a cryptic answer that confused the animals.",
       "quote": "The others had to be content with this cryptic answer.",
-      "context": "Benjamin's short reply did not explain what he thought."
+      "context": "Benjamin's short reply did not explain what he thought.",
+      "storyContext": "Benjamin sometimes gave answers that were hard for the other animals to understand. Instead of explaining his thoughts, he would make a short, cryptic remark. The other animals could not always tell what he meant. Benjamin preferred to keep many of his thoughts private."
     },
     {
       "id": 5,
@@ -129,7 +134,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Never seeming to get tired of working.",
       "example": "Snowball was indefatigable when organizing committees.",
       "quote": "Snowball also busied himself with organizing the other animals into what he called Animal Committees. He was indefatigable at this.",
-      "context": "Snowball kept creating groups and plans."
+      "context": "Snowball kept creating groups and plans.",
+      "storyContext": "Snowball worked hard to organize the animals into different committees. He kept suggesting projects for hens, cows, sheep, and even wild animals. He was indefatigable, continuing to make plans even when many committees were unsuccessful. His classes that taught animals to read and write were a much greater success."
     },
     {
       "id": 6,
@@ -137,7 +143,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Able to read and write.",
       "example": "Some animals became literate after Snowball’s lessons.",
       "quote": "By the autumn almost every animal on the farm was literate to some degree.",
-      "context": "Different animals learned different amounts of reading and writing."
+      "context": "Different animals learned different amounts of reading and writing.",
+      "storyContext": "Snowball began lessons to teach the animals reading and writing. Some animals learned quickly, while others struggled to remember letters. Muriel could read well, and Boxer practiced a few letters over and over. By autumn, many animals were literate to some degree, although their abilities were very different."
     },
     {
       "id": 7,
@@ -145,7 +152,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Being kept away from other people or animals.",
       "example": "Napoleon kept the puppies in seclusion.",
       "quote": "He took them up into a loft … and there kept them in such seclusion that the rest of the farm soon forgot their existence.",
-      "context": "Napoleon kept the puppies away from the other animals in a loft."
+      "context": "Napoleon kept the puppies away from the other animals in a loft.",
+      "storyContext": "Jessie and Bluebell had nine young puppies. Napoleon said he would educate them and took them away to a loft. He kept the puppies in seclusion, apart from the other farm animals. Because the puppies were rarely seen, the others almost forgot about them."
     },
     {
       "id": 8,
@@ -153,7 +161,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "Plans or decisions made by a group.",
       "example": "The animals discussed resolutions at their Sunday meeting.",
       "quote": "Here the work of the coming week was planned out and resolutions were put forward and debated.",
-      "context": "The animals discussed possible decisions at their meetings."
+      "context": "The animals discussed possible decisions at their meetings.",
+      "storyContext": "Each Sunday, the animals gathered in the barn to discuss farm business. They talked about the coming week's work and proposed resolutions, or decisions for the farm. The animals could vote on these ideas. Snowball and Napoleon often disagreed during the meetings."
     },
     {
       "id": 9,
@@ -161,7 +170,8 @@ window.LWH_ANIMAL_FARM_CH3 = {
       "meaning": "A short saying that gives an important idea.",
       "example": "Snowball taught the animals a maxim about four legs and two legs.",
       "quote": "Snowball declared that the Seven Commandments could in effect be reduced to a single maxim.",
-      "context": "Snowball made a short rule to help the animals remember an idea."
+      "context": "Snowball made a short rule to help the animals remember an idea.",
+      "storyContext": "Some animals found the Seven Commandments too difficult to remember. Snowball made a shorter maxim to help them: “Four legs good, two legs bad.” The sheep repeated this saying many times. Some birds had questions about the words because they had two legs and wings."
     }
   ],
   "sections": [
