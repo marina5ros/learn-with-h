@@ -150,7 +150,9 @@ test('vocabulary uses all ten approved words and source-context panels',async ({
   for(let i=0;i<expected.length;i++){
     await expect(page.getByRole('heading',{name:expected[i],exact:true})).toBeVisible();
     await page.locator('#story-detail summary').click();
-    await expect(page.getByText('From the teacher’s Chapter 3 vocabulary worksheet')).toBeVisible();
+    await expect(page.locator('.vocab-context')).toBeVisible();
+    await expect(page.locator('.vocab-context strong')).toHaveText(expected[i]);
+    await expect(page.getByText('Simplified retelling based on Chapter 3, not a direct quotation.')).toBeVisible();
     if(i<expected.length-1)await page.getByRole('button',{name:/Next/}).click();
   }
 });
@@ -381,4 +383,21 @@ test('each vocabulary word displays a real approved illustration rather than emo
     await expect(page.locator('.vocab-icon')).toHaveCount(0);
     if(i<9)await page.getByRole('button',{name:/Next/}).click();
   }
+});
+
+test('story context is expanded and checked vocabulary feedback uses green and red',async ({page})=>{
+  await page.getByRole('button',{name:/3. Learn the Vocabulary/}).click();
+  await page.locator('#story-detail summary').click();
+  const paragraph=page.locator('.vocab-context');
+  await expect(paragraph).toContainText('They toiled in the fields');
+  await expect(paragraph.locator('strong')).toHaveText('toiled');
+  await expect(page.getByRole('button',{name:/Listen to Story Context/})).toBeVisible();
+  await page.getByRole('button',{name:/Check My Understanding/}).click();
+  await page.locator('[data-action="check-word"]').nth(1).click();
+  const message=page.locator('.vocab-check-feedback');
+  await expect(message).toHaveText('Not quite. Try again!');
+  await expect(message).toHaveCSS('color','rgb(164, 62, 59)');
+  await page.locator('[data-action="check-word"]').nth(0).click();
+  await expect(message).toHaveText('That’s right!');
+  await expect(message).toHaveCSS('color','rgb(35, 115, 71)');
 });
