@@ -74,7 +74,8 @@ test('writing autosaves through a reload, and Start Again archives earlier answe
   page.once('dialog',dialog=>dialog.accept());
   await page.getByRole('button',{name:/Start Again/}).click();
   await expect(page.locator('textarea[data-field="draft"]')).toHaveValue('');
-  await page.getByRole('button',{name:/Parent Mode/}).click();
+  await page.getByRole('link',{name:/Parent Mode/}).click();
+  await page.locator('details summary').click();
   await expect(page.getByText('Previous Attempts')).toBeVisible();
 });
 
@@ -99,15 +100,16 @@ test('World History Start Matching opens its matching activity',async ({page})=>
 });
 
 
-test('Parent Mode narration speed and voice settings are available',async ({page})=>{
-  await page.getByRole('button',{name:/Parent Mode/}).click();
-  await expect(page.locator('[data-field="voice"]')).toBeVisible();
-  await page.locator('[data-field="rate"]').selectOption('1');
-  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('lwh:animal-farm:chapter-3:v1')));
-  expect(saved.rate).toBe(1);
+test('global Parent Mode narration settings are accessible and saved',async ({page})=>{
+  await page.getByRole('link',{name:/Parent Mode/}).click();
+  await expect(page).toHaveURL(/\/parent\.html$/);
+  await expect(page.getByRole('heading',{name:'Parent Mode'})).toBeVisible();
+  await expect(page.locator('#global-voice')).toBeVisible();
+  await page.locator('#global-rate').selectOption('1');
+  const settings=await page.evaluate(()=>JSON.parse(localStorage.getItem('lwh:parent:settings:v1')));
+  expect(settings.rate).toBe(1);
   await page.reload();
-  await page.getByRole('button',{name:/Parent Mode/}).click();
-  await expect(page.locator('[data-field="rate"]')).toHaveValue('1');
+  await expect(page.locator('#global-rate')).toHaveValue('1');
 });
 
 
@@ -424,4 +426,20 @@ test('vocabulary question visibly highlights the selected answer and allows retr
   await page.getByRole('button',{name:/Check My Understanding/}).click();
   await expect(page.locator('[data-action="check-word"].good')).toHaveCount(0);
   await expect(page.locator('[data-action="check-word"].bad')).toHaveCount(0);
+});
+
+test('Parent Mode is global across the learning library and shows the Animal Farm drilldown',async ({page})=>{
+  await page.getByRole('button',{name:/1. Meet the Characters/}).click();
+  await page.getByRole('button',{name:/Next/}).click();
+  await page.getByRole('link',{name:/Parent Mode/}).click();
+  await expect(page.getByRole('heading',{name:'Parent Mode',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Subjects & Lessons'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:/Animal Farm — Chapter 3/})).toBeVisible();
+  await expect(page.getByText('World History')).toBeVisible();
+  await page.locator('details summary').click();
+  await expect(page.getByText('Meet the Characters')).toBeVisible();
+  await expect(page.getByText('1 of 12 completed')).toBeVisible();
+  await page.getByRole('link',{name:/Subjects/}).click();
+  await expect(page).toHaveURL(/\/learn\.html$/);
+  await expect(page.getByRole('link',{name:/Parent Mode/})).toBeVisible();
 });
