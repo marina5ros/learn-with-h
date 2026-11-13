@@ -22,6 +22,9 @@
 
 ## 3. The Pigs Become Leaders
 
+**Review status: APPROVED (Nov 13, 2026).** Approved image shows light-colored Snowball and dark Napoleon supervising the hay harvest while Boxer pulls a loaded wagon and other animals work. The sign 'The Pigs Lead the Farm' is an illustrative teaching aid, not book text. Prepare as `assets/scenes/scene-03.webp` for final upload.
+
+
 **Scene:** Snowball (light pig) and Napoleon (large dark Berkshire boar) supervise animals bringing hay in. Background barn hints at Sunday meetings.
 
 **Character / visual guidance:** Both pigs match approved portraits. Other animals performing the physical work
