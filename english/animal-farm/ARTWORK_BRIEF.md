@@ -55,6 +55,9 @@
 
 ## 6. The Animals Learn a Short Rule
 
+**Review status: APPROVED (Nov 13, 2026).** The approved illustration shows Snowball teaching the maxim “Four legs good, two legs bad” to the sheep, with birds nearby to illustrate the two-legs-and-wings question. The chalkboard and speech bubble are instructional devices. Prepare as `assets/scenes/scene-06.webp` for final upload.
+
+
 **Scene:** Snowball teaches an easy-to-remember maxim to sheep in the farmyard; sheep listen and repeat. Include birds listening nearby.
 
 **Character / visual guidance:** Snowball and birds; welcoming farmyard; if text is present, only Four legs good, two legs bad
