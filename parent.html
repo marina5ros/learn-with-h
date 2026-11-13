@@ -94,7 +94,7 @@ function restartHistory(i){
  const results={};Object.keys(saved).forEach(k=>{if(k===String(i)||k.startsWith(i+"-")){results[k]=saved[k];delete saved[k]}});
  archive[i].push({at:new Date().toISOString(),results});
  try{localStorage.setItem(key,JSON.stringify(archive));localStorage.setItem(HISTORY_KEY,JSON.stringify(saved))}catch(e){alert("Could not archive the completed attempt. Restart cancelled.");return}
- window.location.href="./index.html?lesson="+(i+1);
+ render();
 }
 function download(){
  const p=getSaved();if(!p)return;
