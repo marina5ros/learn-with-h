@@ -401,3 +401,27 @@ test('story context is expanded and checked vocabulary feedback uses green and r
   await expect(message).toHaveText('That’s right!');
   await expect(message).toHaveCSS('color','rgb(35, 115, 71)');
 });
+
+test('vocabulary question visibly highlights the selected answer and allows retries',async ({page})=>{
+  await page.getByRole('button',{name:/3. Learn the Vocabulary/}).click();
+  await page.locator('#story-detail summary').click();
+  await page.getByRole('button',{name:/Check My Understanding/}).click();
+  const choices=page.locator('[data-action="check-word"]');
+  await expect(choices).toHaveCount(3);
+  await choices.nth(1).click();
+  await expect(choices.nth(1)).toHaveClass(/bad/);
+  await expect(choices.nth(1)).toHaveAttribute('aria-pressed','true');
+  await expect(choices.nth(0)).not.toHaveClass(/good/);
+  await expect(page.locator('.vocab-check-feedback')).toHaveClass(/bad/);
+  await choices.nth(0).click();
+  await expect(choices.nth(0)).toHaveClass(/good/);
+  await expect(choices.nth(0)).toHaveAttribute('aria-pressed','true');
+  await expect(choices.nth(1)).not.toHaveClass(/bad/);
+  await expect(choices.nth(1)).toHaveAttribute('aria-pressed','false');
+  await expect(page.locator('.vocab-check-feedback')).toHaveClass(/good/);
+  await page.getByRole('button',{name:/Next/}).click();
+  await page.locator('#story-detail summary').click();
+  await page.getByRole('button',{name:/Check My Understanding/}).click();
+  await expect(page.locator('[data-action="check-word"].good')).toHaveCount(0);
+  await expect(page.locator('[data-action="check-word"].bad')).toHaveCount(0);
+});
