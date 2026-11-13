@@ -328,3 +328,46 @@ test('vocabulary focuses on the word without an unavailable illustration message
   await page.getByRole('button',{name:/Next/}).click();
   await expect(page.locator('.vocab-focus .vocab-term')).toHaveText('supervised');
 });
+
+test('matching permits choosing a new meaning or a new word without restarting',async ({page})=>{
+  await page.getByRole('button',{name:/4. Vocabulary Matching/}).click();
+  const words=page.locator('[data-action="match-word"]');
+  const meanings=page.locator('[data-action="match-meaning"]');
+  await words.nth(0).click();
+  await meanings.nth(0).click(); // wrong: meaning of superior
+  await expect(words.nth(0)).toHaveClass(/bad/);
+  await expect(meanings.nth(0)).toHaveClass(/bad/);
+  await meanings.nth(1).click(); // correct for toiled, without reselecting word
+  await expect(words.nth(0)).toHaveClass(/matched/);
+  await meanings.nth(1).toHaveClass(/matched/);
+  await meanings.nth(2).click(); // meaning of supervised: choose meaning first
+  await expect(meanings.nth(2)).toHaveClass(/selected/);
+  await words.nth(2).click(); // wrong word, still selected after incorrect feedback
+  await expect(words.nth(2)).toHaveClass(/bad/);
+  await words.nth(1).click(); // switch word to supervised
+  await expect(words.nth(1)).toHaveClass(/matched/);
+  await expect(meanings.nth(2)).toHaveClass(/matched/);
+});
+
+test('fill in the blank shows relevant approved story artwork and preserves question',async ({page})=>{
+  await page.getByRole('button',{name:/5. Fill in the Blank/}).click();
+  await expect(page.locator('.fill-illustration img')).toHaveAttribute('src',/scene-01\.webp$/);
+  await expect.poll(()=>page.locator('.fill-illustration img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+  await expect(page.getByText('The animals ____ in the fields to bring in the hay.')).toBeVisible();
+  await expect(page.getByText('Illustration unavailable')).toHaveCount(0);
+  await page.getByRole('button',{name:/Next/}).click();
+  await expect(page.locator('.fill-illustration img')).toHaveAttribute('src',/scene-03\.webp$/);
+});
+
+test('changing the vocabulary word clears previous starter and saved sentence',async ({page})=>{
+  await page.getByRole('button',{name:/6. Make Your Own Sentence/}).click();
+  await page.getByRole('button',{name:/Sentence Starter/}).click();
+  await page.getByRole('button',{name:/Use Starter/}).click();
+  const draft=page.locator('textarea[data-field="draft"]');
+  await expect(draft).toHaveValue('The animals toiled when ');
+  await page.locator('select[data-field="word"]').selectOption('supervised');
+  await expect(page.locator('textarea[data-field="draft"]')).toHaveValue('');
+  await expect(page.getByText('The animals toiled when...')).toHaveCount(0);
+  await page.getByRole('button',{name:/Sentence Starter/}).click();
+  await expect(page.getByText('The teacher supervised...')).toBeVisible();
+});
