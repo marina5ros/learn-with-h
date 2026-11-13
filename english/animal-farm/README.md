@@ -18,15 +18,15 @@ Progress uses the new browser-local key `lwh:animal-farm:chapter-3:v1` and does 
 ## Review and integration checklist
 - [x] Verify JavaScript parses
 - [x] Exercise basic state transitions: open / resume, matching incorrect + correct, fill-in, skip, writing, Start Again, review and Parent Mode using mocked DOM events
-- [ ] Add ten individual, Chapter 3 accurate storybook scenes; current emoji scenes explicitly say **artwork placeholder**
+- [x] Upload all ten approved and individually optimized Chapter 3 storybook scenes to `assets/scenes/scene-01.webp` through `scene-10.webp`
 - [x] Extend gallery with Clover, Mollie, Muriel, Jessie, Bluebell and the nine puppies (as one group), retaining existing character progress
-- [ ] Upload the three new approved portraits as `assets/characters/clover.webp`, `mollie.webp`, `muriel.webp`; until uploaded the gallery shows a symbol fallback
-- [ ] Create and approve new portraits for Jessie and Bluebell, and optionally one group picture of their nine puppies
-- [ ] Replace the temporary scene placeholders with optimized local image assets and alt text
+- [x] Upload the three approved portraits as `assets/characters/clover.webp`, `mollie.webp`, `muriel.webp`
+- [x] Upload Jessie, Bluebell, and the nine puppies group portraits to `assets/characters/`
+- [x] Connect reading screens to optimized local scene images with descriptive alt text and placeholder fallback
 - [ ] Review passages and exact worksheet text against the original teacher photos when available
-- [x] Automated Chromium browser suite: 19 Playwright tests passed, covering character gallery, image loading for original portraits, Continue Learning, matching, reading, writing, parent settings, and World History Start Matching
+- [x] Automated Chromium browser suite covers character gallery, scene and portrait image loading, Continue Learning, matching, reading, writing, parent settings, and World History Start Matching; latest check status visible under GitHub Actions
 - [ ] Test with H on his actual device: touch targets, narration voice, attention supports, images, and accessibility
-- [ ] Verify existing World History navigation and the previously reported **Start Matching** issue in the published v27.4 file
+- [x] Browser regression test covers World History **Start Matching** on the development branch; verify again after any future publishing changes
 - [ ] Review how the new subject portal will become the default site entry point; current `index.html` is deliberately unchanged
 - [ ] After review, merge the feature branch to publish
 
