@@ -86,7 +86,7 @@ function checkPair(){
    if(Object.keys(pairs).length===DATA.words.slice(index*3,index*3+3).length)markDone(activity,index);
  } else {
    wrongWord=selectedWord;wrongTarget=selectedMeaning;
-   feedback="Not quite. Try again! Tap a different word or meaning.";
+   feedback="Not quite. Try again!";
    get().attempts[index]=(get().attempts[index]||0)+1;
  }
  persist();
