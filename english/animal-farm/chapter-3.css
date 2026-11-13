@@ -109,3 +109,8 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 
 /* Keep clickable brand un-underlined in all link states */
 a.lwh-brand,a.lwh-brand:link,a.lwh-brand:visited,a.lwh-brand:hover,a.lwh-brand:active{text-decoration:none!important;color:#fff!important}
+
+/* Keep optional written-answer controls separated and easy to tap. */
+.answer-tools{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:12px 0}
+.answer-tools .btn{flex:0 1 auto;min-width:0;white-space:normal}
+@media(max-width:650px){.answer-tools{gap:10px;margin:12px 0}.answer-tools .btn{min-height:46px}}
