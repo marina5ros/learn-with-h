@@ -207,3 +207,21 @@ test('Use Starter inserts sentence opening without ellipsis and focuses writing'
   await draft.type('they gathered hay.');
   await expect(draft).toHaveValue('The animals toiled when they gathered hay.');
 });
+
+test('comprehension feedback colors reflect correctness and writing aids follow answer',async ({page})=>{
+  await page.getByRole('button',{name:/7. Reading Comprehension/}).click();
+  const writing=page.locator('textarea[data-field="draft"]');
+  const hint=page.getByRole('button',{name:/Hint/});
+  const starter=page.getByRole('button',{name:/Sentence Starter/});
+  await expect.poll(async()=>writing.evaluate(el=>el.compareDocumentPosition(document.querySelector('[data-action="hint"]')) & Node.DOCUMENT_POSITION_FOLLOWING)).toBeTruthy();
+  await expect.poll(async()=>writing.evaluate(el=>el.compareDocumentPosition(document.querySelector('[data-action="starter"]')) & Node.DOCUMENT_POSITION_FOLLOWING)).toBeTruthy();
+  await page.locator('[data-action="answer"]').filter({hasText:'Teaching hens to fly'}).click();
+  const feedback=page.locator('details .feedback');
+  await expect(feedback).toHaveClass(/bad/);
+  await expect(feedback).toHaveCSS('color','rgb(135, 62, 58)');
+  await expect(feedback).toHaveText('Not quite. Try another answer!');
+  await page.locator('[data-action="answer"]').filter({hasText:'Teaching animals to read and write'}).click();
+  await expect(feedback).toHaveClass(/good/);
+  await expect(feedback).toHaveCSS('color','rgb(39, 105, 71)');
+  await expect(feedback).toHaveText('Correct! You understood the story.');
+});
