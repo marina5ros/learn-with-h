@@ -293,7 +293,8 @@ test('supporting portraits are wired to their individual assets with fallback wh
 test('Animal Farm lesson menu follows World History visual layout',async ({page})=>{
   await expect(page.locator('header')).toHaveCSS('background-color','rgb(37, 77, 133)');
   await expect(page.locator('.lesson-hero')).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Life on the Farm'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Animal Farm — Chapter 3'})).toBeVisible();
+  await expect(page.locator('.lesson-subtitle')).toHaveText('Life on the Farm');
   await expect(page.locator('.activity-tile')).toHaveCount(8);
   await expect(page.locator('.activity-icon')).toHaveCount(8);
   await expect(page.getByRole('button',{name:/Listen/})).toBeVisible();
