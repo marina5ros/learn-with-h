@@ -261,7 +261,14 @@ test('all ten approved reading illustrations load and hide placeholder',async ({
   await page.getByRole('button',{name:/2. Read Chapter 3/}).click();
   for(let i=1;i<=10;i++){
     const image=page.locator('.scene-image');
-    await expect(image).toHaveAttribute('src',new RegExp('scene-'+String(i).padStart(2,'0')+'\\.webp
+    const filename='scene-'+String(i).padStart(2,'0')+'.webp';
+    await expect.poll(()=>image.getAttribute('src')).toContain(filename);
+    await expect.poll(()=>image.evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+    await expect(image).toBeVisible();
+    await expect(page.locator('.scene-placeholder')).toBeHidden();
+    if(i<10)await page.getByRole('button',{name:/Next/}).click();
+  }
+});
 
 test('Clover Mollie and Muriel portraits load as actual images',async ({page})=>{
   await page.getByRole('button',{name:/1. Meet the Characters/}).click();
