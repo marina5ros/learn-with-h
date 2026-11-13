@@ -171,7 +171,7 @@ let button=e.target.closest("[data-action]");if(!button)return;let a=button.data
 switch(a){
 case "menu":view="menu";showGallery=false;render();break;
 case "listen-menu":speak("Animal Farm. Chapter Three. Life on the Farm. Read the story, learn new words, and practice one step at a time.");break;
-case "parent":view="parent";showGallery=false;render();break;
+case "parent":window.location.href="../../parent.html";break;
 case "open":if(n===7){view="review";tab="progress";render()}else openActivity(n,0);break;
 case "goto":openActivity(n,Number(button.dataset.index));break;
 case "resume":resume();break;
