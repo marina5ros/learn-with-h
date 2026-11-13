@@ -148,7 +148,16 @@ case "match-meaning":
   if(c===selectedWord){let p=matched(index);p[c]=true;get().words[index]=p;feedback="Great match!";selectedWord=null;wrongTarget=null;wrongWord=null;if(Object.keys(p).length===DATA.words.slice(index*3,index*3+3).length)markDone(activity,index)}
   else {wrongTarget=c;wrongWord=selectedWord;selectedWord=null;feedback="Not quite. Try again!";get().attempts[index]=(get().attempts[index]||0)+1}
   persist();render();break;
-case "use-starter":{let starter=activity===5?starterFor(saved.chosen[index]):DATA.comprehension[index].starter;get().drafts[index]=starter;persist();render();break}
+case "use-starter":{
+  let starter=activity===5?starterFor(saved.chosen[index]):DATA.comprehension[index].starter;
+  // Ellipsis is guidance in the preview, not part of H’s answer.
+  starter=starter.replace(/\s*\.{3}\s*$/," ").replace(/\s+$/," ");
+  get().drafts[index]=starter;
+  persist();render();
+  const draft=document.querySelector('textarea[data-field="draft"]');
+  if(draft){draft.focus();draft.setSelectionRange(draft.value.length,draft.value.length)}
+  break;
+}
 case "export-progress":exportProgress();break;
 }
 });
