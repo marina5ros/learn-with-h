@@ -96,6 +96,8 @@
 
 ## 10. Squealer Tries to Convince Everyone
 
+**Review status: COMPOSITION APPROVED — POSTER CORRECTION PENDING (Nov 13, 2026).** Parent approved Scene 10's composition: Squealer speaks persuasively to concerned farm animals, arguing that pigs need milk and apples for brainwork and health. **Required correction:** remove the check marks beside Squealer's statements; replace them with neutral illustrations (a brain and shield) or use a plain poster that clearly represents his *claims*, not verified facts. Preserve the rest of the composition, and do not depict Mr. Jones returning. Review the corrected image before marking fully approved and uploading as `assets/scenes/scene-10.webp`.
+
 **Scene:** Squealer, a small expressive pink pig, speaks to animals beside apples and milk; listeners look concerned when he raises the possibility of Jones returning.
 
 **Character / visual guidance:** Squealer matches approved portrait; worried sheep and Boxer
