@@ -106,3 +106,6 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 .lwh-nav .btn[aria-current=page]{outline:3px solid #f4b94c;outline-offset:2px}
 .lwh-nav .btn:focus-visible,.lwh-brand:focus-visible{outline:4px solid #f4b94c;outline-offset:2px}
 @media(max-width:600px){.lwh-header{padding:12px}.lwh-brand small{display:none}.lwh-nav .btn{padding:9px;font-size:.8rem}}
+
+/* Keep clickable brand un-underlined in all link states */
+a.lwh-brand,a.lwh-brand:link,a.lwh-brand:visited,a.lwh-brand:hover,a.lwh-brand:active{text-decoration:none!important;color:#fff!important}
