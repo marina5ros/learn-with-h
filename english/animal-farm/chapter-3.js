@@ -69,8 +69,22 @@ let cls=stored===i?(i===answer?"good":"bad"):"";return '<button class="choice '+
 }).join("")+'</div>'+(stored!==undefined?'<div class="feedback '+(stored===answer?"good":"bad")+'" role="status">'+(stored===answer?"That’s right! Great reading!":"Not quite. Try another answer!")+'</div>':"")+'</div>'}
 function readingScreen(){let s=DATA.sections[index], answer=get().answers[index];let symbols=["🐴 🌾","🐴 💪","🐖 🐗","🐖 📋","🐐 📚","🐑 📜","🐖 🐗","🐗 🐶","🥛 🍎","🐷 🍎"];
 return header()+progressHead(10,"Reading Section")+'<div class="row spread"><h2>'+(index+1)+'. '+escapeHTML(s.title)+'</h2>'+btn("👥 Characters","characters")+'</div>'+scene(symbols[index],s.title,index)+'<div class="softbox greenbox"><p class="reading">'+escapeHTML(s.text)+'</p>'+btn("🔊 Listen to Story","listen-story")+'</div>'+quickCheck(s.question,s.options,s.correct,answer,"Think about what happened in the story above.")+normalActions(10)}
-function vocabScreen(){let w=DATA.words[index];let symbol=["🐴 🌾","🐖 🐴","🐖 📚","🫏","🫏 ❓","🐖 📋","📖","🐶 🏠","🐑 📋","🐑 💬"][index];
-return header()+progressHead(10,"Word")+'<div class="vocab-focus"><span class="vocab-icon" aria-hidden="true">'+symbol+'</span><div><div class="eyebrow">Vocabulary Word</div><h2 class="vocab-term">'+escapeHTML(w.word)+'</h2>'+btn("🔊 Listen","listen-word")+'</div></div>'+'<div class="softbox bluebox"><h3>Meaning</h3><p class="reading">'+escapeHTML(w.meaning)+'</p></div><div class="softbox greenbox"><h3>Example Sentence</h3><p>'+escapeHTML(w.example)+'</p></div><details '+(showStory?"open":"")+' id="story-detail"><summary>📖 Read It in the Story</summary><p class="muted">From the teacher’s Chapter 3 vocabulary worksheet</p><p><em>“'+escapeHTML(w.quote)+'”</em></p><p>'+escapeHTML(w.context)+'</p>'+btn("🔊 Listen to Sentence","listen-quote")+' '+btn(showCheck?"Hide Question":"Check My Understanding","check-toggle")+(showCheck?'<div class="softbox bluebox"><p><strong>Which meaning fits this word?</strong></p><div class="choices">'+[w.meaning,"Something that happens only at night","A kind of farm building"].map((t,i)=>'<button class="choice" data-action="check-word" data-choice="'+i+'">'+escapeHTML(t)+'</button>').join("")+'</div>'+feedback+'</div>':"")+'</details>'+normalActions(10)}
+function vocabScreen(){let w=DATA.words[index];
+const visualScenes=[2,3,3,5,5,4,5,8,7,6];
+const descriptions=[
+ "Boxer working hard during the hay harvest",
+ "Snowball and Napoleon supervising the farm work",
+ "The pigs leading the other animals",
+ "Benjamin the donkey watching an animal lesson",
+ "Benjamin observing the other animals",
+ "Snowball organizing committees for farm animals",
+ "Snowball teaching animals to read and write",
+ "Napoleon taking the young puppies to a secluded loft",
+ "The animals discussing plans during a Sunday meeting",
+ "Snowball teaching the short maxim to the sheep"
+];
+const illustration='<div class="vocab-art"><img src="./assets/scenes/scene-'+String(visualScenes[index]).padStart(2,"0")+'.webp" alt="'+escapeHTML(descriptions[index])+'" loading="eager" onerror="this.parentElement.hidden=true"></div>';
+return header()+progressHead(10,"Word")+illustration+'<div class="vocab-focus"><div class="eyebrow">Vocabulary Word</div><h2 class="vocab-term">'+escapeHTML(w.word)+'</h2>'+btn("🔊 Listen","listen-word")+'</div>'+'<div class="softbox bluebox"><h3>Meaning</h3><p class="reading">'+escapeHTML(w.meaning)+'</p></div><div class="softbox greenbox"><h3>Example Sentence</h3><p>'+escapeHTML(w.example)+'</p></div><details '+(showStory?"open":"")+' id="story-detail"><summary>📖 Read It in the Story</summary><p class="muted">From the teacher’s Chapter 3 vocabulary worksheet</p><p><em>“'+escapeHTML(w.quote)+'”</em></p><p>'+escapeHTML(w.context)+'</p>'+btn("🔊 Listen to Sentence","listen-quote")+' '+btn(showCheck?"Hide Question":"Check My Understanding","check-toggle")+(showCheck?'<div class="softbox bluebox"><p><strong>Which meaning fits this word?</strong></p><div class="choices">'+[w.meaning,"Something that happens only at night","A kind of farm building"].map((t,i)=>'<button class="choice" data-action="check-word" data-choice="'+i+'">'+escapeHTML(t)+'</button>').join("")+'</div>'+feedback+'</div>':"")+'</details>'+normalActions(10)}
 const orders=[[2,0,1],[1,2,0],[2,0,1],[0]];
 function matched(round){return get().words[round]||{}}
 function matchingScreen(){let r=index,start=r*3,items=DATA.words.slice(start,start+3),matches=matched(r),n=Object.keys(matches).length;
