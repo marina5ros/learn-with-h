@@ -69,7 +69,7 @@ function animalFarm(){
  const writings=[5,6].flatMap(i=>Object.entries(data[i].drafts).filter(([k,v])=>String(v||"").trim()).map(([k,v])=>'<div class="writing"><strong>'+esc(activityNames[i])+' · Item '+(Number(k)+1)+'</strong><p>'+esc(v)+'</p></div>')).join("");
  const history=(p?.history||[]).map(h=>'<div class="progressitem"><strong>'+esc(activityNames[h.activity]||"Activity")+'</strong><p class="muted">'+esc(h.at?new Date(h.at).toLocaleString():"Previous attempt")+' · '+Object.keys(h.results?.done||{}).length+' completed items</p></div>').join("");
  const link='./english/animal-farm/chapter-3.html';
- const card='<div class="lesson"><div class="row"><div class="lesson-content"><span class="lesson-art" aria-hidden="true">🐷</span><div><h3>Animal Farm — Chapter 3</h3><p class="muted">English · Life on the Farm</p></div></div><a class="btn" href="'+link+'">Open Lesson</a></div><p>'+done+' of '+total+' items completed · '+complete+' of 7 activities complete · '+skipped+' skipped</p>'+progressHTML(done,total)+
+ const card='<div class="lesson"><div class="row"><div class="lesson-content"><span class="lesson-art" aria-hidden="true">🐷</span><div><h3>Chapter 3 — Life on the Farm</h3><p class="muted">English · Life on the Farm</p></div></div><a class="btn" href="'+link+'">Open Lesson</a></div><p>'+done+' of '+total+' items completed · '+complete+' of 7 activities complete · '+skipped+' skipped</p>'+progressHTML(done,total)+
  '<details class="details"><summary>View lesson progress and saved work</summary><h3>Learning Progress</h3>'+activities+'<h3>Saved Writing</h3>'+(writings||'<p class="muted">No saved writing yet.</p>')+'<h3>Previous Attempts</h3>'+(history||'<p class="muted">No earlier attempts yet.</p>')+'<div class="actions"><button class="btn" id="export-animal" type="button">Export Animal Farm Progress</button></div></details></div>';
  return {card,done,total,skipped,complete,hasData:!!p};
 }
@@ -105,12 +105,12 @@ function render(){
  const summary=document.getElementById("summary");
  summary.innerHTML='<div class="stat"><span>📖 Lessons practiced</span><span class="number">'+(animal.hasData?1:0)+' / '+catalog.reduce((n,g)=>n+g.topics.reduce((m,t)=>m+t.lessons.length,0),0)+'</span></div><div class="stat"><span>🧩 Activities completed</span><span class="number">'+animal.complete+' / 7</span></div><div class="stat"><span>✓ Items completed</span><span class="number">'+animal.done+' / '+animal.total+'</span></div><div class="stat"><span>★ Items skipped</span><span class="number">'+animal.skipped+'</span></div>';
  const root=document.getElementById("lessons");
- const artFor=(subject,topic)=>subject==="English"?"🐷":"🏰";
- const chapterLabel=(subject,n)=>subject==="English"?n+" "+(n===1?"chapter":"chapters"):n+" "+(n===1?"learning experience":"learning experiences");
+ const artFor=(subject,topic)=>subject==="English"?"🐷":topic.title==="The Troubled 14th Century"?"🏰":"🌍";
+ const chapterLabel=(subject,n)=>subject==="English"?n+" "+(n===1?"chapter":"chapters"):n+" "+(n===1?"lesson":"lessons");
  root.innerHTML=catalog.map(subject=>'<section class="subject-group"><h3 class="subject-heading"><span class="subject-art" aria-hidden="true">'+esc(subject.icon)+'</span>'+esc(subject.subject)+'</h3>'+
  subject.topics.map(topic=>'<details class="topic-group" open><summary><span class="topic-heading"><span class="book-art" aria-hidden="true">'+artFor(subject.subject,topic)+'</span><span>'+esc(topic.title)+' <span class="note">· '+chapterLabel(subject.subject,topic.lessons.length)+'</span></span></span></summary>'+
  topic.lessons.map(lesson=>subject.subject==="English"&&lesson.url.includes("animal-farm")?animal.card:
- '<div class="lesson"><div class="row"><div class="lesson-content"><span class="lesson-art" aria-hidden="true">'+artFor(subject.subject,topic)+'</span><div><h3>'+esc(lesson.title)+'</h3><p class="muted">'+esc(lesson.detail||"Not started")+'</p></div></div><a class="btn" href="'+encodeURI(lesson.url)+'">Open Lesson</a></div><p class="note">Progress is not yet connected for this lesson.</p></div>').join("")+'</details>').join("")+'</section>').join("");
+ '<div class="lesson"><div class="row"><div class="lesson-content"><span class="lesson-art" aria-hidden="true">'+(subject.subject==="World History"?["🌾","🦠","🏰","📜"][topic.lessons.indexOf(lesson)]||"🌍":artFor(subject.subject,topic))+'</span><div><h3>'+esc(lesson.title)+'</h3><p class="muted">'+esc(lesson.detail||"Not started")+'</p></div></div><a class="btn" href="'+encodeURI(lesson.url)+'">Open Lesson</a></div><p class="note">Progress is not yet connected for this lesson.</p></div>').join("")+'</details>').join("")+'</section>').join("");
  document.getElementById("export-animal")?.addEventListener("click",download);
  settingsUI();
 }
