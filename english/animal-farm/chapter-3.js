@@ -44,11 +44,13 @@ function back(){if(index>0){index--;resetExtras();saveLocation();render()}else{v
 function resume(){if(!saved.last){view="menu";render();return}openActivity(saved.last.activity,saved.last.index)}
 function menu(){
 let c=counts.reduce((v,n,i)=>v+(doneCount(i)===n?1:0),0);
-let resumeCard=saved.last?'<div class="softbox bluebox"><div class="eyebrow">Continue Learning</div><h2>'+escapeHTML(names[saved.last.activity])+'</h2><p>Return to '+(saved.last.activity===3?"round":"item")+' '+(saved.last.index+1)+' exactly where you stopped.</p>'+btn("Resume Where I Left Off →","resume","primary")+'</div>':"";
-return '<section class="panel hero"><div class="eyebrow">Learn with H · English</div><h1>Animal Farm — Chapter 3</h1><p class="reading">Life on the Farm</p><p>Read the story, learn new words, and practice at your own pace. All activities are unlocked.</p><p class="muted">'+c+' of 7 learning activities fully completed. Review is always available.</p>'+resumeCard+'</section><section class="panel"><h2>Choose an Activity</h2><div class="cardgrid">'+names.map((n,i)=>{
-let s=i===7?"new":status(i);let description=["Nine main characters, two mother dogs, and nine puppies","Ten short illustrated reading sections","Ten words with meanings and story context","Four rounds of word matching","Ten sentences from the teacher's worksheet","Write two original sentences","Six teacher comprehension questions","Progress, skipped items, and saved writing"][i];
+let resumeCard=saved.last?'<div class="softbox bluebox resume-panel"><div class="eyebrow">Continue Learning</div><h2>'+escapeHTML(names[saved.last.activity])+'</h2><p>Return to '+(saved.last.activity===3?"round":"item")+' '+(saved.last.index+1)+' exactly where you stopped.</p>'+btn("Resume Where I Left Off →","resume","primary")+'</div>':"";
+const icons=["🐷","📖","📚","🧩","✏️","📝","💬","⭐"];
+const descriptions=["Meet the animals in the story","Read ten illustrated story sections","Learn ten words and their meanings","Match words with their meanings","Choose missing words in sentences","Write two sentences of your own","Answer six questions about the story","See your progress and saved answers"];
+return '<section class="panel hero lesson-hero"><div class="eyebrow">English · Animal Farm · Chapter 3</div><h1>Life on the Farm</h1><p class="big">Read the story, learn new words, and practice one step at a time.</p><div class="hero-tools">'+btn("🔊 Listen","listen-menu")+'<span class="muted">'+c+' of 7 learning activities completed · Review is always available</span></div>'+resumeCard+'</section><section class="panel lesson-select"><h2>Choose an Activity</h2><div class="cardgrid">'+names.map((n,i)=>{
+let s=i===7?"new":status(i);
 let badge=i===7?'<span class="badge">Open Anytime</span>':'<span class="badge '+statClass(s)+'">'+statLabel(s)+'</span>';
-return '<button class="tile" data-action="open" data-activity="'+i+'"><div class="statusline"><strong>'+(i+1)+'. '+escapeHTML(n)+'</strong>'+badge+'</div><p class="muted">'+description+'</p>'+(i<7?'<div style="margin-top:12px">'+bar(i)+'</div>':"")+'</button>'
+return '<button class="tile activity-tile" data-action="open" data-activity="'+i+'"><span class="activity-icon" aria-hidden="true">'+icons[i]+'</span><strong class="activity-name">'+(i+1)+'. '+escapeHTML(n)+'</strong><span class="activity-description">'+descriptions[i]+'</span><span class="activity-status">'+badge+'</span>'+(i<7?'<div class="activity-progress">'+bar(i)+'</div>':"")+'</button>'
 }).join("")+'</div></section>'
 }
 function characterArt(c,small=false){
