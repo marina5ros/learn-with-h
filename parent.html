@@ -30,10 +30,16 @@ main{max-width:1240px;display:grid;grid-template-columns:205px minmax(0,1fr);gap
 .note{font-size:.85rem;color:#526b86}.settings-panel{padding:18px!important;background:#f8fbff;border-radius:16px}
 @media(max-width:850px){main{grid-template-columns:1fr}.sidebar{position:static;display:flex;flex-wrap:wrap}.sidebar a{padding:9px}.stats,.manage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:500px){.stats,.manage-grid{grid-template-columns:1fr}.dashboard{padding:12px}}
+
+/* Shared Learn with H navigation */
+.lwh-header{background:#103d75!important;color:#fff!important;padding:12px 24px!important;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.lwh-brand{color:#fff!important;font-size:1.25rem!important;font-weight:800;display:flex;align-items:center;gap:8px}.lwh-brand small{font-size:.67rem;font-weight:400;color:#c4d8f1;margin-left:5px}
+.lwh-nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.lwh-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 14px;border-radius:11px;background:#e8f0fc;color:#18365c;text-decoration:none;font-size:.9rem;font-weight:750}.lwh-nav a[aria-current=page]{outline:3px solid #f4b94c;outline-offset:2px}.lwh-nav a:focus-visible{outline:4px solid #f4b94c;outline-offset:2px}
+@media(max-width:600px){.lwh-header{padding:12px!important}.lwh-brand small{display:none}.lwh-nav a{padding:9px;font-size:.8rem}}
 </style>
 <script defer src="./lessons.js"></script>
 </head><body>
-<header><strong>📖 Learn with H <small style="font-weight:400;font-size:.72rem"> | Explore · Learn · Grow</small></strong><nav><a class="top-link" href="./learn.html">⌂ Home</a> <a class="top-link" href="./parent.html" aria-current="page">☼ Parent Mode</a></nav></header>
+<header class="lwh-header"><strong class="lwh-brand">📚 Learn with H <small>| Explore · Learn · Grow</small></strong><nav class="lwh-nav" aria-label="Main navigation"><a href="./learn.html">⌂ Home</a><a href="./learn.html#subject-list">📖 My Learning</a><a href="./parent.html" aria-current="page">⚙ Parent Mode</a></nav></header>
 <main><aside class="sidebar" aria-label="Parent dashboard sections"><a href="#dashboard">⌂ Dashboard</a><a href="#narration">◉ Narration Settings</a><a href="#preferences">☷ Learning Preferences</a><a href="#manage-lessons">▣ Manage Lessons</a><a href="#progress-details">▥ Progress Details</a><a href="#data">↻ Data &amp; Reset</a></aside>
 <div class="dashboard"><section class="card hero" id="dashboard"><div class="tag">Parent Mode</div><h1>Learning Dashboard</h1><p>Track progress, manage lessons, and customize H's learning experience.</p></section>
 <section class="card"><div class="stats" id="summary" aria-live="polite"></div></section>
