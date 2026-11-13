@@ -192,7 +192,7 @@ test('clicking the selected word again deselects without losing completed pairs'
   await expect(word).toHaveClass(/selected/);
   await word.click();
   await expect(word).not.toHaveClass(/selected/);
-  await expect(page.getByText('Word unselected. Choose a word when you are ready.')).toBeVisible();
+  await expect(page.getByText('Word unselected. Choose a word or meaning.')).toBeVisible();
   await word.click();
   await page.locator('[data-action="match-meaning"]').nth(1).click();
   await expect(word).toHaveClass(/matched/);
@@ -338,7 +338,7 @@ test('matching permits choosing a new meaning or a new word without restarting',
   await expect(meanings.nth(0)).toHaveClass(/bad/);
   await meanings.nth(1).click(); // correct for toiled, without reselecting word
   await expect(words.nth(0)).toHaveClass(/matched/);
-  await meanings.nth(1).toHaveClass(/matched/);
+  await expect(meanings.nth(1)).toHaveClass(/matched/);
   await meanings.nth(2).click(); // meaning of supervised: choose meaning first
   await expect(meanings.nth(2)).toHaveClass(/selected/);
   await words.nth(2).click(); // wrong word, still selected after incorrect feedback
