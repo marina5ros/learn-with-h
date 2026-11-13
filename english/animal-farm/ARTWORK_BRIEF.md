@@ -32,7 +32,7 @@
 
 **Scene:** Snowball eagerly explains plans for animal committees in the barn to hens, sheep and cows gathered in small groups.
 
-**Character / visual guidance:** Snowball matches approved light pig portrait; simple blank diagram props, no legible invented text
+**Character / visual guidance:** Snowball matches approved light pig portrait. Hens, cows, sheep, rats, and rabbits can appear in the scene. Prefer no writing on the board. If committee labels appear, use only actual Chapter 3 names: Egg Production Committee, Clean Tails League, Wild Comrades’ Re-education Committee, and Whiter Wool Movement. Reading and writing classes were a separate, successful activity, not another named committee.
 
 **Avoid:** Most committees are unsuccessful; do not portray completed major building projects.
 
