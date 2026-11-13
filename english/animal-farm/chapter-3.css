@@ -76,3 +76,8 @@ h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(1.7
 .vocab-focus .eyebrow{margin-bottom:5px}
 .vocab-term{font-size:clamp(1.85rem,4vw,2.55rem);margin:0 0 12px;color:#23334b}
 @media(max-width:520px){.vocab-focus{gap:14px;padding:18px;min-height:125px}.vocab-icon{font-size:2.65rem;min-width:68px}}
+
+/* Fill-in-the-blank uses approved chapter scenes as relevant visual cues. */
+.fill-illustration{display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;background:#e7f1f7;margin:12px 0 17px;max-height:350px}
+.fill-illustration img{display:block;width:100%;height:auto;max-height:350px;object-fit:contain}
+@media(max-width:650px){.fill-illustration,.fill-illustration img{max-height:260px}}
