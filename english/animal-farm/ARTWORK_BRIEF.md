@@ -86,6 +86,8 @@
 
 ## 9. The Missing Milk and Apples
 
+**Review status: COMPOSITION APPROVED — BANNER REMOVAL PENDING (Nov 13, 2026).** Parent approved the illustration showing milk poured into pigs' mash, fallen apples reserved for pigs, and other animals looking concerned. **Required correction:** remove the entire bottom green `APPROVED` banner and any status text, preserving the artwork above it. Only the clean image may be uploaded to `assets/scenes/scene-09.webp`. No later-chapter elements should be added.
+
 **Scene:** Pigs receive milk in a metal pail and fallen apples near a barn; other animals look puzzled about unequal food sharing.
 
 **Character / visual guidance:** Snowball and/or other pigs; apples; metal milk can; soft natural light
