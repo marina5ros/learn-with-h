@@ -134,10 +134,10 @@ return header()+progressHead(6,"Question")
 +'<div class="softbox bluebox"><h3>Teacher’s Question '+(index+1)+'</h3><p class="reading"><strong>'+escapeHTML(q.question)+'</strong></p>'+btn("🔊 Listen to Question","listen-question")+'</div>'
 +'<details '+(showPractice?"open":"")+'><summary>Guided Practice (optional)</summary><p>'+escapeHTML(q.practice)+'</p><div class="choices">'+q.options.map((o,i)=>'<button class="choice '+(a===i?(i===q.correct?"good":"bad"):"")+'" data-action="answer" data-choice="'+i+'">'+escapeHTML(o)+'</button>').join("")+'</div>'+(a!==undefined?'<div class="feedback '+(a===q.correct?"good":"bad")+'" role="status">'+(a===q.correct?"Correct! You understood the story.":"Not quite. Try another answer!")+'</div>':"")+'</details>'
 +'<label class="sectiontitle" for="draft">Write Your Own Answer (Optional)</label><p class="muted">Use your own words. Your answer is saved, and you can come back to edit it.</p><textarea id="draft" data-field="draft" placeholder="Write your answer here...">'+escapeHTML(draft)+'</textarea>'
-+'<div class="row">'+btn("💡 Hint","hint")+btn("✏️ Sentence Starter","starter")+'</div>'
++'<div class="answer-tools">'+btn("💡 Hint","hint")+btn("✏️ Sentence Starter","starter")+'</div>'
 +(showHint?'<div class="softbox bluebox"><strong>Hint:</strong><p>'+escapeHTML(q.hint)+'</p></div>':"")
 +(showStarter?'<div class="softbox greenbox"><strong>Sentence Starter:</strong><p>'+escapeHTML(q.starter)+'</p>'+btn("Use Starter","use-starter")+'</div>':"")
-+btn("🔊 Listen to My Answer","listen-draft")
++'<div class="answer-tools">'+btn("🔊 Listen to My Answer","listen-draft")+'</div>'
 +'<p class="muted">Written answers are available in Parent Mode and are not automatically marked incorrect.</p>'+normalActions(6)}
 function nextUnfinished(){
  const start=saved.last&&saved.last.activity>=0&&saved.last.activity<counts.length? saved.last.activity:0;
