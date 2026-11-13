@@ -182,3 +182,16 @@ test('all ten reading sections have a quick check and preserve answered location
     if(i<expected.length-1)await page.getByRole('button',{name:/Next/}).click();
   }
 });
+
+test('clicking the selected word again deselects without losing completed pairs',async ({page})=>{
+  await page.getByRole('button',{name:/4. Vocabulary Matching/}).click();
+  const word=page.locator('[data-action="match-word"]').first();
+  await word.click();
+  await expect(word).toHaveClass(/selected/);
+  await word.click();
+  await expect(word).not.toHaveClass(/selected/);
+  await expect(page.getByText('Word unselected. Choose a word when you are ready.')).toBeVisible();
+  await word.click();
+  await page.locator('[data-action="match-meaning"]').nth(1).click();
+  await expect(word).toHaveClass(/matched/);
+});
