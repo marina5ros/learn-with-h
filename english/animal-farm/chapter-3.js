@@ -228,7 +228,7 @@ case "match-word":
     feedback="Word unselected. Choose a word or meaning.";render();break;
   }
   selectedWord=c;wrongTarget=null;wrongWord=null;
-  speak(DATA.words[index*3+c].word);
+  speak(roundWords(index)[c].word);
   if(selectedMeaning!==null)checkPair();
   else feedback="Choose the matching meaning, or tap another word.";
   render();break;
@@ -239,6 +239,7 @@ case "match-meaning":
     feedback="Meaning unselected. Choose a word or meaning.";render();break;
   }
   selectedMeaning=c;wrongTarget=null;wrongWord=null;
+  speak(roundWords(index)[c].meaning);
   if(selectedWord!==null)checkPair();
   else feedback="Choose the matching word, or tap another meaning.";
   render();break;
