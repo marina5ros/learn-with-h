@@ -34,4 +34,4 @@
 - VIS-05, VIS-06: original artwork visibility and preservation.
 - UI-06, CONTENT-02, ENH-01, ENH-02: matching layout, cause/effect clarity, vocabulary interaction and visuals.
 
-**Current status:** `profile-storage.js` is a standalone foundation only. It is not loaded by the app yet; QA isolation is **not enabled**. Do not merge or deploy until integration and regression checks pass.
+**Current status:** Profile-aware progress reads/writes are integrated into World History, Animal Farm, and Parent Mode. Parent Mode has a confirmed Student/QA switch and the pages display the active profile. Automated Node tests are committed but have **not been executed** in this review. Browser regression, deployed preview, and iPad verification are still required before merge or deployment. Existing legacy Student records may include earlier QA activity and cannot be retrospectively distinguished without historical attribution.
