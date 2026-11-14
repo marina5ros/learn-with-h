@@ -38,7 +38,7 @@ main{max-width:1240px;display:grid;grid-template-columns:205px minmax(0,1fr);gap
 @media(max-width:600px){.lwh-header{padding:12px!important}.lwh-brand small{display:none}.lwh-nav a{padding:9px;font-size:.8rem}}
 .subject-heading{display:flex;align-items:center;gap:12px}.subject-art,.book-art,.lesson-art{display:inline-grid;place-items:center;flex:none;border-radius:13px;background:#eaf2ff;width:48px;height:48px;font-size:1.6rem}.subject-art{width:42px;height:42px}.book-art{background:#edf6ee}.lesson-art{background:#f1efff;width:56px;height:56px}.topic-heading{display:inline-flex;align-items:center;gap:10px}.lesson-content{display:flex;align-items:center;gap:13px}.lesson-content>div{min-width:0}.topic-group>summary{list-style:revert}.lesson .row{align-items:center}@media(max-width:500px){.lesson-art{width:44px;height:44px}}
 </style>
-<script defer src="./lessons.js"></script>
+<script defer src="./profile-storage.js"></script><script defer src="./lessons.js"></script>
 </head><body>
 <header class="lwh-header"><strong class="lwh-brand">📚 Learn with H <small>| Explore · Learn · Grow</small></strong><nav class="lwh-nav" aria-label="Main navigation"><a href="./learn.html">🏠 Home</a><a href="./learn.html#subject-list">📖 My Learning</a><a href="./parent.html" aria-current="page">⚙ Parent Mode</a></nav></header>
 <main><aside class="sidebar" aria-label="Parent dashboard sections"><a href="#dashboard">⌂ Dashboard</a><a href="#narration">◉ Narration Settings</a><a href="#preferences">☷ Learning Preferences</a><a href="#manage-lessons">▣ Manage Lessons</a><a href="#progress-details">▥ Progress Details</a><a href="#data">↻ Data &amp; Reset</a></aside>
@@ -58,7 +58,7 @@ const KEY="lwh:animal-farm:chapter-3:v1";const SETTINGS_KEY="lwh:parent:settings
 const counts=[12,10,10,4,10,2,6];
 const activityNames=["Meet the Characters","Read Chapter 3","Learn the Vocabulary","Vocabulary Matching","Fill in the Blank","Make Your Own Sentence","Reading Comprehension"];
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function getSaved(){try{const p=JSON.parse(localStorage.getItem(KEY)||"null");return p&&Array.isArray(p.activities)&&p.activities.length===7?p:null}catch(_){return null}}
+function getSaved(){try{const p=JSON.parse(LWHProfiles.getItem(KEY)||"null");return p&&Array.isArray(p.activities)&&p.activities.length===7?p:null}catch(_){return null}}
 function activityData(p,i){const o=p?.activities?.[i]||{},done=o.done||{},skipped=o.skipped||{};return {done:Object.keys(done).filter(k=>done[k]).length,skipped:Object.keys(skipped).filter(k=>skipped[k]&&!done[k]).length,drafts:o.drafts||{}}}
 function progressHTML(done,total){const pct=Math.min(100,Math.round(done/total*100));return '<div class="track '+(done===total?"":"bluebar")+'" role="progressbar" aria-label="'+pct+' percent complete" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><div style="width:'+pct+'%"></div></div>'}
 function animalFarm(){
@@ -81,21 +81,21 @@ const HISTORY_QUESTIONS=[
 ["Which kingdoms fought the Hundred Years’ War?","What is territory?","Did the Hundred Years’ War end during the 1300s?"],
 ["What is a tax?","Why did some peasants protest?","What does revolt mean?"]];
 const HISTORY_ACTIVITIES=[["vocab","Vocabulary Matching"],["cause","Cause & Effect"],["sequence","Sequencing"]];
-function historySaved(){try{const p=JSON.parse(localStorage.getItem(HISTORY_KEY)||"{}");return p&&typeof p==="object"&&!Array.isArray(p)?p:{}}catch(_){return {}}}
+function historySaved(){try{const p=JSON.parse(LWHProfiles.getItem(HISTORY_KEY)||"{}");return p&&typeof p==="object"&&!Array.isArray(p)?p:{}}catch(_){return {}}}
 function historyStats(p,i){const answers=HISTORY_QUESTIONS[i].map((question,j)=>({question,result:p[i+"-"+j]}));const activities=HISTORY_ACTIVITIES.map(([key,label])=>({label,done:!!p[i+"-"+key]?.correct}));const complete=answers.filter(a=>a.result?.correct).length;const activityDone=activities.filter(a=>a.done).length;const practiced=complete>0||activityDone>0||!!p[i]?.done;return {answers,activities,complete,activityDone,practiced}}
 function historyStatusHTML(p,i){const st=historyStats(p,i);const completed=st.complete===3&&st.activityDone===3;const started=st.practiced;const label=completed?"✓ Completed":started?"In Progress":"Not Started";const color=completed?"#e4f3e9":started?"#fff2d6":"#eef2f7";const ink=completed?"#246343":started?"#805700":"#51647e";return '<span style="display:inline-block;margin:5px 0 3px;padding:5px 10px;border-radius:999px;background:'+color+';color:'+ink+';font-size:.82rem;font-weight:700">'+label+'</span>'}
 function historyAction(p,i){const st=historyStats(p,i);return st.complete===3&&st.activityDone===3?'Review Lesson':st.practiced?'Continue Learning':'Open Lesson'}
 function historyDetails(p,i){const st=historyStats(p,i);return '<p>'+st.complete+' of 3 questions completed · '+st.activityDone+' of 3 activities completed</p>'+progressHTML(st.complete+st.activityDone,6)+'<details class="details"><summary>View lesson progress</summary><h3>Activities</h3>'+st.activities.map(a=>'<div class="progressitem"><strong>'+esc(a.label)+'</strong><p class="muted">'+(a.done?'✓ Completed':'Not completed yet')+'</p></div>').join('')+'<h3>Question Results</h3>'+st.answers.map(a=>'<div class="progressitem"><strong>'+esc(a.question)+'</strong><p class="'+(a.result?.correct?'result-correct':a.result?'result-incorrect':'muted')+'">'+(a.result?.correct?(a.result.independent?'✓ Correct on first try without hints':'✓ Completed with support · '+Number(a.result.attempts||1)+' attempt(s)'):a.result?'✕ Incorrect — not completed yet':'Not completed yet')+'</p></div>').join('')+'<h3>Previous Attempts</h3>'+historyAttempts(i)+'</details>'}
-function historyAttempts(i){let archive={};try{archive=JSON.parse(localStorage.getItem("lwh:history:attempts:v1")||"{}")||{}}catch(_){}
+function historyAttempts(i){let archive={};try{archive=JSON.parse(LWHProfiles.getItem("lwh:history:attempts:v1")||"{}")||{}}catch(_){}
  const attempts=archive[i]||[];return attempts.length?attempts.map((a,j)=>{const results=a.results||{};const st=historyStats(results,i);return '<div class="progressitem"><strong>Attempt '+(j+1)+'</strong><p class="muted">'+esc(new Date(a.at).toLocaleString())+' · '+st.complete+' of 3 questions · '+st.activityDone+' of 3 activities</p></div>'}).join(''):'<p class="muted">No previous attempts yet.</p>'}
 function restartHistory(i){
  const saved=historySaved();const st=historyStats(saved,i);if(st.complete!==3||st.activityDone!==3)return;
  if(!confirm("Restart "+HISTORY_NAMES[i]+"? The completed attempt will be archived before starting over."))return;
- const key="lwh:history:attempts:v1";let archive={};try{archive=JSON.parse(localStorage.getItem(key)||"{}")||{}}catch(_){}
+ const key="lwh:history:attempts:v1";let archive={};try{archive=JSON.parse(LWHProfiles.getItem(key)||"{}")||{}}catch(_){}
  if(!Array.isArray(archive[i]))archive[i]=[];
  const results={};Object.keys(saved).forEach(k=>{if(k===String(i)||k.startsWith(i+"-")){results[k]=saved[k];delete saved[k]}});
  archive[i].push({at:new Date().toISOString(),results});
- try{localStorage.setItem(key,JSON.stringify(archive));localStorage.setItem(HISTORY_KEY,JSON.stringify(saved))}catch(e){alert("Could not archive the completed attempt. Restart cancelled.");return}
+ try{LWHProfiles.setItem(key,JSON.stringify(archive));LWHProfiles.setItem(HISTORY_KEY,JSON.stringify(saved))}catch(e){alert("Could not archive the completed attempt. Restart cancelled.");return}
  render();
 }
 function download(){
@@ -137,7 +137,7 @@ function render(){
  subject.topics.map(topic=>'<details class="topic-group" open><summary><span class="topic-heading"><span class="book-art" aria-hidden="true">'+artFor(subject.subject,topic)+'</span><span>'+esc(topic.title)+' <span class="note">· '+chapterLabel(subject.subject,topic.lessons.length)+'</span></span></span></summary>'+
  topic.lessons.map(lesson=>subject.subject==="English"&&lesson.url.includes("animal-farm")?animal.card:
  '<div class="lesson"><div class="row"><div class="lesson-content"><span class="lesson-art" aria-hidden="true">'+(subject.subject==="World History"?["🌾","🦠","🏰","📜"][topic.lessons.indexOf(lesson)]||"🌍":artFor(subject.subject,topic))+'</span><div><h3>'+esc(lesson.title)+'</h3>'+(subject.subject==="World History"?historyStatusHTML(history,topic.lessons.indexOf(lesson)):"")+'<p class="muted">'+esc(lesson.detail||"Not started")+'</p></div></div><a class="btn" href="'+(subject.subject==="World History"&&historyAction(history,topic.lessons.indexOf(lesson))==="Review Lesson"?"./review.html?lesson="+(topic.lessons.indexOf(lesson)+1):encodeURI(lesson.url))+'">'+(subject.subject==='World History'?historyAction(history,topic.lessons.indexOf(lesson)):'Open Lesson')+'</a>'+(subject.subject==='World History'&&historyAction(history,topic.lessons.indexOf(lesson))==='Review Lesson'?'<button class="btn secondary restart-history" type="button" data-lesson="'+topic.lessons.indexOf(lesson)+'">Restart Lesson</button>':'')+'</div><div class="history-progress">'+(subject.subject==="World History"?historyDetails(history,topic.lessons.indexOf(lesson)):'<p class="note">Progress tracking is not available for this lesson.</p>')+'</div></div>').join("")+'</details>').join("")+'</section>').join("");
- document.getElementById("restart-animal")?.addEventListener("click",()=>{if(confirm("Restart Animal Farm Chapter 3? Your completed attempt will be archived first.")){sessionStorage.setItem("lwh:animal-farm:chapter-3:restart-request","yes");window.location.href="./english/animal-farm/chapter-3.html"}});
+ document.getElementById("restart-animal")?.addEventListener("click",()=>{if(confirm("Restart Animal Farm Chapter 3? Your completed attempt will be archived first.")){LWHProfiles.setItem("lwh:animal-farm:chapter-3:restart-request","yes");window.location.href="./english/animal-farm/chapter-3.html"}});
  document.querySelectorAll(".restart-history").forEach(b=>b.addEventListener("click",()=>restartHistory(Number(b.dataset.lesson))));
  document.getElementById("export-animal")?.addEventListener("click",download);
  settingsUI();
