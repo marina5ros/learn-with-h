@@ -91,19 +91,26 @@ const descriptions=[
 ];
 const illustration='<div class="vocab-art"><img src="./assets/scenes/scene-'+String(visualScenes[index]).padStart(2,"0")+'.webp" alt="'+escapeHTML(descriptions[index])+'" loading="eager" onerror="this.parentElement.hidden=true"></div>';
 return header()+progressHead(10,"Word")+illustration+'<div class="vocab-focus"><div class="eyebrow">Vocabulary Word</div><h2 class="vocab-term">'+escapeHTML(w.word)+'</h2>'+btn("🔊 Listen","listen-word")+'</div>'+'<div class="softbox bluebox"><h3>Meaning</h3><p class="reading">'+escapeHTML(w.meaning)+'</p></div><div class="softbox greenbox"><h3>Example Sentence</h3><p>'+escapeHTML(w.example)+'</p></div><details '+(showStory?"open":"")+' id="story-detail"><summary>📖 Read It in the Story</summary><p class="eyebrow">Chapter 3 · Story Context</p><p class="vocab-context">'+escapeHTML(w.storyContext||w.context).replace(new RegExp('('+w.word+')','gi'),'<strong>$1</strong>')+'</p><p class="muted vocab-context-note">Simplified retelling based on Chapter 3, not a direct quotation.</p><p class="muted">From the teacher’s vocabulary worksheet:</p><p><em>“'+escapeHTML(w.quote)+'”</em></p>'+btn("🔊 Listen to Story Context","listen-quote")+' '+btn(showCheck?"Hide Question":"Check My Understanding","check-toggle")+(showCheck?'<div class="softbox bluebox"><p><strong>Which meaning fits this word?</strong></p><div class="choices">'+[w.meaning,"Something that happens only at night","A kind of farm building"].map((t,i)=>'<button class="choice '+(vocabChoice===i?(i===0?"good":"bad"):"")+'" aria-pressed="'+(vocabChoice===i?"true":"false")+'" data-action="check-word" data-choice="'+i+'">'+escapeHTML(t)+(vocabChoice===i?'<span class="choice-feedback-icon" aria-hidden="true">'+(i===0?" ✓":" ✕")+'</span>':"")+'</button>').join("")+'</div>'+(feedback?'<p class="vocab-check-feedback '+(feedback==="That’s right!"?"good":"bad")+'" role="status">'+escapeHTML(feedback)+'</p>':"")+'</div>':"")+'</details>'+normalActions(10)}
-const orders=[[2,0,1],[1,2,0],[2,0,1],[0]];
+const orders=[[2,0,1],[1,2,0],[2,0,1],[2,0,1]];
+function roundWords(round){
+  // Keep the original maxim at saved pair index 0.
+  return round===3?[DATA.words[9],DATA.words[0],DATA.words[1]]:DATA.words.slice(round*3,round*3+3);
+}
 function matched(round){return get().words[round]||{}}
-function matchingScreen(){let r=index,start=r*3,items=DATA.words.slice(start,start+3),matches=matched(r),n=Object.keys(matches).length;
+function matchingScreen(){const r=index,items=roundWords(r),stored=matched(r);
+const legacyComplete=r===3&&get().done[r]&&stored[0]&&!stored[1]&&!stored[2];
+if(legacyComplete)items.splice(1);
+const matches=stored,n=Object.keys(matches).length;
 let words='<div class="choices">'+items.map((w,i)=>'<button class="choice '+(matches[i]?"matched":wrongWord===i?"bad":selectedWord===i?"selected":"")+'" data-action="match-word" data-choice="'+i+'" '+(matches[i]?"disabled":"")+'><strong>'+escapeHTML(w.word)+'</strong><span class="small">'+(matches[i]?"✓ Matched":"🔊 Tap to choose")+'</span></button>').join("")+'</div>';
-let meanings='<div class="choices">'+orders[r].map(i=>'<button class="choice '+(matches[i]?"matched":wrongTarget===i?"bad":selectedMeaning===i?"selected":"")+'" data-action="match-meaning" data-choice="'+i+'" '+(matches[i]?"disabled":"")+'>'+escapeHTML(items[i].meaning)+(matches[i]?'<span class="small">✓ Matched</span>':"")+'</button>').join("")+'</div>';
-return header()+progressHead(4,"Round")+'<p>Choose a word and its meaning in either order. Tap another choice to change your selection. Correct pairs turn green.</p><div class="matchgrid"><div><h3>Words</h3>'+words+'</div><div><h3>Meanings</h3>'+meanings+'</div></div><div class="feedback '+(wrongTarget!==null?"bad":n===items.length?"good":"info")+'" role="status">'+escapeHTML(feedback||n+" of "+items.length+" pairs matched")+'</div>'+btn("💡 "+(showHint?"Hide Hint":"Hint"),"hint")+(showHint?'<div class="softbox bluebox">'+(selectedWord===null?"Choose a word first, then remember where it appeared in the story.":"Think about how “"+escapeHTML(items[selectedWord].word)+"” was used in the story.")+'</div>':"")+'<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===3?"Finish / Review →":"Continue →","next","primary",n!==items.length?"disabled":"")+'</div>'}
+let meanings='<div class="choices">'+orders[r].filter(i=>i<items.length).map(i=>'<button class="choice '+(matches[i]?"matched":wrongTarget===i?"bad":selectedMeaning===i?"selected":"")+'" data-action="match-meaning" data-choice="'+i+'" '+(matches[i]?"disabled":"")+'>'+escapeHTML(items[i].meaning)+(matches[i]?'<span class="small">✓ Matched</span>':"")+'</button>').join("")+'</div>';
+return header()+progressHead(4,"Round")+'<p>Choose a word and its meaning in either order. Tap another choice to change your selection. Correct pairs turn green.</p><div class="matchgrid"><div><h3>Words</h3>'+words+'</div><div><h3>Meanings</h3>'+meanings+'</div></div><div class="feedback '+(wrongTarget!==null?"bad":n===items.length?"good":"info")+'" role="status">'+escapeHTML(feedback||n+" of "+items.length+" pairs matched")+'</div>'+btn("💡 "+(showHint?"Hide Hint":"Hint"),"hint")+(showHint?'<div class="softbox bluebox">'+(selectedWord===null?"Choose a word first, then remember where it appeared in the story.":"Think about how “"+escapeHTML(items[selectedWord].word)+"” was used in the story.")+'</div>':"")+'<div class="actions">'+btn("← Back","back","",index===0?"disabled":"")+btn("Skip →","skip")+btn(index===3?"Finish / Review →":"Continue →","next","primary",!canAdvance()?"disabled":"")+'</div>'}
 function checkPair(){
  if(selectedWord===null||selectedMeaning===null)return;
  if(selectedWord===selectedMeaning){
    const pairs=matched(index);pairs[selectedWord]=true;get().words[index]=pairs;
    feedback="Great match!";
    selectedWord=null;selectedMeaning=null;wrongTarget=null;wrongWord=null;
-   if(Object.keys(pairs).length===DATA.words.slice(index*3,index*3+3).length)markDone(activity,index);
+   if(Object.keys(pairs).length===roundWords(index).length)markDone(activity,index);
  } else {
    wrongWord=selectedWord;wrongTarget=selectedMeaning;
    feedback="Not quite. Try again!";

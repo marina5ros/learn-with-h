@@ -38,7 +38,7 @@ main{max-width:1240px;display:grid;grid-template-columns:205px minmax(0,1fr);gap
 @media(max-width:600px){.lwh-header{padding:12px!important}.lwh-brand small{display:none}.lwh-nav a{padding:9px;font-size:.8rem}}
 .subject-heading{display:flex;align-items:center;gap:12px}.subject-art,.book-art,.lesson-art{display:inline-grid;place-items:center;flex:none;border-radius:13px;background:#eaf2ff;width:48px;height:48px;font-size:1.6rem}.subject-art{width:42px;height:42px}.book-art{background:#edf6ee}.lesson-art{background:#f1efff;width:56px;height:56px}.topic-heading{display:inline-flex;align-items:center;gap:10px}.lesson-content{display:flex;align-items:center;gap:13px}.lesson-content>div{min-width:0}.topic-group>summary{list-style:revert}.lesson .row{align-items:center}@media(max-width:500px){.lesson-art{width:44px;height:44px}}
 </style>
-<script defer src="./profile-storage.js"></script><script defer src="./lessons.js"></script>
+<script defer src="./profile-storage.js"></script><script defer src="./lessons.js"></script><script defer src="./english/animal-farm/chapter-3-data.js"></script>
 </head><body>
 <header class="lwh-header"><strong class="lwh-brand">📚 Learn with H <small>| Explore · Learn · Grow</small></strong><nav class="lwh-nav" aria-label="Main navigation"><a href="./learn.html">🏠 Home</a><a href="./learn.html#subject-list">📖 My Learning</a><a href="./parent.html" aria-current="page">⚙ Parent Mode</a></nav></header>
 <main><aside class="sidebar" aria-label="Parent dashboard sections"><a href="#dashboard">⌂ Dashboard</a><a href="#narration">◉ Narration Settings</a><a href="#preferences">☷ Learning Preferences</a><a href="#manage-lessons">▣ Manage Lessons</a><a href="#progress-details">▥ Progress Details</a><a href="#data">↻ Data &amp; Reset</a></aside>
@@ -61,13 +61,39 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 function getSaved(){try{const p=JSON.parse(LWHProfiles.getItem(KEY)||"null");return p&&Array.isArray(p.activities)&&p.activities.length===7?p:null}catch(_){return null}}
 function activityData(p,i){const o=p?.activities?.[i]||{},done=o.done||{},skipped=o.skipped||{};return {done:Object.keys(done).filter(k=>done[k]).length,skipped:Object.keys(skipped).filter(k=>skipped[k]&&!done[k]).length,drafts:o.drafts||{}}}
 function progressHTML(done,total){const pct=Math.min(100,Math.round(done/total*100));return '<div class="track '+(done===total?"":"bluebar")+'" role="progressbar" aria-label="'+pct+' percent complete" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><div style="width:'+pct+'%"></div></div>'}
+function animalAttemptActivity(activity,result){
+ if(!result||!counts[activity])return '<p>No saved activity details are available.</p>';
+ const data=window.LWH_ANIMAL_FARM_CH3;
+ const questions=activity===1?data?.sections:activity===6?data?.comprehension:null;
+ const items=Array.from({length:counts[activity]},(_,i)=>{
+  const answer=result.answers?.[i];
+  const choices=questions?.[i]?.options;
+  const label=typeof answer==="number"?choices?.[answer]:answer;
+  const draft=result.drafts?.[i];
+  const status=result.done?.[i]?"Completed":result.skipped?.[i]?"Skipped":"Incomplete";
+  const correct=questions?.[i]?.correct??(activity===4?data?.fill?.[i]?.answer:undefined);
+  const feedback=answer!==undefined&&correct!==undefined
+   ? (answer===correct?"Saved response is correct":"Saved response is incorrect")
+   : "Original feedback unavailable";
+  return '<li><strong>Item '+(i+1)+' · '+status+'</strong><p>'+
+   (label!==undefined?'Saved answer: '+esc(label):'No saved answer available.')+' · '+feedback+'</p>'+
+   (draft?'<p>Saved writing: '+esc(draft)+'</p>':'')+'</li>';
+ }).join("");
+ return '<h4>'+esc(activityNames[activity])+'</h4><ol>'+items+'</ol>';
+}
 function animalFarm(){
  const p=getSaved(),data=counts.map((n,i)=>activityData(p,i));
  const done=data.reduce((n,d)=>n+d.done,0),skipped=data.reduce((n,d)=>n+d.skipped,0),total=counts.reduce((a,b)=>a+b,0);
  const complete=data.filter((d,i)=>d.done>=counts[i]).length;
  const activities=data.map((d,i)=>'<div class="progressitem"><strong>'+esc(activityNames[i])+'</strong><p class="muted">'+d.done+' of '+counts[i]+' completed · '+d.skipped+' skipped</p>'+progressHTML(d.done,counts[i])+'</div>').join("");
  const writings=[5,6].flatMap(i=>Object.entries(data[i].drafts).filter(([k,v])=>String(v||"").trim()).map(([k,v])=>'<div class="writing"><strong>'+esc(activityNames[i])+' · Item '+(Number(k)+1)+'</strong><p>'+esc(v)+'</p></div>')).join("");
- const history=(p?.history||[]).map(h=>'<div class="progressitem"><strong>'+esc(h.type==="lesson"?"Full lesson attempt":activityNames[h.activity]||"Activity")+'</strong><p class="muted">'+esc(h.at?new Date(h.at).toLocaleString():"Previous attempt")+' · '+(h.type==='lesson'?h.results.reduce((n,a)=>n+Object.keys(a.done||{}).length,0):Object.keys(h.results?.done||{}).length)+' completed items</p></div>').join("");
+ const history=(p?.history||[]).map(h=>{
+  const full=h.type==="lesson";
+  const snapshots=full?(Array.isArray(h.results)?h.results:[]):[h.results];
+  const details=snapshots.map((result,index)=>animalAttemptActivity(full?index:h.activity,result)).join("");
+  const title=full?"Full lesson attempt":activityNames[h.activity]||"Activity";
+  return '<details class="progressitem"><summary>'+esc(title)+' · '+esc(h.at?new Date(h.at).toLocaleString():"Previous attempt")+'</summary><p class="muted">Read-only historical attempt</p>'+(details||'<p>No saved attempt details are available.</p>')+'</details>';
+ }).join("");
  const link='./english/animal-farm/chapter-3.html';const lessonAction=done===total?'Review Lesson':done>0?'Continue Learning':'Open Lesson';
  const card='<div class="lesson"><div class="row"><div class="lesson-content"><span class="lesson-art" aria-hidden="true">🐷</span><div><h3>Chapter 3 — Life on the Farm</h3><p class="muted">English · Life on the Farm</p></div></div><a class="btn" href="'+link+'">'+lessonAction+'</a></div><p>'+done+' of '+total+' items completed · '+complete+' of 7 activities complete · '+skipped+' skipped</p>'+progressHTML(done,total)+
  '<details class="details"><summary>View lesson progress and saved work</summary><h3>Learning Progress</h3>'+activities+'<h3>Saved Writing</h3>'+(writings||'<p class="muted">No saved writing yet.</p>')+'<h3>Previous Attempts</h3>'+(history||'<p class="muted">No earlier attempts yet.</p>')+'<div class="actions"><button class="btn" id="export-animal" type="button">Export Animal Farm Progress</button><button class="btn secondary" id="restart-animal" type="button">Restart Lesson</button></div></details></div>';
