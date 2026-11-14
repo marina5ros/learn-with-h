@@ -34,7 +34,7 @@
   }
   function mountProfileControl() {
     if (!root.document || root.document.getElementById("lwh-profile-control")) return;
-    const isParent = /\\/parent\\.html$/.test(root.location.pathname);
+    const isParent = root.location.pathname.endsWith("/parent.html");
     const bar = root.document.createElement("section");
     bar.id = "lwh-profile-control";
     bar.setAttribute("aria-label", "Active learning profile");
