@@ -34,7 +34,4 @@
 - VIS-05, VIS-06: original artwork visibility and preservation.
 - UI-06, CONTENT-02, ENH-01, ENH-02: matching layout, cause/effect clarity, vocabulary interaction and visuals.
 
-**Current status:** Profile-aware progress reads/writes are integrated into World History, Animal Farm, and Parent Mode. Parent Mode has a confirmed Student/QA switch and the pages display the active profile. Automated Node tests are committed but have **not been executed** in this review. Browser regression, deployed preview, and iPad verification are still required before merge or deployment. Existing legacy Student records may include earlier QA activity and cannot be retrospectively distinguished without historical attribution.
-
-## Verification finding — active World History entry point
-The existing Playwright browser test navigates to `learn_with_h_v27_4.html`, not `index.html`. The new profile adapter is integrated into `index.html`, but the large v27_4 artifact has **not** been inspected or modified as part of this change. Therefore QA isolation for the World History page actually used by the existing test is **unverified and potentially incomplete**. Do not merge or publish until its progress storage paths are reviewed and integrated. The new QA GitHub Actions workflow has been added; test execution results remain pending.
+**Current status:** Profile-aware storage is wired into both World History entry points, World History review, Animal Farm Chapter 3, and global Parent Mode. The Student profile retains the original progress and resume keys. QA writes use separate keys. Four Node storage tests pass. Browser regression and iPad verification are pending. Existing Student records may include earlier QA activity without historical attribution.

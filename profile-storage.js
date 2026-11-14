@@ -9,14 +9,17 @@
   const QA_PREFIX = "lwh:qa:v1:";
   const PROGRESS_KEYS = new Set([
     "lwh-progress",
+    "lwh-v26-state",
     "lwh:history:attempts:v1",
     "lwh:animal-farm:chapter-3:v1",
     "lwh:animal-farm:chapter-3:restart-request"
   ]);
-  function active() {
+  function readProfile() {
     try { return root.localStorage.getItem(PROFILE_KEY) === "qa" ? "qa" : "student"; }
     catch (_) { return "student"; }
   }
+  let currentProfile = readProfile();
+  function active() { return currentProfile; }
   function scopedKey(key, profile) {
     if (!PROGRESS_KEYS.has(key)) return key;
     return profile === "qa" ? QA_PREFIX + key : key;
@@ -30,6 +33,7 @@
   function select(profile) {
     if (profile !== "student" && profile !== "qa") throw new Error("Unknown learning profile");
     root.localStorage.setItem(PROFILE_KEY, profile);
+    currentProfile = profile;
     return profile;
   }
   function mountProfileControl() {
@@ -60,6 +64,12 @@
     else root.document.body.prepend(bar);
   }
   root.LWHProfiles = Object.freeze({active, select, scopedKey, getItem, setItem, removeItem});
+  if (!root.document) return;
+  root.addEventListener("storage", function (event) {
+    if ((event.key === PROFILE_KEY || event.key === null) && readProfile() !== currentProfile) {
+      root.location.reload();
+    }
+  });
   if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", mountProfileControl);
   else mountProfileControl();
 })(window);
