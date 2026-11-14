@@ -8,11 +8,11 @@ const counts=[12,10,10,4,10,2,6];
 const app=document.getElementById("app");
 const fresh=()=>({activities:counts.map(()=>({done:{},skipped:{},answers:{},hints:{},attempts:{},drafts:{},words:{}})),last:null,chosen:["toiled",""],history:[],rate:.85,voiceURI:"",updated:null});
 let saved;
-try{saved=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){saved=null}
+try{saved=JSON.parse(LWHProfiles.getItem(KEY)||"null")}catch(e){saved=null}
 if(!saved||!Array.isArray(saved.activities)||saved.activities.length!==7)saved=fresh();
 let view="menu",activity=0,index=0,tab="progress",selectedWord=null,selectedMeaning=null,vocabChoice=null,feedback="",wrongTarget=null,wrongWord=null,showHint=false,showStarter=false,showPractice=true,showStory=false,showCheck=false,showGallery=false,characterIndex=null,showParent=false,justFinished=false;
 const get=()=>saved.activities[activity],at=i=>saved.activities[i];
-function persist(){saved.updated=new Date().toISOString();try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){console.warn("Saving progress failed:",e)}}
+function persist(){saved.updated=new Date().toISOString();try{LWHProfiles.setItem(KEY,JSON.stringify(saved))}catch(e){console.warn("Saving progress failed:",e)}}
 function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function markDone(i,j){at(i).done[j]=true;delete at(i).skipped[j];persist()}
 function markSkipped(i,j){if(!at(i).done[j])at(i).skipped[j]=true;persist()}
@@ -254,7 +254,7 @@ if(e.target.dataset.field==="word"){const next=e.target.value;if(saved.chosen[in
 if(e.target.dataset.field==="rate"){saved.rate=Number(e.target.value);persist()}
 if(e.target.dataset.field==="voice"){saved.voiceURI=e.target.value;persist()}
 });
-if(sessionStorage.getItem("lwh:animal-farm:chapter-3:restart-request")==="yes"){sessionStorage.removeItem("lwh:animal-farm:chapter-3:restart-request");restartLessonConfirmed()}
+if(LWHProfiles.getItem("lwh:animal-farm:chapter-3:restart-request")==="yes"){LWHProfiles.removeItem("lwh:animal-farm:chapter-3:restart-request");restartLessonConfirmed()}
 window.addEventListener("pagehide",persist);
 window.speechSynthesis?.addEventListener?.("voiceschanged",()=>{if(view==="parent")render()});
 render();
