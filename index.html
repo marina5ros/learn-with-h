@@ -13,7 +13,7 @@
 .match-grid > div:last-child > button{grid-column:2}
 .match-grid .match-option{min-width:0;margin:0;overflow-wrap:anywhere}
 .match-grid .match-thumb{max-width:100%;flex-shrink:0}
-.match-grid ~ .row{gap:12px;align-items:stretch}
+.match-grid ~ .feedback + .row{margin-top:14px;gap:10px;align-items:stretch}
 .match-grid ~ .row > button{max-width:100%;white-space:normal}
 .event-match .match-option{align-items:center}
 .event-match .history-img{width:clamp(64px,10vw,120px);height:80px;object-fit:contain;flex-shrink:0}
@@ -82,7 +82,7 @@ function storyArt(i,alt){
 }
 function questionContext(){
  // Show setting or background only where the image does not depict the answer.
- const scenes=[[null,3,3],[null,null,0],[null,1,null],[0,0,null]];
+ const scenes=[[null,3,3],[null,null,0],[null,1,null],[null,0,null]];
  const scene=scenes[unit][q];
  return scene===null?'':'<div class="question-context">'+storyArt(scene,'')+'</div>';
 }
