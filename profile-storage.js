@@ -32,5 +32,34 @@
     root.localStorage.setItem(PROFILE_KEY, profile);
     return profile;
   }
+  function mountProfileControl() {
+    if (!root.document || root.document.getElementById("lwh-profile-control")) return;
+    const isParent = /\\/parent\\.html$/.test(root.location.pathname);
+    const bar = root.document.createElement("section");
+    bar.id = "lwh-profile-control";
+    bar.setAttribute("aria-label", "Active learning profile");
+    bar.style.cssText = "display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:10px 16px;background:#edf3fc;color:#18365c;border-bottom:1px solid #cbd9ee;font:600 15px system-ui,sans-serif";
+    const title = root.document.createElement("span");
+    title.textContent = "Learning profile: " + (active() === "qa" ? "QA Testing" : "Student");
+    bar.appendChild(title);
+    if (isParent) {
+      const button = root.document.createElement("button");
+      button.type = "button";
+      button.textContent = active() === "qa" ? "Switch to Student" : "Switch to QA Testing";
+      button.style.cssText = "border:2px solid #245ca5;background:white;color:#18365c;border-radius:10px;padding:8px 12px;font:600 14px system-ui,sans-serif;cursor:pointer";
+      button.addEventListener("click", function () {
+        const next = active() === "qa" ? "student" : "qa";
+        if (!root.confirm("Switch to " + (next === "qa" ? "QA Testing" : "Student") + "? Progress stays separate. The page will reload.")) return;
+        try { select(next); root.location.reload(); }
+        catch (e) { root.alert("Unable to switch profiles. Browser storage may be unavailable."); }
+      });
+      bar.appendChild(button);
+    }
+    const header = root.document.querySelector("header");
+    if (header && header.parentNode) header.parentNode.insertBefore(bar, header.nextSibling);
+    else root.document.body.prepend(bar);
+  }
   root.LWHProfiles = Object.freeze({active, select, scopedKey, getItem, setItem, removeItem});
+  if (root.document.readyState === "loading") root.document.addEventListener("DOMContentLoaded", mountProfileControl);
+  else mountProfileControl();
 })(window);
